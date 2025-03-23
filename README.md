@@ -1,6 +1,4 @@
-# E-commerce-Web-App
-ITI E-commerce Web Application Project using Servlets &amp; JSP
-# Perfume Store - E-Commerce Web Application  
+# Perfume Store - A Simple E-Commerce Web Application for Perfumes
 
 ## Project Overview  
 Perfume Store is a web-based e-commerce application designed for selling perfumes online. The platform allows users to browse perfumes, add items to their shopping cart, and complete purchases within their credit limit. The system includes user authentication, profile management, and an admin interface for managing inventory and customer profiles.  
