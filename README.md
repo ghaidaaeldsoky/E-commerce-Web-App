@@ -2,13 +2,6 @@
 ITI E-commerce Web Application Project using Servlets &amp; JSP
 # Perfume Store - E-Commerce Web Application  
 
-## Team Members  
-- [**Ahmad Taher**](https://github.com/AhmadTaher1)  
-- [**Ghaidaa Eldsoky**](https://github.com/ghaidaaeldsoky)  
-- [**Sama Mohamed**](https://github.com/sama-kamel2462)  
-
----
-
 ## Project Overview  
 Perfume Store is a web-based e-commerce application designed for selling perfumes online. The platform allows users to browse perfumes, add items to their shopping cart, and complete purchases within their credit limit. The system includes user authentication, profile management, and an admin interface for managing inventory and customer profiles.  
 
@@ -54,4 +47,11 @@ Perfume Store is a web-based e-commerce application designed for selling perfume
 
 ### Database  
 - MySQL (data storage and retrieval)  
-- JDBC with ORM (efficient database interaction)   
+- JDBC with ORM (efficient database interaction)
+
+---
+
+## Contributers
+- [**Ahmad Taher**](https://github.com/AhmadTaher1)  
+- [**Ghaidaa Eldsoky**](https://github.com/ghaidaaeldsoky)  
+- [**Sama Mohamed**](https://github.com/sama-kamel2462)
