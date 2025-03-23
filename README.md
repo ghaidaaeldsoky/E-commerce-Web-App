@@ -1,65 +1,57 @@
 # E-commerce-Web-App
 ITI E-commerce Web Application Project using Servlets &amp; JSP
-# 🛍️ Perfume Store - E-Commerce Web Application  
+# Perfume Store - E-Commerce Web Application  
 
-## 👨‍💻 Team Members  
-- [**Ahmad Taher**] (https://github.com/AhmadTaher1)  
-- [**Ghaidaa Eldsoky**] (https://github.com/ghaidaaeldsoky)
-- [**Sama Mohamed**] (https://github.com/sama-kamel2462)
-
----
-
-## 📌 Project Overview  
-**Perfume Store** is a simple **E-commerce web application** designed for selling perfumes online. Users can **browse perfumes, add them to their shopping cart, and complete purchases within their credit limit**. The system provides **user authentication, profile management**, and an **admin interface for managing perfumes and customer profiles**.  
+## Team Members  
+- [**Ahmad Taher**](https://github.com/AhmadTaher1)  
+- [**Ghaidaa Eldsoky**](https://github.com/ghaidaaeldsoky)  
+- [**Sama Mohamed**](https://github.com/sama-kamel2462)  
 
 ---
 
-## 🚀 Key Features  
-
-### 👤 User Features  
-✔️ **User Registration & Authentication** (Sign up, Login, Logout)  
-✔️ **Profile Management** (Update personal details, credit limit)  
-✔️ **Browse & Search Perfumes** (Filter by category & price)  
-✔️ **Shopping Cart Functionality** (Add, remove, update perfumes)  
-✔️ **Purchase Perfumes** (Limited by available credit)  
-✔️ **Order History Tracking** (Bonus Feature)  
-✔️ **Responsive & Mobile-First Design**  
-
-### 🔑 Admin Features  
-✔️ **Manage Perfume Inventory** (Add, Edit, Delete perfumes)  
-✔️ **Update Perfume Prices & Quantities**  
-✔️ **View & Manage Customer Profiles**  
-✔️ **Review Customer Order History** (Bonus Feature)  
-
-### ⚙️ Technical Features  
-✔️ **Client-side Validation** on all user inputs  
-✔️ **Asynchronous Processing (AJAX) for:**  
-   - Checking username availability during registration  
-   - Shopping cart operations (add, update, remove perfumes)  
-✔️ **Object-Relational Mapping (ORM) with Connection Pooling**  
-✔️ **Secure Authentication & Authorization**  
-✔️ **Optimized Database Queries for Performance**  
+## Project Overview  
+Perfume Store is a web-based e-commerce application designed for selling perfumes online. The platform allows users to browse perfumes, add items to their shopping cart, and complete purchases within their credit limit. The system includes user authentication, profile management, and an admin interface for managing inventory and customer profiles.  
 
 ---
 
-## 🛠️ Technologies Used  
+## Features  
+
+### User Features  
+- User registration and authentication (sign up, login, logout)  
+- Profile management (update personal details, credit limit)  
+- Browse and search perfumes (filter by category and price)  
+- Shopping cart functionality (add, remove, update items)  
+- Purchase perfumes with credit limit restrictions  
+- Order history tracking  
+- Responsive and mobile-friendly design  
+
+### Admin Features  
+- Manage perfume inventory (add, edit, delete perfumes)  
+- Update perfume prices and stock quantities  
+- View and manage customer profiles  
+- Review customer order history  
+
+### Technical Features  
+- Client-side validation for user inputs  
+- Asynchronous operations (AJAX) for:  
+  - Checking username availability during registration  
+  - Shopping cart interactions (add, update, remove items)  
+- Object-Relational Mapping (ORM) with connection pooling  
+- Secure authentication and authorization  
+- Optimized database queries for better performance  
+
+---
+
+## Technologies Used  
+
 ### Frontend  
-✅ **HTML5, CSS3, Bootstrap** (Responsive UI)  
-✅ **JavaScript & jQuery** (Dynamic interactions)  
+- HTML5, CSS3, Bootstrap (responsive UI)  
+- JavaScript, jQuery (interactive elements)  
 
 ### Backend  
-✅ **Java Servlets & JSP** (Business logic & rendering)  
-✅ **Tomcat 10** (Application server)  
+- Java Servlets, JSP (business logic and rendering)  
+- Tomcat 10 (application server)  
 
 ### Database  
-✅ **MySQL** (Data storage & retrieval)  
-✅ **JDBC with ORM** (Efficient database access)  
-
----
-
-## 📌 Installation & Setup  
-
-### 1️⃣ Clone the Repository  
-```sh
-git clone https://github.com/your-team/perfume-store.git
-cd perfume-store
+- MySQL (data storage and retrieval)  
+- JDBC with ORM (efficient database interaction)   
