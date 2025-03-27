@@ -186,7 +186,7 @@
                 <a class="button primary-btn" href="#" style="margin:3px;">Add to Cart</a>
                 <label>Quantity:</label>
                 <button
-                  onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                   id="increase-btn"
                   class="increase items-count"
                   type="button"
                 >
@@ -204,7 +204,7 @@
                   readonly
                 />
                 <button
-                  onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                   id="decrease-btn"
                   class="reduced items-count"
                   type="button"
                 >
@@ -294,6 +294,22 @@
               Copyright &copy;
               <script>
                 document.write(new Date().getFullYear());
+                 document.getElementById("increase-btn").addEventListener("click", function () {
+                var result = document.getElementById("sst");
+                var sst = result.value;
+               if (!isNaN(sst)) {
+            result.value++;
+            }
+             });
+
+
+                document.getElementById("decrease-btn").addEventListener("click", function () {
+               var result = document.getElementById("sst");
+              var sst = parseInt(result.value, 10);
+             if (!isNaN(sst) && sst > 1) {  // Prevent going below 1
+                result.value = sst - 1;
+              }
+              });
               </script>
               All rights reserved | This template is made with
               <i class="fa fa-heart" aria-hidden="true"></i> by
