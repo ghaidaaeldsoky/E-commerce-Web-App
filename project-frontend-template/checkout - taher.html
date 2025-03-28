@@ -22,6 +22,22 @@
     <link rel="stylesheet" href="css/style.css" />
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("conf").addEventListener("click", function () {
+          let terms = document.getElementById("accept-terms").checked;
+          let selectedAddress = document.querySelector(
+            'input[name="shipping-address"]:checked'
+          );
+
+          if (!terms) {
+            alert("You must agree to the terms first!");
+          } else if (!selectedAddress) {
+            alert("Please select a shipping address!");
+          } else {
+            // Some business logic here
+            alert("Thank you for agreeing!");
+          }
+        });
+
         calculateTotal();
       });
 
@@ -301,18 +317,19 @@
             class="order-confirm"
             style="text-align: center; margin-top: 20px"
           >
-            <a
+            <button
               class="button button-confirm"
-              href="#"
+              id="conf"
               style="font-size: 22px; padding: 10px 20px"
-              >Confirm Order</a
             >
-            <a
+              Confirm Order
+            </button>
+            <button
               class="button button-confirm"
-              href="#"
               style="font-size: 22px; padding: 10px 20px"
-              >Discard Order</a
             >
+              Discard Order
+            </button>
           </div>
         </div>
       </div>
