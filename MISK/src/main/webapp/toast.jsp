@@ -1,12 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false" %>
 
 <%
-    String msg = (String) session.getAttribute("message");
-    String type = (String) session.getAttribute("type");
-    session.removeAttribute("message");
-    session.removeAttribute("type");
-
+    String msg = (String) request.getAttribute("alertMessage");
+    String type = (String) request.getAttribute("alertType");
     if (msg != null && type != null) {
 %>
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
@@ -17,14 +14,13 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const toastEl = document.getElementById("liveToast");
-            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-            toast.show();
+            const toastEl = document.getElementById('liveToast');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+                toast.show();
+            }
         });
     </script>
-<%
-    }
-%>
+<% } %>

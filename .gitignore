@@ -1,6 +1,6 @@
-# Ignore target directories
-MISK/target/
-
-# Ignore idea directories
+# Ignore IntelliJ IDEA settings in root and in MISK
 .idea/
 MISK/.idea/
+
+# Ignore Maven target folder inside MISK
+MISK/target/

@@ -161,6 +161,8 @@
     <!-- ================ end banner area ================= -->
 
     <!-- ================ category section start ================= -->
+    <jsp:include page="toast.jsp" />
+
     <section class="section-margin--small mb-5">
       <div class="container">
         <div class="row">
@@ -325,7 +327,7 @@
                     <ul class="card-product__imgOverlay">
                         <c:if test="${perfume.quantity > 0}">
                             <li>
-                                <form action="addToCart" method="post">
+                                <form action="testtoast" method="post">
                                     <input type="hidden" name="id" value="${perfume.id}">
                                     <input type="hidden" name="name" value="${perfume.name}">
                                     <input type="hidden" name="brand" value="${perfume.brand}">
