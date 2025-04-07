@@ -1,7 +1,7 @@
 package iti.Misk.controller.controllers;
 
 
-import iti.Misk.model.dtos.Usersss;
+import iti.Misk.model.dtos.Userxsss;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ public class addSingleToCart extends HttpServlet {
 
 
       //Usersss current =(Usersss) req.getSession(false).getAttribute("user");
-        Usersss current = new Usersss();
+      Userxsss current = new Userxsss();
         current.setAdmin(false);
 
       if(current==null) {
