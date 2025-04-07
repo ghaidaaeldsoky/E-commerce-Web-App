@@ -18,9 +18,6 @@ public class checkoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //some DB work
-
-
-
         ArrayList<Address> addresses=new ArrayList<>();
         Address address1 =new Address(1,"ksa","gada","125",10);
         Address address2 =new Address(2,"oman","gada","125",10);

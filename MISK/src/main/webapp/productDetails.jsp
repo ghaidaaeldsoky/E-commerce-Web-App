@@ -271,7 +271,7 @@
                 <form action="addSingleToCart" method="post" id="subform" style="margin-left: auto;">
                   <input type="hidden" name="proId" value="${pro.id}">
                   <input type="hidden" name="quantity" id="quant" value="">
-                  <button type="submit" class="primary-btn ml-2" onclick="submitForm()"
+                  <button type="submit" class="primary-btn ml-2" onclick="return submitForm();"
                           style="background-color: #182078; color: white; padding: 10px 20px; border: none; border-radius: 5px;
             cursor: pointer; font-weight: bold;">
                     Add to Cart

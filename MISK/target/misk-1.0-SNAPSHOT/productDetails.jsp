@@ -1,5 +1,6 @@
-<%@ page session="false" %>
+
 <%@ page isELIgnored="false" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,7 +57,6 @@
 
    function submitForm() {
 
-
      let Currentuser = "${sessionScope.user}";
      if (Currentuser == null || Currentuser == "") {
        alert("Please login to add items to your cart.");
@@ -65,20 +65,20 @@
 
        let qtyValue = document.getElementById("sst").value;
        document.getElementById("quant").value = qtyValue;
-//**********************************CART COUNTER**************************************
-       // $.ajax({
-       //   url: "/myApp/CartCounter",
-       //   type: "POST",
-       //   data: { productId: productId },
-       //   success: function (response) {
-       //     console.log("cart updated successfully");
-       //     document.querySelector(".nav-shop__circle").textContent = response;
-       //
-       //   },
-       //   error: function (xhr, status, error) {
-       //     console.error("Error:", error);
-       //   },
-       // });
+
+       $.ajax({
+         url: "/myApp/CartCounter",
+         type: "POST",
+         data: { productId: productId },
+         success: function (response) {
+           console.log("cart updated successfully");
+           document.querySelector(".nav-shop__circle").textContent = response;
+
+         },
+         error: function (xhr, status, error) {
+           console.error("Error:", error);
+         },
+       });
        document.getElementById("subform").submit();
      }
 
@@ -228,13 +228,13 @@
           <div class="col-lg-6">
             <div class="owl-carousel owl-theme s_Product_carousel">
               <div class="single-prd-item">
-                <img class="img-fluid" src="img/category/oud.jpg" alt="" />
+                <img class="img-fluid" src="${pro.photo}" alt="" />
               </div>
                <div class="single-prd-item">
-							<img class="img-fluid" src="img/category/oud.jpg" alt="">
+							<img class="img-fluid" src="${pro.photo}" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="${pro.photopath}" alt="">
+							<img class="img-fluid" src="${pro.photo}" alt="">
 						</div>
             </div>
           </div>
@@ -271,7 +271,7 @@
                 <form action="addSingleToCart" method="post" id="subform" style="margin-left: auto;">
                   <input type="hidden" name="proId" value="${pro.id}">
                   <input type="hidden" name="quantity" id="quant" value="">
-                  <button type="submit" class="primary-btn ml-2" onclick=" return submitForm();"
+                  <button type="submit" class="primary-btn ml-2" onclick="return submitForm();"
                           style="background-color: #182078; color: white; padding: 10px 20px; border: none; border-radius: 5px;
             cursor: pointer; font-weight: bold;">
                     Add to Cart
