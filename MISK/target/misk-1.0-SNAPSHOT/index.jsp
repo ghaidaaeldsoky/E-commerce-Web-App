@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -283,7 +283,7 @@
             <!-- Start Best Seller -->
             <section class="lattest-product-area pb-40 category-list">
               <div class="row" id="product-list">
-                <c:forEach var="perfume" items="${perfumesPage}">
+                <!-- <c:forEach var="perfume" items="${perfumesPage}">
         <div class="col-md-6 col-lg-4">
             <div class="card text-center card-product">
                 <div class="card-product__img">
@@ -301,7 +301,43 @@
                 </div>
             </div>
         </div>
-    </c:forEach>
+    </c:forEach> -->
+
+    <c:forEach var="perfume" items="${perfumesPage}">
+    <div class="col-md-6 col-lg-4">
+        <div class="card text-center card-product">
+            <a href="ProductDetails?id=${perfume.id}&name=${perfume.name}" style="text-decoration: none; color: inherit;">
+                <div class="card-product__img">
+                    <img class="card-img" src="${perfume.photo}" alt="${perfume.name}">
+                    <ul class="card-product__imgOverlay">
+                        <!-- <li>
+                            <button type="button"><i class="ti-search"></i></button>
+                        </li> -->
+                        <li>
+                            <form action="" method="get" >
+                                <input type="hidden" name="id" value="${perfume.id}">
+                                <input type="hidden" name="name" value="${perfume.name}">
+                                <input type="hidden" name="brand" value="${perfume.brand}">
+                                <input type="hidden" name="price" value="${perfume.price}">
+                                <input type="hidden" name="photo" value="${perfume.photo}">
+                                <button type="submit" style="color: white;"><i class="ti-shopping-cart" style="margin-right: 5px;"></i>Add to cart</button>
+                            </form>
+                        </li>
+                        <!-- <li>
+                            <button><i class="ti-heart"></i></button>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <p>${perfume.brand}</p>
+                    <h4 class="card-product__title">${perfume.name}</h4>
+                    <p class="card-product__price">${perfume.price} EGP</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</c:forEach>
+
               </div>
               
               <div id="pagination" class="pagination">

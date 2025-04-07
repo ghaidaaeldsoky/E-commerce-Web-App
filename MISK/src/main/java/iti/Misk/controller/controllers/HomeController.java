@@ -62,7 +62,6 @@ public class HomeController extends HttpServlet {
         // // Pagination
         // List<PerfumeDto> perfumesPage = myPerfumes.getPerfumes(pageNumber);
         List<PerfumeDto> perfumesPage = myPerfumes.getFilteredPerfumes(null, gender, 0, Double.MAX_VALUE, pageNumber);
-        ;
 
         int totalPages = myPerfumes.getNoOfPages();
 
