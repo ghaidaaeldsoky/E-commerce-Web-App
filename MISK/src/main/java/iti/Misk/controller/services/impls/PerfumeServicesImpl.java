@@ -16,7 +16,7 @@ public class PerfumeServicesImpl implements PerfumeServices {
 
     private PerfumeServicesImpl() {
         // testing
-        perfumes.add(new PerfumeDto(idCounter++, "Dior Sauvage", "Fresh and strong scent", 120.0, 15,
+        perfumes.add(new PerfumeDto(idCounter++, "Dior Sauvage", "Fresh and strong scent", 120.0, 0,
                 "./img/product/dior_sauvage.jpg", "Dior", "100ml", Gender.Men));
         perfumes.add(new PerfumeDto(idCounter++, "Chanel No. 5", "Luxury Perfume", 150.0, 10, "./img/product/chanel_no5.jpg",
                 "Chanel", "50ml", Gender.Women));

@@ -107,7 +107,7 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <url>http://localhost:8080/manager/text</url>
+          <url>http://localhost:9090/manager/text</url>
           <!--the path of my web app on the server-->
           <path>/MISK</path>
           <username>admin</username>
