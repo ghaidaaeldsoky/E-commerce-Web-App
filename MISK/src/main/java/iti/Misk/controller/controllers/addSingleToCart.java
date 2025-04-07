@@ -18,7 +18,11 @@ public class addSingleToCart extends HttpServlet {
 
 
       //Usersss current =(Usersss) req.getSession(false).getAttribute("user");
+<<<<<<< HEAD
       Userxsss current = new Userxsss();
+=======
+        Userxsss current = new Userxsss();
+>>>>>>> 18c1f1dc15e733f3e84432e6b1b353b484054705
         current.setAdmin(false);
 
       if(current==null) {

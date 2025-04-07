@@ -9,10 +9,10 @@ iti\Misk\model\dtos\PerfumeDto.class
 iti\Misk\utils\enums\Pages.class
 iti\Misk\controller\services\impls\PerfumeServicesImpl.class
 iti\Misk\controller\controllers\ConfirmOrderServlet.class
-iti\Misk\model\dtos\User.class
 iti\Misk\model\entities\test.class
 iti\Misk\controller\controllers\HomeController.class
 iti\Misk\controller\services\impls\test.class
+iti\Misk\model\dtos\Userxsss.class
 iti\Misk\utils\EntityManagerFactorySingleton.class
 iti\Misk\utils\objects\ValidationMsg.class
 iti\Misk\controller\controllers\checkoutServlet.class
@@ -22,6 +22,7 @@ iti\Misk\controller\controllers\ProductDetailController.class
 iti\Misk\utils\Perfumes.class
 iti\Misk\configs\filters\test.class
 iti\Misk\controller\repositories\interfaces\test.class
+iti\Misk\controller\controllers\CartCounterServlet.class
 iti\Misk\utils\ShopBooks.class
 iti\Misk\controller\controllers\AddProductsToCart.class
 iti\Misk\controller\controllers\OrderIssueServlet.class

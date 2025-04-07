@@ -307,27 +307,39 @@
     <div class="col-md-6 col-lg-4">
         <div class="card text-center card-product">
             <a href="ProductDetails?id=${perfume.id}&name=${perfume.name}" style="text-decoration: none; color: inherit;">
-                <div class="card-product__img">
+                
+                <div class="card-product__img position-relative">
+                    
+                    <c:if test="${perfume.quantity == 0}">
+                      <span class="badge position-absolute top-0 end-0 m-2" style="font-size: 0.8rem; 
+                      background-color: #384AEB;
+                      border: 1px solid white; 
+                      color: white; 
+                      padding: 5px 10px; 
+                      font-weight: bold;">
+                      SOLD OUT
+                  </span>                    </c:if>
+
                     <img class="card-img" src="${perfume.photo}" alt="${perfume.name}">
+
                     <ul class="card-product__imgOverlay">
-                        <!-- <li>
-                            <button type="button"><i class="ti-search"></i></button>
-                        </li> -->
-                        <li>
-                            <form action="" method="get" >
-                                <input type="hidden" name="id" value="${perfume.id}">
-                                <input type="hidden" name="name" value="${perfume.name}">
-                                <input type="hidden" name="brand" value="${perfume.brand}">
-                                <input type="hidden" name="price" value="${perfume.price}">
-                                <input type="hidden" name="photo" value="${perfume.photo}">
-                                <button type="submit" style="color: white;"><i class="ti-shopping-cart" style="margin-right: 5px;"></i>Add to cart</button>
-                            </form>
-                        </li>
-                        <!-- <li>
-                            <button><i class="ti-heart"></i></button>
-                        </li> -->
+                        <c:if test="${perfume.quantity > 0}">
+                            <li>
+                                <form action="addToCart" method="post">
+                                    <input type="hidden" name="id" value="${perfume.id}">
+                                    <input type="hidden" name="name" value="${perfume.name}">
+                                    <input type="hidden" name="brand" value="${perfume.brand}">
+                                    <input type="hidden" name="price" value="${perfume.price}">
+                                    <input type="hidden" name="photo" value="${perfume.photo}">
+                                    <button type="submit" style="color: white;">
+                                        <i class="ti-shopping-cart" style="margin-right: 5px;"></i>Add to cart
+                                    </button>
+                                </form>
+                            </li>
+                        </c:if>
                     </ul>
                 </div>
+
                 <div class="card-body">
                     <p>${perfume.brand}</p>
                     <h4 class="card-product__title">${perfume.name}</h4>
@@ -337,6 +349,7 @@
         </div>
     </div>
 </c:forEach>
+
 
               </div>
               
