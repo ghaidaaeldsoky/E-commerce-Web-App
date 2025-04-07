@@ -3,6 +3,7 @@ iti\Misk\configs\listeners\ContextListner.class
 iti\Misk\controller\controllers\test.class
 iti\Misk\utils\objects\BookFilter.class
 iti\Misk\configs\listeners\test.class
+iti\Misk\controller\controllers\ProductDetailController.class
 iti\Misk\utils\Perfumes.class
 iti\Misk\configs\filters\test.class
 iti\Misk\controller\repositories\interfaces\test.class

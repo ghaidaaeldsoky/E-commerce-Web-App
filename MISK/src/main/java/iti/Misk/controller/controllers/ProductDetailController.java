@@ -1,0 +1,41 @@
+package iti.Misk.controller.controllers;
+
+import java.io.IOException;
+
+import iti.Misk.controller.services.impls.PerfumeServicesImpl;
+import iti.Misk.model.dtos.PerfumeDto;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/ProductDetails")
+public class ProductDetailController extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        // get the product id info from query :
+        String idParam = req.getParameter("id");
+        // Product
+
+        if (idParam != null) {
+            int id = Integer.parseInt(idParam);
+
+            PerfumeDto perfumeDetails = PerfumeServicesImpl.getPerfumeServices().findPerfume(id);
+            if (perfumeDetails != null) {
+                System.out.println("Getting perfume details for id: " + id);
+                System.out.println("Result: " + perfumeDetails);
+                req.setAttribute("pro", perfumeDetails);
+                req.getRequestDispatcher("productDetails.jsp").forward(req, resp);
+            } else {
+                System.out.println("Not found from Product details servlet...");
+                // Not found ...
+            }
+        } else {
+            System.out.println("error from Product details servlet...");
+            // error ...
+        }
+
+    }
+}
