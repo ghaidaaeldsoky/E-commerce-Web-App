@@ -4305,3 +4305,34 @@ a {
   flex: 1;
   margin: 0 5px;
 }
+
+/* Cart icon in nav */
+.cart-button {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-button i {
+    font-size: 20px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.cart-button:hover {
+    background-color: #384AEB !important;
+}
+
+.cart-button:hover i {
+    color: #fff !important;
+}
+

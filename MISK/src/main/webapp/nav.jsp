@@ -26,7 +26,7 @@
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
-                    <a class="navbar-brand logo_h" href="index.html"><img src="img/logo1.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="home"><img src="img/logo1.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
                     </button>
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
 
                             <%
                                 if(userId != null) {
@@ -50,17 +50,17 @@
                                 }
                             %>
 
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
                         </ul>
 
                         <ul class="nav-shop">
                             <li class="nav-item"><button><i class="ti-search"></i></button></li>
                             <li class="nav-item">
-                                <button><i class="ti-shopping-cart"></i>
+                                <button class="cart-button" onclick="window.location.href='shoppingCartServlet'"><i class="ti-shopping-cart"></i>
                                     <span class="nav-shop__circle">3</span>
                                 </button>
                             </li>
-                            <li class="nav-item"><a class="button button-header" href="checkout.html">Buy Now</a></li>
+                            <li class="nav-item"><a class="button button-header" href="checkoutServlet">Buy Now</a></li>
                         </ul>
                     </div>
                 </div> <!-- إغلاق container -->

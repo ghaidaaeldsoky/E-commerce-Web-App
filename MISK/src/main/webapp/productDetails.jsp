@@ -111,7 +111,7 @@
           <div class="col-lg-5 offset-lg-1">
             <div class="s_product_text">
               <h2 class="singleProductnameInSingleProductDetailsPage">${pro.name}</h2>
-              <h3 class="singleProductPriceInSingleProductDetailsPage">${pro.price}</h3>
+              <h3 class="singleProductPriceInSingleProductDetailsPage">${pro.price} EGP</h3>
               <h4>Brand : <span>${pro.brand}</span></h4>
               <h4>Gender : <span>${pro.gender}</span></h4>
               <h4>Size : <span>${pro.size}</span></h4>
@@ -141,9 +141,8 @@
                 <form action="addSingleToCart" method="post" id="subform" style="margin-left: auto;">
                   <input type="hidden" name="proId" value="${pro.id}">
                   <input type="hidden" name="quantity" id="quant" value="">
-                  <button type="submit" class="primary-btn ml-2" onclick="return submitForm();"
-                          style="background-color: #182078; color: white; padding: 10px 20px; border: none; border-radius: 5px;
-            cursor: pointer; font-weight: bold;">
+                  <button type="submit" class="button primary-btn ml-2" onclick="return submitForm();"
+                          >
                     Add to Cart
                   </button>
                 </form>
