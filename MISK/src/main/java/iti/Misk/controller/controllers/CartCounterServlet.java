@@ -20,8 +20,11 @@ public class CartCounterServlet extends HttpServlet {
         Set<Integer> ids = (Set<Integer>) req.getSession().getAttribute("productIds");
         Integer id = Integer.parseInt(req.getParameter("productId"));
         ids.add(id);
+
         req.getSession().setAttribute("productIds", ids);
-        resp.getWriter().write(ids.size() );
+        resp.setContentType("text/plain");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(String.valueOf(ids.size()) );
 
     }
 
@@ -34,7 +37,9 @@ public class CartCounterServlet extends HttpServlet {
         Integer id = Integer.parseInt(req.getParameter("productId"));
         ids.remove(id);
         req.getSession().setAttribute("productIds", ids);
-        resp.getWriter().write(ids.size() );
+        resp.setContentType("text/plain");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(String.valueOf(ids.size()) );
 
     }
 }

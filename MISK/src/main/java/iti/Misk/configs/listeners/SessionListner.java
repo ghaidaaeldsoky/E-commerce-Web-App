@@ -15,7 +15,11 @@ public class SessionListner implements HttpSessionListener {
         // fetch db and get a set of cart items IDs
         // and set it in the session
         HashSet<Integer> IDs  =new HashSet<>();
-
+        IDs.add(198);
+        IDs.add(199);
+        IDs.add(156);
+        IDs.add(157);
+        IDs.add(1);
 
         se.getSession().setAttribute("productIds",IDs );
 

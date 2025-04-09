@@ -195,13 +195,13 @@
                     <ul class="card-product__imgOverlay">
                         <c:if test="${perfume.quantity > 0}">
                             <li>
-                                <form action="addToCart" method="post">
+                                <form action="addSingleToCart" method="get">
                                     <input type="hidden" name="id" value="${perfume.id}">
                                     <input type="hidden" name="name" value="${perfume.name}">
                                     <input type="hidden" name="brand" value="${perfume.brand}">
                                     <input type="hidden" name="price" value="${perfume.price}">
                                     <input type="hidden" name="photo" value="${perfume.photo}">
-                                    <button type="submit" style="color: white;">
+                                    <button type="submit" style="color: white;"  onclick="return addToCart(${perfume.id});">
                                         <i class="ti-shopping-cart" style="margin-right: 5px;"></i>Add to cart
                                     </button>
                                 </form>
@@ -376,6 +376,41 @@
               document.getElementById('filterForm').submit();
           });
       });
+
+      function addToCart(id) {
+        event.preventDefault();
+          $.ajax({
+              url: "/MISK/CartCounter",
+              type: "POST",
+              data: { productId: id },
+              success: function (response) {
+
+                  document.querySelector(".nav-shop__circle").textContent = response;
+
+              },
+              error: function (xhr, status, error) {
+                  console.error("Error:", error);
+              },
+          });
+
+
+          $.ajax({
+              url: "/MISK/addSingleToCart",
+              type: "GET",
+              data: { productId: id },
+              success: function (response) {
+                  console.log("cart updated successfully");
+
+              },
+              error: function (xhr, status, error) {
+                  console.error("Error:", error);
+              },
+          });
+
+
+
+            return false;
+      }
       
   </script>
   

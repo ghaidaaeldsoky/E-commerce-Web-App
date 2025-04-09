@@ -42,7 +42,7 @@ charset=UTF-8" pageEncoding="UTF-8" %>
         </p>
         <img
           src="img/issue-stamp-issue-sign-round-grunge-label-2DAD473-removebg-preview.png"
-          alt="Order Confirmed"
+          alt="Order issue"
           class="confirmation_image"
         />
         <div class="button_container mt-4">

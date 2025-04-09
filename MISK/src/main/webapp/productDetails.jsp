@@ -67,7 +67,7 @@
        document.getElementById("quant").value = qtyValue;
 
        $.ajax({
-         url: "/myApp/CartCounter",
+         url: "/MISK/CartCounter",
          type: "POST",
          data: { productId: productId },
          success: function (response) {

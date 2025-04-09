@@ -20,8 +20,8 @@ public class shoppingCartServlet extends HttpServlet {
         //fetched from DB
         List<Product> l=new ArrayList<>();
         Product product=new Product(1,"majestic men","this is the description","130 EGP","img/cart/cart1.png",7,"koria","30 mm","men",15,1.0);
-        Product product2=new Product(2," men silver scent","this is the description","130 EGP","img/cart/cart2.png",5,"koria","30 mm","men",16,1.0);
-        Product product3=new Product(3,"one man show","this is the description","130 EGP","img/category/oud.jpg",9,"koria","30 mm","men",17,1.0);
+        Product product2=new Product(200," men silver scent","this is the description","130 EGP","img/cart/cart2.png",5,"koria","30 mm","men",16,1.0);
+        Product product3=new Product(300,"one man show","this is the description","130 EGP","img/category/oud.jpg",9,"koria","30 mm","men",17,1.0);
         l.add(product);
         l.add(product2);
         l.add(product3);

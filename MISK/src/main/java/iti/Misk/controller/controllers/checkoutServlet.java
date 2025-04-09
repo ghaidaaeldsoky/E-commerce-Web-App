@@ -2,6 +2,7 @@ package iti.Misk.controller.controllers;
 
 
 import iti.Misk.model.dtos.Address;
+import iti.Misk.model.dtos.Product;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,8 +10,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/checkoutServlet")
 public class checkoutServlet extends HttpServlet {
@@ -31,7 +34,11 @@ public class checkoutServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/checkingOut.jsp");
        dispatcher.forward(req, resp);
 
-
+       List<Product> l=(List<Product>) req.getSession(false).getAttribute("cartItems");
+        FileWriter fw=new FileWriter("whyyyyyyyyyyyyyy");
+        for(Product p:l){
+            fw.write(p.toString());
+        }
 
     }
     @Override

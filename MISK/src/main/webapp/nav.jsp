@@ -1,4 +1,5 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%
     HttpSession sessionUser = request.getSession(false);
     String userId = (sessionUser != null) ? (String) request.getAttribute("userId") : null;
@@ -56,8 +57,12 @@
                         <ul class="nav-shop">
                             <li class="nav-item"><button><i class="ti-search"></i></button></li>
                             <li class="nav-item">
+
+                                    <%--    *******cart counter********                           --%>
                                 <button class="cart-button" onclick="window.location.href='shoppingCartServlet'"><i class="ti-shopping-cart"></i>
-                                    <span class="nav-shop__circle">3</span>
+                                    <c:if test="${not empty sessionScope.productIds}">
+                                        <span class="nav-shop__circle">${sessionScope.productIds.size()}</span>
+                                    </c:if>
                                 </button>
                             </li>
                             <li class="nav-item"><a class="button button-header" href="checkoutServlet">Buy Now</a></li>
