@@ -1,4 +1,7 @@
+<%@ page session="false"%>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+
+
 <%
     HttpSession sessionUser = request.getSession(false);
     String userId = (sessionUser != null) ? (String) request.getAttribute("userId") : null;
@@ -37,15 +40,17 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
                             <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
 
                             <%
                                 if(userId != null) {
                             %>
-                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+                            <li class="nav-item"><a class="nav-link" href="LogoutController">LogOut</a></li>
                             <%
                                 } else {
                             %>
-                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="login.jsp">LogIn</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="register.jsp">Register</a></li>
                             <%
                                 }
                             %>

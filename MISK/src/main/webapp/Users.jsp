@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>MISK Perfumes - Admin</title>
+  <title>Spica Admin</title>
   <!-- base:css -->
   <link rel="stylesheet" href="css/materialdesignicons.min.css">
   <link rel="stylesheet" href="css/vendor.bundle.base.css">
@@ -41,7 +41,7 @@
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Orders.html">
+          <a class="nav-link" href="Orders.jsp">
             <i class="mdi mdi-cart-outline menu-icon"></i>
             <span class="menu-title">Orders</span>
           </a>
