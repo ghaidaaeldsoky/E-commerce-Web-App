@@ -93,23 +93,6 @@
               </div>
               <div class="sidebar-filter">
                 <!-- Filters -->
-
-
-                <!-- Filter By Price
-              <div class="common-filter">
-                <div class="head">Price</div>
-                <div class="price-range-area">
-                  <div id="price-range"></div>
-                  <div class="value-wrapper d-flex">
-                    <div class="price">Price:</div>
-                    <span>$</span>
-                    <div id="lower-value"></div>
-                    <div class="to">to</div>
-                    <span>$</span>
-                    <div id="upper-value"></div>
-                  </div>
-                </div>
-              </div> -->
               </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-7">
@@ -393,48 +376,7 @@
 
       </script>
 
-      <!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var priceSlider = document.getElementById('price-range');
-        var minPriceInput = document.getElementById('minPrice');
-        var maxPriceInput = document.getElementById('maxPrice');
-        var lowerValue = document.getElementById('lower-value');
-        var upperValue = document.getElementById('upper-value');
-
-        var minPrice = 0;
-        var maxPrice = 300;
-
-        noUiSlider.create(priceSlider, {
-            start: [ minPrice,  maxPrice],
-            connect: true,
-            range: {
-                'min': minPrice,
-                'max': maxPrice
-            },
-            step: 1
-        });
-
-        priceSlider.noUiSlider.on('update', function(values, handle) {
-            var minVal = Math.round(values[0]);
-            var maxVal = Math.round(values[1]);
-            lowerValue.textContent = minVal;
-            upperValue.textContent = maxVal;
-            minPriceInput.value = minVal;
-            maxPriceInput.value = maxVal;
-            
-        });
-
-        priceSlider.noUiSlider.on('set', function() {
-            document.getElementById('filterForm').submit();
-        });
-    });
-</script> -->
-
-      <!-- <script id="productsJson" type="application/json">
-      ${allPerfumesJson}
-    </script> -->
-
-      <!-- Uncomment the price slider script -->
+      <!-- the price slider script -->
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           var priceSlider = document.getElementById('price-range');
@@ -451,7 +393,7 @@
               'min': ${ actualMinPrice },
             'max': ${ actualMaxPrice }
           },
-          step: 1
+          step: 10
       });
 
         priceSlider.noUiSlider.on('update', function (values, handle) {
@@ -469,7 +411,7 @@
   });
       </script>
 
-      <!-- Add this script after existing scripts -->
+      <!-- Search -->
       <script>
         $(document).ready(function () {
           const searchField = $('#searchField');
@@ -518,7 +460,6 @@
         });
       </script>
 
-      <!-- <script src="./js/home.js"></script> -->
     </body>
 
     </html>
