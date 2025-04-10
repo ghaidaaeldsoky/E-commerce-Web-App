@@ -28,28 +28,48 @@ public class Perfumes {
         return perfumesInstance;
     }
 
-    // public List<PerfumeDto> getFilteredPerfumes(String brand, Gender gender, double minPrice, double maxPrice,
-    //         int pageNumber) {
-    //     List<PerfumeDto> perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+    // public List<PerfumeDto> getFilteredPerfumes(String brand, Gender gender,
+    // double minPrice, double maxPrice,
+    // int pageNumber) {
+    // List<PerfumeDto> perfumes =
+    // PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
 
-    //     // Filter
-    //     perfumes = perfumes.stream()
-    //             .filter(p -> brand == null || p.getBrand().equalsIgnoreCase(brand))
-    //             .filter(p -> gender == null || p.getGender() == gender)
-    //             .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
-    //             .collect(Collectors.toList());
+    // // Filter
+    // perfumes = perfumes.stream()
+    // .filter(p -> brand == null || p.getBrand().equalsIgnoreCase(brand))
+    // .filter(p -> gender == null || p.getGender() == gender)
+    // .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+    // .collect(Collectors.toList());
 
-    //     return paginate(perfumes, pageNumber);
+    // return paginate(perfumes, pageNumber);
     // }
 
-    public List<PerfumeDto> getFilteredPerfumes(String brand, Gender gender, double minPrice, double maxPrice, int pageNumber) {
+    // public List<PerfumeDto> getFilteredPerfumes(String brand, Gender gender,
+    // double minPrice, double maxPrice, int pageNumber) {
+    // List<PerfumeDto> allPerfumes =
+    // PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+
+    // List<PerfumeDto> filteredList = allPerfumes.stream()
+    // .filter(p -> gender == null || p.getGender() == gender)
+    // .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+    // .collect(Collectors.toList());
+
+    // return paginate(filteredList, pageNumber);
+    // }
+
+    public List<PerfumeDto> getFilteredPerfumes(String searchQuery, Gender gender,
+            double minPrice, double maxPrice,
+            int pageNumber) {
         List<PerfumeDto> allPerfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
-    
+
         List<PerfumeDto> filteredList = allPerfumes.stream()
                 .filter(p -> gender == null || p.getGender() == gender)
                 .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+                .filter(p -> searchQuery == null ||
+                        p.getName().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                        p.getBrand().toLowerCase().contains(searchQuery.toLowerCase()))
                 .collect(Collectors.toList());
-    
+
         return paginate(filteredList, pageNumber);
     }
 
@@ -60,8 +80,8 @@ public class Perfumes {
         int start = (pageNumber - 1) * PAGE_SIZE;
 
         if (start >= totalNoOfRecords) {
-        return new ArrayList<>();
-    }
+            return new ArrayList<>();
+        }
 
         return perfumeList.stream()
                 .skip(start)
@@ -91,7 +111,7 @@ public class Perfumes {
                 .min()
                 .orElse(0.0);
     }
-    
+
     public double getMaxPrice() {
         if (perfumes == null) {
             perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();

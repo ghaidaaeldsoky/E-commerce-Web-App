@@ -4336,3 +4336,29 @@ a {
     color: #fff !important;
 }
 
+
+/* nO RESULTS FOUND */
+
+.no-results-container {
+  padding: 40px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+  margin: 50px 0;
+}
+
+.no-results-container i {
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.no-results-container h3 {
+  color: #2d3436;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.no-results-container p {
+  font-size: 1.1rem;
+  color: #636e72;
+}

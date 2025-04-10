@@ -26,8 +26,14 @@ public class HomeController extends HttpServlet {
         Gender gender = null;
         double actualMinPrice = myPerfumes.getMinPrice();
         double actualMaxPrice = myPerfumes.getMaxPrice();
-        req.setAttribute("minPrice", actualMinPrice);
-        req.setAttribute("maxPrice", actualMaxPrice);
+        req.setAttribute("actualMinPrice", actualMinPrice);
+        req.setAttribute("actualMaxPrice", actualMaxPrice);
+        String searchQuery = req.getParameter("search");
+
+
+        if (searchQuery != null && searchQuery.trim().isEmpty()) {
+            searchQuery = null;
+        }
 
         if (genderParam != null && !genderParam.isEmpty() && !genderParam.equalsIgnoreCase("all")) {
             try {
@@ -59,15 +65,37 @@ public class HomeController extends HttpServlet {
             pageNumber = 1;
         }
 
+        String minPriceParam = req.getParameter("minPrice");
+        String maxPriceParam = req.getParameter("maxPrice");
+
+        double minPrice = 0;
+        double maxPrice = myPerfumes.getMaxPrice();
+
+        try {
+            if (minPriceParam != null && !minPriceParam.isEmpty()) {
+                minPrice = Double.parseDouble(minPriceParam);
+            }
+            if (maxPriceParam != null && !maxPriceParam.isEmpty()) {
+                maxPrice = Double.parseDouble(maxPriceParam);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid price parameters");
+        }
+
         // // Pagination
         // List<PerfumeDto> perfumesPage = myPerfumes.getPerfumes(pageNumber);
-        List<PerfumeDto> perfumesPage = myPerfumes.getFilteredPerfumes(null, gender, 0, Double.MAX_VALUE, pageNumber);
+        List<PerfumeDto> perfumesPage = myPerfumes.getFilteredPerfumes(searchQuery, gender, minPrice, maxPrice, pageNumber);
 
         int totalPages = myPerfumes.getNoOfPages();
 
         req.setAttribute("perfumesPage", perfumesPage);
         req.setAttribute("currentPage", pageNumber);
         req.setAttribute("noOfPages", totalPages);
+
+        req.setAttribute("selectedMinPrice", minPrice);
+        req.setAttribute("selectedMaxPrice", maxPrice);
+
+        req.setAttribute("searchQuery", searchQuery);
 
         System.out.println("Page Number: " + pageNumber);
         System.out.println("Total Pages: " + totalPages);
