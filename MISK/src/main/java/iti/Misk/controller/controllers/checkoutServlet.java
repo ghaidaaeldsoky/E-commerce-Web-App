@@ -29,16 +29,19 @@ public class checkoutServlet extends HttpServlet {
         addresses.add(address2);
         addresses.add(address3);
 
-        req.getSession(false).setAttribute("adr",addresses);
+//        List<Product> l=(List<Product>) req.getSession(false).getAttribute("cartItems");
+//        FileWriter fw=new FileWriter("whyyyyyyyyyyyyyy.txt");
+//        for(Product p:l){
+//            fw.write(p.toString());
+//        }
+
+
+
+        req.getSession(true).setAttribute("adr",addresses);
         req.setCharacterEncoding("UTF-8");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/checkingOut.jsp");
        dispatcher.forward(req, resp);
 
-       List<Product> l=(List<Product>) req.getSession(false).getAttribute("cartItems");
-        FileWriter fw=new FileWriter("whyyyyyyyyyyyyyy");
-        for(Product p:l){
-            fw.write(p.toString());
-        }
 
     }
     @Override

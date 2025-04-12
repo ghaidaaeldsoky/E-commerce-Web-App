@@ -1,11 +1,7 @@
 <%@ page session="false"%>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
-<<<<<<< HEAD
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-=======
 
-
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
 <%
     HttpSession sessionUser = request.getSession(false);
     String userId = (sessionUser != null) ? (String) request.getAttribute("userId") : null;
@@ -50,6 +46,7 @@
                                 if(userId != null) {
                             %>
                             <li class="nav-item"><a class="nav-link" href="LogoutController">LogOut</a></li>
+                            <li class="nav-item"><a class="nav-link" href="profile.jsp">Profile</a></li>
                             <%
                                 } else {
                             %>
@@ -63,7 +60,6 @@
                         </ul>
 
                         <ul class="nav-shop">
-                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
                             <li class="nav-item">
 
                                     <%--    *******cart counter********                           --%>
@@ -77,7 +73,6 @@
 
                                 </button>
                             </li>
-                            <li class="nav-item"><a class="button button-header" href="checkoutServlet">Buy Now</a></li>
                         </ul>
                     </div>
                 </div> <!-- إغلاق container -->
