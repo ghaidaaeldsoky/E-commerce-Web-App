@@ -6,7 +6,10 @@
 
     <listener>
         <listener-class>iti.Misk.configs.listeners.ContextListner</listener-class>
-    
+    </listener>
+
+    <listener>
+        <listener-class>iti.Misk.configs.listeners.RequestListner</listener-class>
     </listener>
 
     <welcome-file-list>

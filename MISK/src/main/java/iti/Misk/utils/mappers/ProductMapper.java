@@ -19,7 +19,7 @@ public class ProductMapper {
             product.getPhoto(),
             product.getBrand(),
             product.getSize(),
-            Gender.valueOf(product.getGender()) // handling string to enum
+            Gender.Men // handling string to enum
         );
 
         return dto;

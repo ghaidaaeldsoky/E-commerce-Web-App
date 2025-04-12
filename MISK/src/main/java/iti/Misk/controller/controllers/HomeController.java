@@ -9,6 +9,7 @@ import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.enums.Gender;
 import iti.Misk.utils.Perfumes;
 import iti.Misk.utils.enums.Pages;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,8 +25,9 @@ public class HomeController extends HttpServlet {
         Perfumes myPerfumes = (Perfumes) context.getAttribute("perfumes");
         String genderParam = req.getParameter("gender");
         Gender gender = null;
-        double actualMinPrice = myPerfumes.getMinPrice();
-        double actualMaxPrice = myPerfumes.getMaxPrice();
+        double actualMinPrice = 0.0;
+        double actualMaxPrice = 1000.0;
+        EntityManager em = (EntityManager) req.getAttribute("em");
         req.setAttribute("actualMinPrice", actualMinPrice);
         req.setAttribute("actualMaxPrice", actualMaxPrice);
         String searchQuery = req.getParameter("search");
@@ -84,7 +86,7 @@ public class HomeController extends HttpServlet {
 
         // // Pagination
         // List<PerfumeDto> perfumesPage = myPerfumes.getPerfumes(pageNumber);
-        List<PerfumeDto> perfumesPage = myPerfumes.getFilteredPerfumes(searchQuery, gender, minPrice, maxPrice, pageNumber);
+        List<PerfumeDto> perfumesPage = myPerfumes.getFilteredPerfumes(searchQuery, gender, minPrice, maxPrice, pageNumber, em);
 
         int totalPages = myPerfumes.getNoOfPages();
 

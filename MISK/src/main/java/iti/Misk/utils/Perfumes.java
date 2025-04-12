@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import iti.Misk.controller.services.impls.PerfumeServicesImpl;
 import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.enums.Gender;
+import jakarta.persistence.EntityManager;
 
 public class Perfumes {
 
@@ -62,6 +63,25 @@ public class Perfumes {
             int pageNumber) {
         List<PerfumeDto> allPerfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
 
+        List<PerfumeDto> filteredList = allPerfumes.stream()
+                .filter(p -> gender == null || p.getGender() == gender)
+                .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+                .filter(p -> searchQuery == null ||
+                        p.getName().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                        p.getBrand().toLowerCase().contains(searchQuery.toLowerCase()))
+                .collect(Collectors.toList());
+
+        return paginate(filteredList, pageNumber);
+    }
+
+    public List<PerfumeDto> getFilteredPerfumes(String searchQuery, Gender gender,
+            double minPrice, double maxPrice,
+            int pageNumber, EntityManager em) {
+                System.out.println("From Perfumes Class: ");
+        List<PerfumeDto> allPerfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes(em);
+                for(PerfumeDto p : allPerfumes){
+                    System.out.println(p.getName()+ " Id = " + p.getId());
+                }
         List<PerfumeDto> filteredList = allPerfumes.stream()
                 .filter(p -> gender == null || p.getGender() == gender)
                 .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)

@@ -92,7 +92,7 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
         } catch (Exception e) {
             System.out.println("Error in returning shopping cart for user: " + e.getMessage());
             return null;
-        }
+        }   
 
     }
 

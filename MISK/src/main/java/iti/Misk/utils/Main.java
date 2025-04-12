@@ -47,32 +47,32 @@ public class Main {
         Product product3 = new Product(3, "Summer Dress", new BigDecimal("75.25"), 30, "Zara", "S", "Female");
 
         Product product = new Product();
-        product.setName("Oud Musk");
+        product.setName("Oud Musk2");
         product.setDescription("A luxurious oriental scent.");
         product.setPrice(new BigDecimal("350.00"));
         product.setQuantity(10);
         product.setPhoto("./img/product/dior_sauvage.jpg");
         product.setBrand("MISK");
         product.setSize("100ml");
-        product.setGender("Male");
+        product.setGender("Women");
 
         // System.out.println(new ProductRepoImpl().addNewProduct(product, em));
         // product = new ProductRepoImpl().getProductById(4, em);
         // product.setBrand("Updated");
         // System.out.println(new ProductRepoImpl().updateProduct(product, em));
         // System.out.println(new ProductRepoImpl().deleteProduct(product, em));
-        // List<Product> filterd = new ProductRepoImpl().filterProducts(em, 0, 2, null, "Male", null, null);
-        // for(Product p: filterd) {
-        //     System.out.println(p.getProductId()+ " Name: "+ p.getName());
-        // }
+        List<Product> filterd = new ProductRepoImpl().getAllProducts(em);
+        for(Product p: filterd) {
+            System.out.println(p.getProductId()+ " Name: "+ p.getName());
+        }
 
-        User user1 = em.find(User.class, 1);
-        Product product_1 = em.find(Product.class, 1);
-        Product product_2 = em.find(Product.class, 2);
+        // User user1 = em.find(User.class, 1);
+        // Product product_1 = em.find(Product.class, 1);
+        // Product product_2 = em.find(Product.class, 2);
 
-        // Add item to card:
-        System.out.println(new ShoppingCartRepoImpl().addCartItem(user1, product_2, 2, em));
-        System.out.println(new ShoppingCartRepoImpl().addCartItem(user1, product_1, 2, em));
+        // // Add item to card:
+        // System.out.println(new ShoppingCartRepoImpl().addCartItem(user1, product_2, 2, em));
+        // System.out.println(new ShoppingCartRepoImpl().addCartItem(user1, product_1, 2, em));
         
         // Update Item Quantity
         // System.out.println(new ShoppingCartRepoImpl().updateCartItem(user1,product_1,60,em));
@@ -85,12 +85,12 @@ public class Main {
         // remove item
         // System.out.println(new ShoppingCartRepoImpl().removeCartItem(user1, product_2, em));
         
-        System.out.println(new ShoppingCartRepoImpl().clearUserShoppingCart(1, em));
+        // System.out.println(new ShoppingCartRepoImpl().clearUserShoppingCart(1, em));
 
 
-        product = new ProductRepoImpl().getProductById(1, em);
-        PerfumeDto perfumeDto = ProductMapper.toDto(product);
-        System.out.println(perfumeDto.getId()+ " " + perfumeDto.getBrand()+ " " + perfumeDto.getName());
+        // product = new ProductRepoImpl().getProductById(1, em);
+        // PerfumeDto perfumeDto = ProductMapper.toDto(product);
+        // System.out.println(perfumeDto.getId()+ " " + perfumeDto.getBrand()+ " " + perfumeDto.getName());
 
 
         // List<Shoppingcart>  l = Arrays.asList(
