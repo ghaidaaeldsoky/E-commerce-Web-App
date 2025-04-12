@@ -1,6 +1,7 @@
 package iti.Misk.model.newentity;
 // Generated Apr 10, 2025, 10:36:31 PM by Hibernate Tools 6.0.2.Final
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,16 +21,39 @@ import java.util.Set;
 @Table(name = "product", catalog = "misk")
 public class Product implements java.io.Serializable {
 
-    private int productId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id", unique = true, nullable = false)
+    private Integer productId;
+
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
+
+    @Column(name = "description", length = 65535)
     private String description;
+
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
+
+    @Column(name = "photo", length = 255)
     private String photo;
+
+    @Column(name = "brand", nullable = false, length = 255)
     private String brand;
+
+    @Column(name = "size", nullable = false, length = 255)
     private String size;
+
+    @Column(name = "gender", nullable = false, length = 6)
     private String gender;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL)
     private Set<Orderitems> orderitemses = new HashSet<Orderitems>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private Set<Shoppingcart> shoppingcarts = new HashSet<Shoppingcart>(0);
 
     public Product() {
@@ -61,9 +85,6 @@ public class Product implements java.io.Serializable {
         this.shoppingcarts = shoppingcarts;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id", unique = true, nullable = false)
     public int getProductId() {
         return this.productId;
     }
@@ -72,7 +93,6 @@ public class Product implements java.io.Serializable {
         this.productId = productId;
     }
 
-    @Column(name = "name", nullable = false, length = 255)
     public String getName() {
         return this.name;
     }
@@ -81,7 +101,6 @@ public class Product implements java.io.Serializable {
         this.name = name;
     }
 
-    @Column(name = "description", length = 65535)
     public String getDescription() {
         return this.description;
     }
@@ -90,7 +109,6 @@ public class Product implements java.io.Serializable {
         this.description = description;
     }
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     public BigDecimal getPrice() {
         return this.price;
     }
@@ -99,7 +117,6 @@ public class Product implements java.io.Serializable {
         this.price = price;
     }
 
-    @Column(name = "quantity", nullable = false)
     public int getQuantity() {
         return this.quantity;
     }
@@ -108,7 +125,6 @@ public class Product implements java.io.Serializable {
         this.quantity = quantity;
     }
 
-    @Column(name = "photo", length = 255)
     public String getPhoto() {
         return this.photo;
     }
@@ -117,7 +133,6 @@ public class Product implements java.io.Serializable {
         this.photo = photo;
     }
 
-    @Column(name = "brand", nullable = false, length = 255)
     public String getBrand() {
         return this.brand;
     }
@@ -126,7 +141,6 @@ public class Product implements java.io.Serializable {
         this.brand = brand;
     }
 
-    @Column(name = "size", nullable = false, length = 255)
     public String getSize() {
         return this.size;
     }
@@ -135,7 +149,6 @@ public class Product implements java.io.Serializable {
         this.size = size;
     }
 
-    @Column(name = "gender", nullable = false, length = 6)
     public String getGender() {
         return this.gender;
     }
@@ -144,7 +157,6 @@ public class Product implements java.io.Serializable {
         this.gender = gender;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     public Set<Orderitems> getOrderitemses() {
         return this.orderitemses;
     }
@@ -153,7 +165,6 @@ public class Product implements java.io.Serializable {
         this.orderitemses = orderitemses;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     public Set<Shoppingcart> getShoppingcarts() {
         return this.shoppingcarts;
     }

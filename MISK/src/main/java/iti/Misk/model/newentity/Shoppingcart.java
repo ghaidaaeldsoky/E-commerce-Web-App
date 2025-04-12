@@ -20,11 +20,26 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "shoppingcart", catalog = "misk")
 public class Shoppingcart implements java.io.Serializable {
+    @EmbeddedId
 
+    @AttributeOverrides({
+            @AttributeOverride(name = "productId", column = @Column(name = "product_id", nullable = false)),
+            @AttributeOverride(name = "userId", column = @Column(name = "user_id", nullable = false)) })
     private ShoppingcartId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false, insertable = false, updatable = false)
     private Product product;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "added_at", length = 19)
     private Timestamp addedAt;
 
     public Shoppingcart() {
@@ -45,11 +60,7 @@ public class Shoppingcart implements java.io.Serializable {
         this.addedAt = addedAt;
     }
 
-    @EmbeddedId
-
-    @AttributeOverrides({
-            @AttributeOverride(name = "productId", column = @Column(name = "product_id", nullable = false)),
-            @AttributeOverride(name = "userId", column = @Column(name = "user_id", nullable = false)) })
+    
     public ShoppingcartId getId() {
         return this.id;
     }
@@ -58,8 +69,7 @@ public class Shoppingcart implements java.io.Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    
     public User getUser() {
         return this.user;
     }
@@ -68,8 +78,6 @@ public class Shoppingcart implements java.io.Serializable {
         this.user = user;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false, insertable = false, updatable = false)
     public Product getProduct() {
         return this.product;
     }
@@ -78,7 +86,7 @@ public class Shoppingcart implements java.io.Serializable {
         this.product = product;
     }
 
-    @Column(name = "quantity", nullable = false)
+    
     public int getQuantity() {
         return this.quantity;
     }
@@ -87,8 +95,7 @@ public class Shoppingcart implements java.io.Serializable {
         this.quantity = quantity;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "added_at", length = 19)
+    
     public Timestamp getAddedAt() {
         return this.addedAt;
     }
