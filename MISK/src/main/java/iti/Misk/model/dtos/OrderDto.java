@@ -4,7 +4,7 @@ import java.util.List;
 
 public class OrderDto {
 
-    private int user;
+    private String user;
     private int totalAmount;
     private String address;
     private String orderDate;
@@ -15,7 +15,7 @@ public class OrderDto {
     }
 
     // Parameterized constructor
-    public OrderDto(int user, int totalAmount, String address, String orderDate, List<String> products) {
+    public OrderDto(String user, int totalAmount, String address, String orderDate, List<String> products) {
         this.user = user;
         this.totalAmount = totalAmount;
         this.address = address;
@@ -25,11 +25,11 @@ public class OrderDto {
 
     // Getters and Setters
 
-    public int getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(String user) {
         this.user = user;
     }
 

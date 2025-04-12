@@ -133,9 +133,15 @@ public class Useraddress  implements java.io.Serializable {
         this.orders = orders;
     }
 
+    @Override
+    public String toString() {
+        return
+                 state + '\'' +
+                 city + '\'' +
+                street + '\'' +
+                + departmentNumber;
 
-
-
+    }
 }
 
 
