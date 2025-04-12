@@ -47,6 +47,8 @@ public class PerfumeServicesImpl implements PerfumeServices {
 
     @Override
     public List<PerfumeDto> getAllPerfumes() {
+        List<PerfumeDto> filteredPerfumes = new ArrayList<>();
+
         return perfumes;
     }
 

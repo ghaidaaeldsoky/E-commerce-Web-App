@@ -63,6 +63,10 @@
                                     <c:if test="${not empty sessionScope.productIds}">
                                         <span class="nav-shop__circle">${sessionScope.productIds.size()}</span>
                                     </c:if>
+                                    <c:if test="${ empty sessionScope.productIds}">
+                                        <span class="nav-shop__circle"></span>
+                                    </c:if>
+
                                 </button>
                             </li>
                             <li class="nav-item"><a class="button button-header" href="checkoutServlet">Buy Now</a></li>

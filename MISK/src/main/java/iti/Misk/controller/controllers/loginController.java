@@ -55,6 +55,7 @@ public class loginController extends HttpServlet {
        
 
         session.setAttribute("isAdmin", isAdmin(email));
+        session.setAttribute("userId", 1);
 
        
 

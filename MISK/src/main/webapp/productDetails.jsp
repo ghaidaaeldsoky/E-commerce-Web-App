@@ -33,6 +33,12 @@
    document.addEventListener("DOMContentLoaded", function () {
      var productQuantity = ${pro.quantity};
 
+     if(productQuantity == 0) {
+       document.getElementById("sst").value = 0;
+       const messageContainer = document.getElementById('stock-message');
+       messageContainer.textContent = "Out of stock";
+     }
+
      // Increase button event listener
      document.getElementById("increase-btn").addEventListener("click", function () {
        var result = document.getElementById("sst");
@@ -57,11 +63,18 @@
 
    function submitForm() {
 
-     let Currentuser = "${sessionScope.user}";
-     if (Currentuser == null || Currentuser == "") {
-       alert("Please login to add items to your cart.");
-       return false; // Prevent form submission
-     } else {
+     //let Currentuser = "${sessionScope.user}";
+     // if (Currentuser == null || Currentuser == "") {
+     //   alert("Please login to add items to your cart.");
+     //   return false; // Prevent form submission
+     // } else {
+
+     if(document.getElementById("sst").value == 0){
+       const messageContainer = document.getElementById('stock-message');
+       messageContainer.textContent = "Cannot add 0 items to the cart";
+         return false;
+
+     }
 
        let qtyValue = document.getElementById("sst").value;
        document.getElementById("quant").value = qtyValue;
@@ -80,7 +93,7 @@
          },
        });
        document.getElementById("subform").submit();
-     }
+
 
    }
  </script>
@@ -122,7 +135,7 @@
               <div style="display: flex; align-items: center; justify-content: space-between; margin: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
 
                 <!-- Quantity Section -->
-                <div style="display: flex; align-items: center;">
+                <div style="display: flex; align-items: center;" id="theone">
                   <label style="margin-right: 10px; font-weight: bold;">Quantity:</label>
                   <button id="increase-btn" class="increase items-count" type="button"
                           style="padding: 5px 10px; border: none; background-color: #ddd; cursor: pointer; margin-right: 5px;">
@@ -135,19 +148,24 @@
                           style="padding: 5px 10px; border: none; background-color: #ddd; cursor: pointer;">
                     <i class="ti-angle-down"></i>
                   </button>
+
+
                 </div>
+
 
                 <!-- Add to Cart Button -->
                 <form action="addSingleToCart" method="post" id="subform" style="margin-left: auto;">
                   <input type="hidden" name="proId" value="${pro.id}">
-                  <input type="hidden" name="quantity" id="quant" value="">
+                  <input type="hidden" name="quantity" id="quant" >
                   <button type="submit" class="button primary-btn ml-2" onclick="return submitForm();"
                           >
                     Add to Cart
                   </button>
                 </form>
 
+
               </div>
+              <div id="stock-message" style="color: red; font-weight: bold; text-align: center;"></div>
 
 
             </div>

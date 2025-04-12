@@ -4,8 +4,11 @@ import iti.Misk.utils.EntityManagerFactorySingleton;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
+import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpServletRequest;
 
+
+@WebListener
 public class RequestListner  implements ServletRequestListener{
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
