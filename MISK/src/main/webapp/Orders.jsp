@@ -28,7 +28,7 @@
             <span></span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Users.html">
+            <a class="nav-link" href="Users.jsp">
               <i class="mdi mdi-account-multiple-outline menu-icon"></i>
               <span class="menu-title">Users</span>
             </a>
@@ -42,7 +42,7 @@
   
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Orders.html">
+            <a class="nav-link" href="Orders.jsp">
               <i class="mdi mdi-cart-outline menu-icon"></i>
               <span class="menu-title">Orders</span>
             </a>
@@ -266,27 +266,32 @@
   <!-- endinject -->
   <!-- End custom js for this page-->
   <script>
-    function displayOrder(order) {
-        let ordersTable = document.getElementById("ordersTable").getElementsByTagName('tbody')[0];
-        let row = ordersTable.insertRow();
+ function displayOrder(order) {
+    let ordersTable = document.getElementById("ordersTable").getElementsByTagName('tbody')[0];
+    let row = ordersTable.insertRow();
 
-        let productsArray = order.products;
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let cell5 = row.insertCell(4);
 
-        let productsDropdown = `<select>`;
-        productsArray.forEach(product => {
-            productsDropdown += `<option value="${product}">${product}</option>`;
-        });
-        productsDropdown += `</select>`;
+    let productsArray = order.products;
 
-        row.innerHTML = `
-            <td>${order.user}</td>
-            <td>${order.totalAmount}</td>
-            <td>${order.address}</td>
-            <td>${order.orderDate}</td>
-            <td>${productsDropdown}</td>
-        `;
-    }
+    let selectElement = document.createElement("select");
+    productsArray.forEach(product => {
+        let option = document.createElement("option");
+        option.value = product;
+        option.textContent = product;
+        selectElement.appendChild(option);
+    });
 
+    cell1.textContent = order.user;
+    cell2.textContent = order.totalAmount;
+    cell3.textContent = order.address;
+    cell4.textContent = order.orderDate;
+    cell5.appendChild(selectElement);
+}
     function loadOrders() {
         fetch('loadOrders') 
             .then(response => response.json())
