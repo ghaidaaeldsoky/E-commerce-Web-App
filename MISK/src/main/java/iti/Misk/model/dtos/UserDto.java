@@ -11,14 +11,19 @@ public class UserDto {
     private String email;
     private String birthDay;
     private String job;
+   
     private String creditLimit;
     private String intersets;
     private String password ;
 
     public UserDto() {
+
+
     }
 
-    
+  
+
+    //temp
     public UserDto(String userName, String phoneNumber, String email, String birthDay, String job, String creditLimit, String intersets) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
@@ -40,6 +45,15 @@ public class UserDto {
         this.password = password;
     }
 
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     
 
@@ -50,6 +64,8 @@ public class UserDto {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+
 
     public String getPhoneNumber() {
         return phoneNumber;

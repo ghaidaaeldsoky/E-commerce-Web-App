@@ -104,12 +104,55 @@
 							</div>
 
 
-							
-							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="address" name="address"
-									placeholder="address" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'address'">
-							</div>
+						<!-- State Dropdown -->
+<div class="col-md-12 form-group">
+    <select class="form-control" id="address-state" name="state" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'">
+        <option value="" disabled selected>Select State</option>
+        <option value="Alexandria">Alexandria</option>
+        <option value="Aswan">Aswan</option>
+        <option value="Asyut">Asyut</option>
+        <option value="Beheira">Beheira</option>
+        <option value="Beni Suef">Beni Suef</option>
+        <option value="Cairo">Cairo</option>
+        <option value="Dakahlia">Dakahlia</option>
+        <option value="Damietta">Damietta</option>
+        <option value="Fayoum">Fayoum</option>
+        <option value="Gharbia">Gharbia</option>
+        <option value="Giza">Giza</option>
+        <option value="Ismailia">Ismailia</option>
+        <option value="Kafr El-Sheikh">Kafr El-Sheikh</option>
+        <option value="Luxor">Luxor</option>
+        <option value="Matrouh">Matrouh</option>
+        <option value="Minya">Minya</option>
+        <option value="Monufia">Monufia</option>
+        <option value="New Valley">New Valley</option>
+        <option value="North Sinai">North Sinai</option>
+        <option value="Port Said">Port Said</option>
+        <option value="Qalyubia">Qalyubia</option>
+        <option value="Qena">Qena</option>
+        <option value="Red Sea">Red Sea</option>
+        <option value="Sharqia">Sharqia</option>
+        <option value="Sohag">Sohag</option>
+        <option value="South Sinai">South Sinai</option>
+        <option value="Suez">Suez</option>
+    </select>
+</div>
+
+<!-- City Input -->
+<div class="col-md-12 form-group">
+    <input type="text" class="form-control" id="address-city" name="city" placeholder="City" onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'">
+</div>
+
+<!-- Street Input -->
+<div class="col-md-12 form-group">
+    <input type="text" class="form-control" id="address-street" name="street" placeholder="Street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Street'">
+</div>
+
+<!-- Department Number Input -->
+<div class="col-md-12 form-group">
+    <input type="number" class="form-control" id="address-department" name="department" placeholder="Department Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Department Number'">
+</div>
+
 
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="interests" name="interests"
@@ -254,7 +297,7 @@
 	<script src="js/main.js"></script>
 	<script>
 
-var isValidEmail = false;
+var isValidEmail = true;
   
     var isValidPassword = false;
     var isValidConfirmPassword = false;
@@ -320,7 +363,7 @@ document.getElementById("confirmPassword").addEventListener("blur", function() {
 }
 function updateButton() {
     let registerButton = document.getElementById("button-register"); 
-    if (isValidEmail && isValidPassword && isValidConfirmPassword && isValidName && isValidBirthday) {
+    if (!isValidEmail && isValidPassword && isValidConfirmPassword && isValidName && isValidBirthday) {
         registerButton.disabled = false;
         registerButton.style.opacity = "1"; 
     } else {
@@ -371,10 +414,17 @@ document.getElementById("button-register").addEventListener("click",function(){
 	{
 		formData[element.name] = element.checked;
 	}
+	else if (element.tagName.toLowerCase() === "select") {
+           
+            formData[element.name] = element.value;
+        }
 	else
 	formData[element.name] = element.value ;
 
 	});
+
+	console.log(formData);
+
 
 	$.post("RegisterServlet" ,formData);
 
