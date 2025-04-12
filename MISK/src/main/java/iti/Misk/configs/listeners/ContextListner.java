@@ -5,7 +5,9 @@ import iti.Misk.utils.Perfumes;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
+@WebListener
 public class ContextListner implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent sce) {
