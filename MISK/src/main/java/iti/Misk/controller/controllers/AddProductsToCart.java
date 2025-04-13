@@ -44,7 +44,9 @@ try {
 
     //int id= ((Integer) req.getSession(false).getAttribute("id"));
     new ShoppingCartRepoImpl().clearUserShoppingCart(1, em);
-    new ShoppingCartRepoImpl().addListToCart(1, cartItems, em);
+    if(cartItems != null || !cartItems.isEmpty()) {
+        new ShoppingCartRepoImpl().addListToCart(1, cartItems, em);
+    }
 
 
     //adding to the db cart table

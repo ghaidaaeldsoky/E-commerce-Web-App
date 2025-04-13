@@ -260,7 +260,7 @@ public class UserRepoImpl implements UserRepo{
         Set<Shoppingcart> shoppingcarts=   findUserById(id, em).getShoppingcarts();
 
 
-        em.getTransaction().begin();
+        em.getTransaction().commit();
 
         return shoppingcarts;
         
@@ -271,15 +271,15 @@ public class UserRepoImpl implements UserRepo{
     public Set<Useraddress> getUseraddress(int id, EntityManager em) {
 
         
-       
+        User user = em.find(User.class, id);
         em.getTransaction().begin();
         
 
 
-        Set<Useraddress> useraddress=   findUserById(id, em).getUseraddresses();
+        Set<Useraddress> useraddress= user.getUseraddresses();
 
 
-        em.getTransaction().begin();
+        em.getTransaction().commit();
 
         return useraddress;
         
