@@ -11,6 +11,7 @@ import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
 import iti.Misk.model.dtos.PerfumeDto;
+import iti.Misk.model.enums.Gender;
 import iti.Misk.model.newentity.*;
 import iti.Misk.utils.mappers.ProductMapper;
 import jakarta.persistence.EntityManager;
@@ -18,7 +19,36 @@ import jakarta.persistence.EntityManager;
 public class Main {
     public static void main(String[] args) {
 
-//        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+       EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+
+    //    PerfumeDto dto = new PerfumeDto(0, "Tom Ford Oud Wood", "Elegant woody scent", 200.0, 12,
+    //    "./img/product/tom_ford_oud_wood.jpg", "Tom Ford", "100ml", Gender.Unisex);
+    //     Product product = ProductMapper.toEntity(dto);
+
+        ProductRepoImpl productRepoImpl = new ProductRepoImpl();
+
+        // From Dto to Entity (ok)
+        // System.out.println(productRepoImpl.addNewProduct(product, em));
+
+        // From Entity to Dto
+        Product entity = productRepoImpl.getProductById(9, em);
+        PerfumeDto dto = ProductMapper.toDto(entity);
+        System.out.println(dto.getGender());
+        System.out.println("Total records = "+productRepoImpl.getTotalProductsCount(em));
+        System.out.println("Max price ="  +productRepoImpl.getMaxPrice(em));
+        System.out.println("Min price ="  +productRepoImpl.getMinPrice(em));
+
+        
+        
+        List<Product> filtered = productRepoImpl.filterProducts(em, 2, 2, "o", null,new BigDecimal("100.0"),new BigDecimal("200.0"));
+        List<PerfumeDto> perf = ProductMapper.toDtoList(filtered);
+        for(PerfumeDto p : perf) {
+            System.out.println("Found: "+p.getId());
+            System.out.println(p.getName());
+            System.out.println(p.getBrand());
+        }
+        // System.out.println("New Dto: " + em.find(null, productRepoImpl));
+
 //        User user = new User();
 //        user.setName("Ghaidaa");
 //        user.setPhoneNumber("01000000000");

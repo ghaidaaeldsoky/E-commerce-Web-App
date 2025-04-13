@@ -20,4 +20,8 @@ public interface ProductRepo {
 
     public List<Product> filterProducts(EntityManager em, int offset, int limit, String search, String gender, BigDecimal minPrice, BigDecimal maxPrice);
 
+    public long getTotalProductsCount(EntityManager em);
+    public BigDecimal getMinPrice(EntityManager em);
+    public BigDecimal getMaxPrice(EntityManager em);
+
 } 

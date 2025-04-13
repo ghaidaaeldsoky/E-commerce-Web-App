@@ -79,15 +79,101 @@ public class ProductRepoImpl implements ProductRepo {
         }
     }
 
+    // @Override
+    // public List<Product> filterProducts(EntityManager em, int offset, int limit,
+    // String search, String gender,
+    // BigDecimal minPrice, BigDecimal maxPrice) {
+    // try {
+    // var cb = em.getCriteriaBuilder();
+    // var cq = cb.createQuery(Product.class);
+    // var root = cq.from(Product.class);
+
+    // var predicates = cb.conjunction(); // كأننا بنبدأ بـ true
+
+    // if (search != null && !search.isBlank()) {
+    // predicates = cb.and(predicates,
+    // cb.like(cb.lower(root.get("name")), "%" + search.toLowerCase() + "%"));
+    // }
+
+    // if (gender != null && !gender.isBlank()) {
+    // predicates = cb.and(predicates,
+    // cb.equal(cb.lower(root.get("gender")), gender.toLowerCase()));
+    // }
+
+    // if (minPrice != null) {
+    // predicates = cb.and(predicates,
+    // cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+    // }
+
+    // if (maxPrice != null) {
+    // predicates = cb.and(predicates,
+    // cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+    // }
+
+    // cq.select(root).where(predicates);
+
+    // return em.createQuery(cq)
+    // .setFirstResult(offset)
+    // .setMaxResults(limit)
+    // .getResultList();
+
+    // } catch (Exception e) {
+    // System.out.println("Error in filtering products: " + e.getMessage());
+    // return null;
+    // }
+    // }
+
     @Override
-    public List<Product> filterProducts(EntityManager em, int offset, int limit, String search, String gender,
+    public long getTotalProductsCount(EntityManager em) {
+        try {
+            var cb = em.getCriteriaBuilder();
+            var cq = cb.createQuery(Long.class);
+            var root = cq.from(Product.class);
+            cq.select(cb.count(root));
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error counting products: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    @Override
+    public BigDecimal getMinPrice(EntityManager em) {
+        try {
+            var cb = em.getCriteriaBuilder();
+            var cq = cb.createQuery(BigDecimal.class);
+            var root = cq.from(Product.class);
+            cq.select(cb.min(root.get("price")));
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error getting min price: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public BigDecimal getMaxPrice(EntityManager em) {
+        try {
+            var cb = em.getCriteriaBuilder();
+            var cq = cb.createQuery(BigDecimal.class);
+            var root = cq.from(Product.class);
+            cq.select(cb.max(root.get("price")));
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error getting max price: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Product> filterProducts(EntityManager em, int pageNumber, int pageSize, String search, String gender,
             BigDecimal minPrice, BigDecimal maxPrice) {
         try {
             var cb = em.getCriteriaBuilder();
             var cq = cb.createQuery(Product.class);
             var root = cq.from(Product.class);
 
-            var predicates = cb.conjunction(); // كأننا بنبدأ بـ true
+            var predicates = cb.conjunction();
 
             if (search != null && !search.isBlank()) {
                 predicates = cb.and(predicates,
@@ -112,12 +198,12 @@ public class ProductRepoImpl implements ProductRepo {
             cq.select(root).where(predicates);
 
             return em.createQuery(cq)
-                    .setFirstResult(offset)
-                    .setMaxResults(limit)
+                    .setFirstResult((pageNumber - 1) * pageSize)
+                    .setMaxResults(pageSize)
                     .getResultList();
 
         } catch (Exception e) {
-            System.out.println("Error in filtering products: " + e.getMessage());
+            System.out.println("Error in paginated filtering: " + e.getMessage());
             return null;
         }
     }

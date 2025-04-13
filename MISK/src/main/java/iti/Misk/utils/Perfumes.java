@@ -57,68 +57,68 @@ public class Perfumes {
     // return paginate(filteredList, pageNumber);
     // }
 
-    public List<PerfumeDto> getFilteredPerfumes(String searchQuery, Gender gender,
-            double minPrice, double maxPrice,
-            int pageNumber) {
-        List<PerfumeDto> allPerfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+    // public List<PerfumeDto> getFilteredPerfumes(String searchQuery, Gender gender,
+    //         double minPrice, double maxPrice,
+    //         int pageNumber) {
+    //     List<PerfumeDto> allPerfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
 
-        List<PerfumeDto> filteredList = allPerfumes.stream()
-                .filter(p -> gender == null || p.getGender() == gender)
-                .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
-                .filter(p -> searchQuery == null ||
-                        p.getName().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                        p.getBrand().toLowerCase().contains(searchQuery.toLowerCase()))
-                .collect(Collectors.toList());
+    //     List<PerfumeDto> filteredList = allPerfumes.stream()
+    //             .filter(p -> gender == null || p.getGender() == gender)
+    //             .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+    //             .filter(p -> searchQuery == null ||
+    //                     p.getName().toLowerCase().contains(searchQuery.toLowerCase()) ||
+    //                     p.getBrand().toLowerCase().contains(searchQuery.toLowerCase()))
+    //             .collect(Collectors.toList());
 
-        return paginate(filteredList, pageNumber);
-    }
+    //     return paginate(filteredList, pageNumber);
+    // }
 
-    private List<PerfumeDto> paginate(List<PerfumeDto> perfumeList, int pageNumber) {
-        if (pageNumber < 1)
-            pageNumber = 1;
-        totalNoOfRecords = perfumeList.size();
-        int start = (pageNumber - 1) * PAGE_SIZE;
+    // private List<PerfumeDto> paginate(List<PerfumeDto> perfumeList, int pageNumber) {
+    //     if (pageNumber < 1)
+    //         pageNumber = 1;
+    //     totalNoOfRecords = perfumeList.size();
+    //     int start = (pageNumber - 1) * PAGE_SIZE;
 
-        if (start >= totalNoOfRecords) {
-            return new ArrayList<>();
-        }
+    //     if (start >= totalNoOfRecords) {
+    //         return new ArrayList<>();
+    //     }
 
-        return perfumeList.stream()
-                .skip(start)
-                .limit(PAGE_SIZE)
-                .collect(Collectors.toList());
+    //     return perfumeList.stream()
+    //             .skip(start)
+    //             .limit(PAGE_SIZE)
+    //             .collect(Collectors.toList());
 
-    }
+    // }
 
-    public int getNoOfPages() {
-        return (int) Math.ceil((double) totalNoOfRecords / PAGE_SIZE);
-    }
+    // public int getNoOfPages() {
+    //     return (int) Math.ceil((double) totalNoOfRecords / PAGE_SIZE);
+    // }
 
-    public List<PerfumeDto> getPerfumes(int pageNumber) {
-        if (perfumes == null) {
-            perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
-        }
-        totalNoOfRecords = perfumes.size();
-        return paginate(perfumes, pageNumber);
-    }
+    // public List<PerfumeDto> getPerfumes(int pageNumber) {
+    //     if (perfumes == null) {
+    //         perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+    //     }
+    //     totalNoOfRecords = perfumes.size();
+    //     return paginate(perfumes, pageNumber);
+    // }
 
-    public double getMinPrice() {
-        if (perfumes == null) {
-            perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
-        }
-        return perfumes.stream()
-                .mapToDouble(PerfumeDto::getPrice)
-                .min()
-                .orElse(0.0);
-    }
+    // public double getMinPrice() {
+    //     if (perfumes == null) {
+    //         perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+    //     }
+    //     return perfumes.stream()
+    //             .mapToDouble(PerfumeDto::getPrice)
+    //             .min()
+    //             .orElse(0.0);
+    // }
 
-    public double getMaxPrice() {
-        if (perfumes == null) {
-            perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
-        }
-        return perfumes.stream()
-                .mapToDouble(PerfumeDto::getPrice)
-                .max()
-                .orElse(250.0);
-    }
+    // public double getMaxPrice() {
+    //     if (perfumes == null) {
+    //         perfumes = PerfumeServicesImpl.getPerfumeServices().getAllPerfumes();
+    //     }
+    //     return perfumes.stream()
+    //             .mapToDouble(PerfumeDto::getPrice)
+    //             .max()
+    //             .orElse(250.0);
+    // }
 }
