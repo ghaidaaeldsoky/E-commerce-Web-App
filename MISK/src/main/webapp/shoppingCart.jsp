@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,23 +25,24 @@
 
     <script>
 
-      function submitForm(servlet) {
-      event.preventDefault();
-        updateCart();
-        if (servlet === "checkoutServlet") {
-          document.getElementById("cartForm").method = "post";
-          document.getElementById("cartForm").action = servlet;
-        }
-        if (servlet === "home") {
-          document.getElementById("cartForm").method = "get";
-          document.getElementById("cartForm").action = servlet;
-        }
-         document.getElementById("cartForm").submit();
+      function submitForm(servlet,event) {
+
+        updateCart(servlet);
+
+        // if (servlet === "checkoutServlet") {
+        //   document.getElementById("cartForm").method = "post";
+        //   document.getElementById("cartForm").action = servlet;
+        // }
+        // if (servlet === "home") {
+        //   document.getElementById("cartForm").method = "get";
+        //   document.getElementById("cartForm").action = servlet;
+        // }
+        //  document.getElementById("cartForm").submit();
       }
 
 
         // Function to update the cart sending the itemslist to the servlet to be updated in the DB
-      function updateCart() {
+      function updateCart(servlet) {
         console.log("Checkout button clicked!");
 
         var cart_items = [];
@@ -55,11 +57,11 @@
 
           // Create a product object
           const item = {
-            id: productId,
+            productId: productId,
             name: name,
-            price: price,
+            price: parseFloat(price.replace("EGP", "").trim()),
             quantity: quantity,
-            photopath: photopath,
+            photo: photopath,
           };
 
           // Add the product object to the array
@@ -73,6 +75,7 @@
           data: JSON.stringify(cart_items),
           success: function (response) {
             console.log("cart updated successfully");
+            window.location.href =servlet;
           },
           error: function (xhr, status, error) {
             console.error("Error:", error);
@@ -313,19 +316,19 @@
 <div class="checkout_btn_inner d-flex align-items-center" >
                       <form id="cartForm">
                         <button
-                          type="submit"
+                          type="button"
                           class="primary-btn ml-2"
-                          onclick="submitForm('home')"
+                          onclick=" submitForm('home',event)"
                           style="margin:4px"
                         >
                           Continue Shopping
                         </button>
 
                         <button
-                          type="submit"
+                          type="button"
                           class="primary-btn ml-2 xyz"
                           id="proceedtocheckout"
-                          onclick="submitForm('checkoutServlet')"
+                          onclick=" submitForm('checkoutServlet',event)"
                           style="margin:4px"
                         >
                           Proceed to Checkout

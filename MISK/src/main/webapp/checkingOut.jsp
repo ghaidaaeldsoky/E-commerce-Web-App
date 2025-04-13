@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page contentType="text/html;
 charset=UTF-8" pageEncoding="UTF-8" %>
-<%--<%@ page session="false" %>--%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,6 +105,7 @@ charset=UTF-8" pageEncoding="UTF-8" %>
 
         // Set form action and submit
         document.getElementById("orderForm").action = servlet;
+        document.getElementById("orderForm").submit();
       }
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -164,10 +165,12 @@ charset=UTF-8" pageEncoding="UTF-8" %>
           Select Shipping Address
         </h3>
 
+
+
         <c:forEach var="address" items="${sessionScope.adr}">
           <label style="display: block; margin-bottom: 8px; font-size: 18px">
-            <input type="radio" name="shipping-address" value="${address.id}" />
-            ${address.country} - ${address.city} - ${address.str} - ${address.b}
+            <input type="radio" name="shipping-address" value="${address.addressId}" />
+            ${address.state} - ${address.city} - ${address.street} - ${address.departmentNumber}
           </label>
         </c:forEach>
       </div>

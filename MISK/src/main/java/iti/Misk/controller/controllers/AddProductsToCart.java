@@ -4,11 +4,13 @@ package iti.Misk.controller.controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import iti.Misk.model.dtos.Product;
+import iti.Misk.model.dtos.ProductsDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -21,33 +23,45 @@ public class AddProductsToCart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+try {
+    BufferedReader reader = req.getReader();
+    StringBuilder jsonInput = new StringBuilder();
+    String line;
+    while ((line = reader.readLine()) != null) {
+        jsonInput.append(line);
+    }
 
-        BufferedReader reader = req.getReader();
-        StringBuilder jsonInput = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            jsonInput.append(line);
+    Gson gson = new Gson();
+    Type productListType = new TypeToken<List<ProductsDto>>() {
+    }.getType();
+    List<ProductsDto> cartItems = gson.fromJson(jsonInput.toString(), productListType);
+
+
+    //adding to the db cart table
+    HttpSession session = req.getSession(true);
+    //to check that the product data arrived correctly
+    try (FileWriter fw = new FileWriter("xyz.txt", true)) {
+
+        fw.write("session" + session);
+        for (ProductsDto product : cartItems) {
+            fw.write(product.toString() + "\n");
         }
+        fw.close();
+    }
 
-        Gson gson = new Gson();
-        Type productListType = new TypeToken<List<Product>>() {}.getType();
-        List<Product> cartItems = gson.fromJson(jsonInput.toString(), productListType);
 
-        //to check that the product data arrived correctly
-        try (FileWriter fw = new FileWriter("cartitems.txt", true)) {
-           for(Product product : cartItems) {
-                fw.write(product.toString() + "\n");
-            }
-        }
-
-        //adding to the db cart table
-
-        req.getSession(true).setAttribute("cartItems", cartItems);
- //       req.setAttribute("cartItems", cartItems);
+    session.setAttribute("cartItems", cartItems);
+    resp.setStatus(HttpServletResponse.SC_OK);
+    resp.getWriter().write("Cart updated successfully.");
+    //       req.setAttribute("cartItems", cartItems);
 //        RequestDispatcher dispatcher = req.getRequestDispatcher("/checkoutServlet");
 //        dispatcher.forward(req, resp);
 //
-
-
+}
+catch (Exception e) {
+    e.printStackTrace();
+    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error: " + e.getMessage());
+}
     }
 }

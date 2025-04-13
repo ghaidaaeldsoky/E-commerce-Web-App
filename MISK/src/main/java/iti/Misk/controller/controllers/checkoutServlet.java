@@ -3,12 +3,14 @@ package iti.Misk.controller.controllers;
 
 import iti.Misk.model.dtos.Address;
 import iti.Misk.model.dtos.Product;
+import iti.Misk.model.dtos.ProductsDto;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import java.util.List;
 @WebServlet("/checkoutServlet")
 public class checkoutServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //some DB work
         ArrayList<Address> addresses=new ArrayList<>();
@@ -29,23 +31,24 @@ public class checkoutServlet extends HttpServlet {
         addresses.add(address2);
         addresses.add(address3);
 
-//        List<Product> l=(List<Product>) req.getSession(false).getAttribute("cartItems");
-//        FileWriter fw=new FileWriter("whyyyyyyyyyyyyyy.txt");
-//        for(Product p:l){
-//            fw.write(p.toString());
-//        }
+       List<ProductsDto> l=(List<ProductsDto>) req.getSession(false).getAttribute("cartItems");
+        FileWriter fw=new FileWriter("wheeee.txt");
+        for(ProductsDto p:l){
+            fw.write(p.getName()+"\n");
+        }
+        HttpSession session=req.getSession(false);
+        fw.write("session "+session);
+        fw.flush();
+        fw.close();
 
 
 
-        req.getSession(true).setAttribute("adr",addresses);
+        session.setAttribute("adr",addresses);
         req.setCharacterEncoding("UTF-8");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/checkingOut.jsp");
        dispatcher.forward(req, resp);
 
 
     }
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
+
 }
