@@ -5,6 +5,13 @@ import java.io.PrintWriter;
 
 import com.google.gson.JsonObject;
 
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
+import iti.Misk.controller.repositories.interfaces.UserRepo;
+import iti.Misk.controller.services.impls.UserServiceImpl;
+import iti.Misk.controller.services.interfaces.UserService;
+import iti.Misk.model.dtos.UserDto;
+import iti.Misk.utils.EntityManagerFactorySingleton;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,31 +24,42 @@ public class loginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+
+        UserRepo userRepo = new UserRepoImpl() ;
+
+         UserService service = new UserServiceImpl(userRepo);
+
+    
+
+
         
         String type = req.getParameter("type");
 
         if(type.equals("email"))
         {
-             checkIfEmailIsTrue(req,resp);
+             checkIfEmailIsTrue(req,resp,em,service);
 
             
         }
         else if(type.equals("password"))
         {
-            checkIfPasswordIsTrue(req,resp);
+            checkIfPasswordIsTrue(req,resp,em,service);
         }
         else 
         {
                 //resp.sendRedirect("Users.jsp");
 
-                logInUser(req,resp);
+                logInUser(req,resp,em,service);
 
 
         }
         
     }
 
-    private void logInUser(HttpServletRequest req, HttpServletResponse resp) {
+    private void logInUser(HttpServletRequest req, HttpServletResponse resp, EntityManager em, UserService service) {
         
         
         HttpSession session = req.getSession(true);
@@ -50,11 +68,16 @@ public class loginController extends HttpServlet {
         String email = req.getParameter("email");
 
 
-        boolean isAdmin =isAdmin(email);
+        UserDto userDto = service.findUserByEmail(email, em) ;
 
+Boolean isAdmin = userDto.isIsAdmin();
        
 
-        session.setAttribute("isAdmin", isAdmin(email));
+        session.setAttribute("isAdmin",userDto.isIsAdmin());
+
+        session.setAttribute("userId",userDto.getUserId());
+        
+
 
        
 
@@ -86,15 +109,15 @@ public class loginController extends HttpServlet {
     }
     }
 
-    private boolean isAdmin(String email) {
+    private boolean isAdmin(String email, EntityManager em) {
             return true ;
     }
 
-    private void checkIfEmailIsTrue(HttpServletRequest req, HttpServletResponse resp) {
+    private void checkIfEmailIsTrue(HttpServletRequest req, HttpServletResponse resp, EntityManager em, UserService service) {
 
         String email = req.getParameter("email");
 
-        boolean valid = isValidEmail(email);
+        boolean valid = isValidEmail(email,em,service);
 
         resp.setContentType("application/json");
 
@@ -115,25 +138,25 @@ public class loginController extends HttpServlet {
       
     }
 
-    private boolean isValidPassword(String email) {
+    private boolean isValidPassword(String email, EntityManager em, UserService service, String email2, String password) {
         
-        return email.equals("test1234");
+        return service.checkPasswordValidation(email2, password, em);
     }
-    private void checkIfPasswordIsTrue(HttpServletRequest req, HttpServletResponse resp) {
+    private void checkIfPasswordIsTrue(HttpServletRequest req, HttpServletResponse resp, EntityManager em, UserService service) {
 
         String email = req.getParameter("email");
 
-        boolean valid = isValidEmail(email);
+       
 
         String password = req.getParameter("password");
 
-        boolean validPassword = isValidPassword(password);
+        boolean validPassword = isValidPassword(password,em,service,email,password);
 
         resp.setContentType("application/json");
 
         JsonObject jsonResponse = new JsonObject();
 
-        jsonResponse.addProperty("valid", valid&&validPassword);
+        jsonResponse.addProperty("valid", validPassword);
       
         String response = jsonResponse.toString();
         try {
@@ -147,8 +170,8 @@ public class loginController extends HttpServlet {
         }
     }
 
-    private boolean isValidEmail(String email) {
+    private boolean isValidEmail(String email, EntityManager em,UserService service) {
         
-        return email.equals("sama230341@gmail.com");
+        return service.checkEmailAvailability(email, em);
     }
 }

@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
+
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>servlets</groupId>
@@ -35,11 +29,7 @@
       <scope>provided</scope>
     </dependency>
 
-<<<<<<< HEAD
-    <!-- Jakarta Persistence API -->
-=======
 
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
     <dependency>
       <groupId>jakarta.persistence</groupId>
       <artifactId>jakarta.persistence-api</artifactId>
@@ -60,11 +50,6 @@
       <version>2.10.1</version>
     </dependency>
 
-<<<<<<< HEAD
-    <!-- MySQL JDBC Driver -->
-=======
-
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -79,11 +64,6 @@
       <version>2.9.0</version>
     </dependency>
 
-<<<<<<< HEAD
-    <!-- Jakarta JSP API -->
-=======
-
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
     <dependency>
       <groupId>jakarta.servlet.jsp</groupId>
       <artifactId>jakarta.servlet.jsp-api</artifactId>
@@ -179,21 +159,14 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-<<<<<<< HEAD
+
         <path>/Misk</path>
         <port>8080</port>
         <username>Sama-2002</username>
         <!--  Add your username here  -->
         <password>test1234</password>
-        <!--  Add your password here  -->
-=======
-          <url>http://localhost:9090/manager/text</url>
-          <!--the
-          path of my web app on the server-->
-          <path>/MISK</path>
-          <username>admin</username>
-          <password>admin</password>
->>>>>>> 4e8c42ef76a8d8949b9c241dd7e6bb93a159bab2
+
+  
         </configuration>
         </plugin>
 

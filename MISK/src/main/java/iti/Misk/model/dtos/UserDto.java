@@ -6,6 +6,7 @@ import java.util.List;
 
 public class UserDto {
 
+    private Integer userId ;
     private String userName;
     private String phoneNumber;
     private String email;
@@ -15,10 +16,29 @@ public class UserDto {
     private String creditLimit;
     private String intersets;
     private String password ;
+    private boolean isAdmin;
+
+
 
     public UserDto() {
 
 
+    }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public boolean isIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
   

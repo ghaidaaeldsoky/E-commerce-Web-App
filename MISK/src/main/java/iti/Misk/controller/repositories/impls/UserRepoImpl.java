@@ -37,9 +37,9 @@ public class UserRepoImpl implements UserRepo{
 
         em.getTransaction().commit();
 
-    userId  = user.getUserId();
+       
         
-        return userId!=-1 ? true:false;
+        return true;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class UserRepoImpl implements UserRepo{
    
 
     @Override
-    public List<User> getAllUsers(List<Integer> ids, EntityManager em) {
+    public List<User> getAllUsers( EntityManager em) {
       
         CriteriaBuilder cb = EntityManagerFactorySingleton.getEntityManagerFactory().getCriteriaBuilder();
 
@@ -169,9 +169,8 @@ public class UserRepoImpl implements UserRepo{
         Predicate emailPredicate =  cb.equal(userRoot.get("email"), email);
         criteriaQuery.where(emailPredicate);
     
-        User user = em.createQuery(criteriaQuery).getSingleResult();
-
-        return user != null;
+        List<User> users = em.createQuery(criteriaQuery).getResultList();
+        return !users.isEmpty();
       
     }
 

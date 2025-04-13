@@ -5,10 +5,16 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
+import iti.Misk.controller.repositories.interfaces.UserRepo;
+import iti.Misk.controller.services.impls.UserServiceImpl;
+import iti.Misk.controller.services.interfaces.UserService;
 import iti.Misk.model.dtos.UserDto;
+import iti.Misk.utils.EntityManagerFactorySingleton;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -65,12 +71,13 @@ public class UsersAdminController extends HttpServlet{
 
     private List<UserDto> fetchAllUser() {
     
-        ArrayList<UserDto> users = new ArrayList<>();
+        UserRepo userRepo = new UserRepoImpl() ;
 
-        users.add(new UserDto("sama","01012345678","sama@example.com","2001-03-29","Admin","5000 egp", "Programming, Reading"));
+         UserService service = new UserServiceImpl(userRepo);
 
-        
-        users.add(new UserDto("nada","01012345678","nada@example.com","2001-03-29","User","5000 egp", "Programming, Reading"));
+         EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+        List<UserDto> users = service.getAllUserDtos(em);
+
 
     return users;
 

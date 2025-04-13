@@ -2,7 +2,14 @@ package iti.Misk.controller.controllers;
 
 import java.io.IOException;
 
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
+import iti.Misk.controller.repositories.interfaces.UserRepo;
+import iti.Misk.controller.services.impls.UserServiceImpl;
+import iti.Misk.controller.services.interfaces.UserService;
+import iti.Misk.model.dtos.Address;
 import iti.Misk.model.dtos.UserDto;
+import iti.Misk.utils.EntityManagerFactorySingleton;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +34,27 @@ public class RegisterController extends HttpServlet{
 
         System.out.println(user);
 
-        //send dto to server 
+        Address address = new Address();
+        
+        address.setState(request.getParameter("state"));
+
+        address.setCity(request.getParameter("city"));
+
+        address.setDepartmentNumber(Long.parseLong(request.getParameter("department")));
+
+        System.out.println(request.getParameter(request.getParameter("street")));
+        address.setStreet(request.getParameter("street"));
+
+        System.out.println(address.toString());
+     UserRepo userRepo = new UserRepoImpl() ;
+
+         UserService service = new UserServiceImpl(userRepo);
+
+         EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+
+         service.addNewUserDto(user, address, em);
+
+     
 
         resp.sendRedirect("login.jsp");
         

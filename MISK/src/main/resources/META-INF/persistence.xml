@@ -17,13 +17,10 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/misk" />
             <property name="jakarta.persistence.jdbc.user" value="springstudent" />
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-<<<<<<< HEAD
+
             <property name="jakarta.persistence.jdbc.password" value="springstudent" />
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-=======
-            <property name="jakarta.persistence.jdbc.password" value="root" />
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
->>>>>>> 01bcfadd7d4789cf45cb462760749f78a0a01203
+
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
             <property name="show_sql" value="true" />
             <property name="hibernate.hikari.minimumIdle" value="5" />
