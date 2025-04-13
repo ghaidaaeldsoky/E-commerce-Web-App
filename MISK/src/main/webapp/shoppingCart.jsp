@@ -59,7 +59,7 @@
           const item = {
             productId: productId,
             name: name,
-            price: parseFloat(price.replace("EGP", "").trim()),
+            dprice: parseFloat(price.replace("EGP", "").trim()),
             quantity: quantity,
             photo: photopath,
           };
@@ -253,10 +253,10 @@
                     <td>
                       <div class="media">
                         <div class="d-flex">
-                          <img src="${product.photopath}" alt="" />
+                          <img src="${product.productPhoto}" alt="" />
                         </div>
                         <div class="media-body">
-                          <p>${product.name}</p>
+                          <p>${product.productName}</p>
                           <a href="#" style="font-size: 12px" class="removeitem"
                             >remove item</a
                           >
@@ -264,14 +264,14 @@
                       </div>
                     </td>
                     <td>
-                      <h5 class="price">${product.price}</h5>
+                      <h5 class="price">${product.productPrice} EGP</h5>
                     </td>
                     <td>
                       <div class="product_count">
                         <input
                           type="hidden"
                           id="hidden"
-                          value="${product.id}"
+                          value="${product.productId}"
                         />
                         <input
                           type="text"
@@ -280,7 +280,7 @@
                           value="${product.quantity}"
                           title="Quantity:"
                           class="input-text qty"
-                          data-max="${product.max}"
+                          data-max="${product.storage}"
                           readonly
                         />
 

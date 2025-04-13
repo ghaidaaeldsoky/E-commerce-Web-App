@@ -194,7 +194,7 @@ charset=UTF-8" pageEncoding="UTF-8" %>
                 <tr
                   style="border-bottom: 1px solid #ddd"
                   class="t-pro"
-                  data-price="${product.price}"
+                  data-price="${product.dprice}"
                   data-quantity="${product.quantity}"
                 >
                   <td style="padding: 10px">${product.name}</td>

@@ -3,8 +3,11 @@ package iti.Misk.controller.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
 import iti.Misk.model.dtos.Product;
 import iti.Misk.model.dtos.ProductsDto;
+import iti.Misk.utils.EntityManagerFactorySingleton;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,17 +40,24 @@ try {
     List<ProductsDto> cartItems = gson.fromJson(jsonInput.toString(), productListType);
 
 
+    EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+
+    //int id= ((Integer) req.getSession(false).getAttribute("id"));
+    new ShoppingCartRepoImpl().clearUserShoppingCart(1, em);
+    new ShoppingCartRepoImpl().addListToCart(1, cartItems, em);
+
+
     //adding to the db cart table
     HttpSession session = req.getSession(true);
     //to check that the product data arrived correctly
-    try (FileWriter fw = new FileWriter("xyz.txt", true)) {
-
-        fw.write("session" + session);
-        for (ProductsDto product : cartItems) {
-            fw.write(product.toString() + "\n");
-        }
-        fw.close();
-    }
+//    try (FileWriter fw = new FileWriter("xyz.txt", true)) {
+//
+//        fw.write("session" + session);
+//        for (ProductsDto product : cartItems) {
+//            fw.write(product.toString() + "\n");
+//        }
+//        fw.close();
+//    }
 
 
     session.setAttribute("cartItems", cartItems);

@@ -3,12 +3,12 @@ package iti.Misk.controller.repositories.impls;
 import java.util.List;
 
 import iti.Misk.controller.repositories.interfaces.ShoppingCartRepo;
+import iti.Misk.model.dtos.ProductsDto;
 import iti.Misk.model.newentity.Product;
 import iti.Misk.model.newentity.Shoppingcart;
 import iti.Misk.model.newentity.ShoppingcartId;
 import iti.Misk.model.newentity.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class ShoppingCartRepoImpl implements ShoppingCartRepo {
@@ -114,6 +114,31 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
         }
     }
 
+
+
+
+
+    @Override
+    public int addListToCart(int userId, List<ProductsDto> l, EntityManager em) {
+        try {
+            em.getTransaction().begin();
+            User u=em.find(User.class, userId);
+            for (ProductsDto item : l) {
+                ShoppingcartId id = new ShoppingcartId(item.getProductId(), userId);
+                Product p=em.find(Product.class, item.getProductId());
+                Shoppingcart shoppingCartItem = new Shoppingcart(id, u, p, item.getQuantity());
+                em.persist(shoppingCartItem);
+            }
+            em.getTransaction().commit();
+            return 1; // Success
+        } catch (Exception e) {
+            System.out.println("Error adding items to shopping cart: " + e.getMessage());
+            return -1; // Failure
+        }
+
+
+    }
+
     // @Override
     // public int addOrUpdateItem(Shoppingcart shoppingCartItem, EntityManager em) {
     // try {
@@ -186,3 +211,5 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
     // }
 
 }
+
+
