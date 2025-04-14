@@ -50,23 +50,23 @@ public class Main {
         // From Dto to Entity (ok)
         // System.out.println(productRepoImpl.addNewProduct(product, em));
 
-        // From Entity to Dto
-        Product entity = productRepoImpl.getProductById(9, em);
-        PerfumeDto dto = ProductMapper.toDto(entity);
-        System.out.println(dto.getGender());
-        System.out.println("Total records = "+productRepoImpl.getTotalProductsCount(em));
-        System.out.println("Max price ="  +productRepoImpl.getMaxPrice(em));
-        System.out.println("Min price ="  +productRepoImpl.getMinPrice(em));
+        // // From Entity to Dto
+        // Product entity = productRepoImpl.getProductById(9, em);
+        // PerfumeDto dto = ProductMapper.toDto(entity);
+        // System.out.println(dto.getGender());
+        // System.out.println("Total records = "+productRepoImpl.getTotalProductsCount(em));
+        // System.out.println("Max price ="  +productRepoImpl.getMaxPrice(em));
+        // System.out.println("Min price ="  +productRepoImpl.getMinPrice(em));
 
         
         
-        List<Product> filtered = productRepoImpl.filterProducts(em, 2, 2, "o", null,new BigDecimal("100.0"),new BigDecimal("200.0"));
-        List<PerfumeDto> perf = ProductMapper.toDtoList(filtered);
-        for(PerfumeDto p : perf) {
-            System.out.println("Found: "+p.getId());
-            System.out.println(p.getName());
-            System.out.println(p.getBrand());
-        }
+        // List<Product> filtered = productRepoImpl.filterProducts(em, 2, 2, "o", null,new BigDecimal("100.0"),new BigDecimal("200.0"));
+        // List<PerfumeDto> perf = ProductMapper.toDtoList(filtered);
+        // for(PerfumeDto p : perf) {
+        //     System.out.println("Found: "+p.getId());
+        //     System.out.println(p.getName());
+        //     System.out.println(p.getBrand());
+        // }
         // System.out.println("New Dto: " + em.find(null, productRepoImpl));
 
 //        User user = new User();
