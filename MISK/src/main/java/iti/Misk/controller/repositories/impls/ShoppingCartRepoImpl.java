@@ -1,5 +1,7 @@
 package iti.Misk.controller.repositories.impls;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import iti.Misk.controller.repositories.interfaces.ShoppingCartRepo;
@@ -19,12 +21,15 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
         if (item != null) { // already exist
             if (item.getQuantity() + quantity <= product.getQuantity()) { // less than boundry
                 item.setQuantity(item.getQuantity() + quantity);
+                item.setAddedAt(new Timestamp(System.currentTimeMillis()));
             } else { // more than boundry
                 item.setQuantity(product.getQuantity());
+                item.setAddedAt(new Timestamp(System.currentTimeMillis()));
             }
         } else {
             ShoppingcartId id = new ShoppingcartId(product.getProductId(), user.getUserId());
             item = new Shoppingcart(id, user, product, quantity);
+            item.setAddedAt(new Timestamp(System.currentTimeMillis()));
         }
         try {
             em.getTransaction().begin();
@@ -127,6 +132,8 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
                 ShoppingcartId id = new ShoppingcartId(item.getProductId(), userId);
                 Product p=em.find(Product.class, item.getProductId());
                 Shoppingcart shoppingCartItem = new Shoppingcart(id, u, p, item.getQuantity());
+                shoppingCartItem.setAddedAt(new Timestamp(System.currentTimeMillis()));
+
                 em.persist(shoppingCartItem);
             }
             em.getTransaction().commit();

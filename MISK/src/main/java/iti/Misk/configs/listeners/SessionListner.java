@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSessionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebListener
 public class SessionListner implements HttpSessionAttributeListener{
@@ -26,7 +27,7 @@ public class SessionListner implements HttpSessionAttributeListener{
             List<Integer> l=shoppingCartRepo.getUserShoppingCart((int)event.getValue(),em).stream().map(
                     shoppingCart -> shoppingCart.getProduct().getProductId()
 
-            ).toList();
+            ).collect(Collectors.toList());
 
             if (l==null){
                 event.getSession().setAttribute("productIds",new HashSet<Integer>() );

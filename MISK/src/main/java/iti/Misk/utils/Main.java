@@ -10,6 +10,7 @@ import iti.Misk.controller.repositories.impls.ProductRepoImpl;
 import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
+import iti.Misk.controller.services.impls.PerfumeServicesImpl;
 import iti.Misk.model.dtos.Address;
 import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.newentity.*;
@@ -165,5 +166,11 @@ public class Main {
 //        for (Address address : addresses) {
 //            System.out.println(address);
 //        }
+
+
+//        PerfumeDto perfumeDetails = PerfumeServicesImpl.getPerfumeServices().findPerfume(4);
+//        System.out.println(perfumeDetails.getQuantity());
+
+
     }
 }

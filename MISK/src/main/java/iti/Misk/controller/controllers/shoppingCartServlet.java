@@ -31,13 +31,21 @@ public class shoppingCartServlet extends HttpServlet {
         while (iterator.hasNext()) {
             ShoppingCartDto shoppingCartDto = iterator.next();
 
+            if(shoppingCartDto.getQuantity() <= 0) {
+                iterator.remove();
+                continue;
+            }
+
             if (shoppingCartDto.getStorage() <= 0) {
                 iterator.remove();
-            } else {
-                if (shoppingCartDto.getQuantity() >= shoppingCartDto.getStorage()) {
-                    shoppingCartDto.setQuantity(shoppingCartDto.getStorage());
-                }
+                continue;
             }
+
+
+            if (shoppingCartDto.getQuantity() >= shoppingCartDto.getStorage()) {
+                shoppingCartDto.setQuantity(shoppingCartDto.getStorage());
+            }
+
         }
 
 

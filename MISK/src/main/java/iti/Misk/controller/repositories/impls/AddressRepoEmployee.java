@@ -3,7 +3,6 @@ package iti.Misk.controller.repositories.impls;
 import iti.Misk.controller.repositories.interfaces.AddressRepo;
 import iti.Misk.model.newentity.User;
 import iti.Misk.model.newentity.Useraddress;
-import jakarta.mail.Address;
 import jakarta.persistence.EntityManager;
 
 public class AddressRepoEmployee  implements AddressRepo{
@@ -33,7 +32,24 @@ public class AddressRepoEmployee  implements AddressRepo{
        
 
     }
-
 }
+
+
+
+
+
+@Override
+public Useraddress getAddressbyAddressID(int addressID, EntityManager em){
+
+        em.getTransaction().begin();
+        Useraddress address = em.find(Useraddress.class, addressID);
+        em.getTransaction().commit();
+        return address;
+}
+
+
+
+
+
 
 }
