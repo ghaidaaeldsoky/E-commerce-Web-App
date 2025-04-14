@@ -39,13 +39,13 @@ public class OrderAdminController extends HttpServlet {
         List<OrderDto> orders = new ArrayList<>();
 
         
-        orders.add(new OrderDto("Sama Mohamed", "$120", "Cairo, Egypt", "2025-03-29",
+        orders.add(new OrderDto("Sama Mohamed", 120, "Cairo, Egypt", "2025-03-29",
                 Arrays.asList("Protein Bar", "Omega-3 Capsules")));
 
-        orders.add(new OrderDto("Ali Mohamed", "$80", "Giza, Egypt", "2025-03-28",
+        orders.add(new OrderDto("Ali Mohamed", 80, "Giza, Egypt", "2025-03-28",
                 Arrays.asList("Vitamin D", "Multivitamin")));
 
-        orders.add(new OrderDto("Laila Hussein", "$150", "Alexandria, Egypt", "2025-03-27",
+        orders.add(new OrderDto("Laila Hussein", 150, "Alexandria, Egypt", "2025-03-27",
                 Arrays.asList("Protein Shake", "Fish Oil")));
 
         return orders;

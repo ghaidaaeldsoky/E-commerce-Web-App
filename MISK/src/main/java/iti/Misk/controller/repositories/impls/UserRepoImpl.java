@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Set;
 
 import iti.Misk.controller.repositories.interfaces.UserRepo;
-import iti.Misk.model.dtos.Address;
 import iti.Misk.model.newentity.Order;
 import iti.Misk.model.newentity.Shoppingcart;
 import iti.Misk.model.newentity.User;
 import iti.Misk.model.newentity.Useraddress;
 import jakarta.persistence.EntityManager;
+
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Id;
+
+import jakarta.persistence.EntityTransaction;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -189,8 +192,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public BigDecimal getUserCreditCardLimit(int id, EntityManager em) {
-
-        BigDecimal CreditLimit = findUserById(id, em).getCreditLimit();
+        BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
 
         return CreditLimit;
 
@@ -217,7 +219,12 @@ public class UserRepoImpl implements UserRepo {
     @Override
     public Set<Useraddress> getUseraddress(int id, EntityManager em) {
 
+
         Set<Useraddress> useraddress = findUserById(id, em).getUseraddresses();
+
+
+  
+
 
         return useraddress;
 
@@ -255,5 +262,6 @@ public class UserRepoImpl implements UserRepo {
                 .executeUpdate();
         tx.commit();
     }
+
 
 }
