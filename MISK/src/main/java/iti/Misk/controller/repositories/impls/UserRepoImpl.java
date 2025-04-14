@@ -35,9 +35,9 @@ public class UserRepoImpl implements UserRepo{
 
         em.getTransaction().commit();
 
-    userId  = user.getUserId();
+       
         
-        return userId!=-1 ? true:false;
+        return true;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class UserRepoImpl implements UserRepo{
    
 
     @Override
-    public List<User> getAllUsers(List<Integer> ids, EntityManager em) {
+    public List<User> getAllUsers( EntityManager em) {
       
         CriteriaBuilder cb = EntityManagerFactorySingleton.getEntityManagerFactory().getCriteriaBuilder();
 
@@ -167,9 +167,8 @@ public class UserRepoImpl implements UserRepo{
         Predicate emailPredicate =  cb.equal(userRoot.get("email"), email);
         criteriaQuery.where(emailPredicate);
     
-        User user = em.createQuery(criteriaQuery).getSingleResult();
-
-        return user != null;
+        List<User> users = em.createQuery(criteriaQuery).getResultList();
+        return !users.isEmpty();
       
     }
 
@@ -217,22 +216,30 @@ public class UserRepoImpl implements UserRepo{
 
     @Override
     public BigDecimal getUserCreditCardLimit(int id, EntityManager em) {
-        BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
+
+
+      
+        
+        
+      BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
+
+
+    
+
+
         return CreditLimit;
         
     }
 
     @Override
     public Set<Order> getAllUserOrders(int id, EntityManager em) {
-      
 
-        em.getTransaction().begin();
         
         
      Set<Order>orders =   findUserById(id, em).getOrders();
 
 
-        em.getTransaction().commit();
+
 
         return orders;
         
@@ -241,8 +248,15 @@ public class UserRepoImpl implements UserRepo{
     @Override
     public Set<Shoppingcart> getUserShoppinCard(int id, EntityManager em) {
 
+     
+        
+
 
         Set<Shoppingcart> shoppingcarts=   findUserById(id, em).getShoppingcarts();
+
+
+
+
         return shoppingcarts;
         
        

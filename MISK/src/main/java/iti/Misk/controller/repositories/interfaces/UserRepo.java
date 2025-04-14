@@ -22,7 +22,7 @@ public interface UserRepo {
 
     public Boolean checkPasswordValidation(String email, String password, EntityManager em);
 
-    public List<User> getAllUsers(List<Integer> ids, EntityManager em);
+    public List<User> getAllUsers( EntityManager em);
 
     public int getUserIdByEmail(String email, EntityManager em);
 
