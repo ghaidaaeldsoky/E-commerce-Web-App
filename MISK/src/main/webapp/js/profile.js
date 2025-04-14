@@ -1,294 +1,428 @@
+var user = null;
+
 document.addEventListener("DOMContentLoaded", function () {
-    let lastId = 2;
-    const user = {
-        firstName: "Ghaidaa",
-        email: "ghaidaa@example.com",
-        phone: "0123456789",
-        password: "12345678",
-        creditLimit: 5000,
-        addresses: [
-            { id: 1, state: "Cairo", city: "Nasr City", street: "Street 10", department: 5},
-            { id: 2, state: "Giza", city: "Dokki", street: "Street 15", department: 3 }
-        ],
-    };
+  $.ajax({
+    url: "profile",
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      user = data;
+      console.log("User Data:", data);
+      loadUserData(data);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error:", error);
+    },
+  });
 
-    // account detail tab
-    const firstNameInput = document.getElementById("first-name");
-    const emailInput = document.getElementById("email");
-    const phoneInput = document.getElementById("phone");
-    const editBtn = document.getElementById("edit-account");
-    const saveBtn = document.getElementById("save-account");
-    const updateMessage = document.getElementById("update-message");
+  // let lastId = 2;
+  // const user = {
+  //     firstName: "Ghaidaa",
+  //     email: "ghaidaa@example.com",
+  //     phone: "0123456789",
+  //     password: "12345678",
+  //     creditLimit: 5000,
+  //     addresses: [
+  //         { id: 1, state: "Cairo", city: "Nasr City", street: "Street 10", department: 5},
+  //         { id: 2, state: "Giza", city: "Dokki", street: "Street 15", department: 3 }
+  //     ],
+  // };
 
-    // Change Password tab
-    const currentPasswordInput = document.getElementById("current-password");
-    const newPasswordInput = document.getElementById("new-password");
-    const confirmPasswordInput = document.getElementById("confirm-password");
-    const savePasswordBtn = document.getElementById("save-password");
-    const passwordUpdateMessage = document.getElementById("password-update-message");
+  // account detail tab
+  const firstNameInput = document.getElementById("first-name");
+  const emailInput = document.getElementById("email");
+  const phoneInput = document.getElementById("phone");
+  const editBtn = document.getElementById("edit-account");
+  const saveBtn = document.getElementById("save-account");
+  const updateMessage = document.getElementById("update-message");
 
-    // Credit Limit tab
-    const creditLimitInput = document.getElementById("credit-limit");
-    const saveCreditBtn = document.getElementById("save-credit-limit");
-    const creditError = document.getElementById("credit-error");
-    const creditUpdateMessage = document.getElementById("credit-update-message");
+  // Change Password tab
+  const currentPasswordInput = document.getElementById("current-password");
+  const newPasswordInput = document.getElementById("new-password");
+  const confirmPasswordInput = document.getElementById("confirm-password");
+  const savePasswordBtn = document.getElementById("save-password");
+  const passwordUpdateMessage = document.getElementById(
+    "password-update-message"
+  );
 
-    // Address tab
-    const addressList = document.getElementById("address-list");
-    const addAddressBtn = document.getElementById("add-address-btn");
-    const addressFormOverlay = document.getElementById("address-form-overlay");
-    const saveAddressBtn = document.getElementById("save-address-btn");
-    const cancelAddressBtn = document.getElementById("cancel-address-btn");
+  // Credit Limit tab
+  const creditLimitInput = document.getElementById("credit-limit");
+  const saveCreditBtn = document.getElementById("save-credit-limit");
+  const creditError = document.getElementById("credit-error");
+  const creditUpdateMessage = document.getElementById("credit-update-message");
 
-    const stateInput = document.getElementById("address-state");
-    const cityInput = document.getElementById("address-city");
-    const streetInput = document.getElementById("address-street");
-    const departmentInput = document.getElementById("address-department");
+  // Address tab
+  const addressList = document.getElementById("address-list");
+  const addAddressBtn = document.getElementById("add-address-btn");
+  const addressFormOverlay = document.getElementById("address-form-overlay");
+  const saveAddressBtn = document.getElementById("save-address-btn");
+  const cancelAddressBtn = document.getElementById("cancel-address-btn");
 
-    function loadUserData() {
-        firstNameInput.value = user.firstName;
-        emailInput.value = user.email;
-        phoneInput.value = user.phone;
-        creditLimitInput.value = user.creditLimit;
+  const stateInput = document.getElementById("address-state");
+  const cityInput = document.getElementById("address-city");
+  const streetInput = document.getElementById("address-street");
+  const departmentInput = document.getElementById("address-department");
+
+  function loadUserData(user) {
+    firstNameInput.value = user.userName;
+    emailInput.value = user.email;
+    phoneInput.value = user.phoneNumber;
+    creditLimitInput.value = user.creditLimit;
+  }
+
+  // loadUserData();
+
+  // Buttons Handling:
+  // 1- Edit (Account Details)
+  editBtn.addEventListener("click", function () {
+    [firstNameInput, emailInput, phoneInput].forEach((input) => {
+      input.removeAttribute("disabled");
+      input.style.backgroundColor = "#fff";
+    });
+
+    editBtn.classList.add("d-none");
+    saveBtn.classList.remove("d-none");
+  });
+
+  // 2- Save (Account Details)
+  // Save New account details Tab //
+  saveBtn.addEventListener("click", function () {
+    const updatedFirstName = firstNameInput.value.trim();
+    const updatedEmail = emailInput.value.trim();
+    const updatedPhone = phoneInput.value.trim();
+
+    const hasChanged =
+      updatedFirstName !== user.userName ||
+      updatedEmail !== user.email ||
+      updatedPhone !== user.phoneNumber;
+
+    [firstNameInput, emailInput, phoneInput].forEach((input) => {
+      input.setAttribute("disabled", "true");
+      input.style.backgroundColor = "transparent";
+    });
+
+    saveBtn.classList.add("d-none");
+    editBtn.classList.remove("d-none");
+
+    if (hasChanged) {
+      $.ajax({
+        url: "profile",
+        method: "POST",
+        data: {
+          action: "updateAccount",
+          firstName: updatedFirstName,
+          email: updatedEmail,
+          phone: updatedPhone,
+        },
+        success: function () {
+          user.userName = updatedFirstName;
+          user.email = updatedEmail;
+          user.phoneNumber = updatedPhone;
+
+          updateMessage.textContent = "Account updated successfully!";
+          updateMessage.classList.remove("d-none", "text-danger");
+          updateMessage.classList.add("text-success");
+          //   updateMessage.classList.remove("d-none");
+          setTimeout(() => {
+            updateMessage.classList.add("d-none");
+          }, 3000);
+        },
+        error: function () {
+          updateMessage.textContent = "Error updating account information.";
+          updateMessage.classList.remove("d-none", "text-success");
+          updateMessage.classList.add("text-danger");
+
+          setTimeout(() => {
+            updateMessage.classList.add("d-none");
+          }, 3000);
+          //   alert("Error updating account info.");
+        },
+      });
+
+      // updateMessage.classList.remove("d-none");
+
+      // setTimeout(() => {
+      //     updateMessage.classList.add("d-none");
+      // }, 3000);
+    }
+  });
+
+  // 3- Save (Password)
+  // Save new Password Tab //
+  savePasswordBtn.addEventListener("click", function () {
+    const currentPassword = currentPasswordInput.value.trim();
+    const newPassword = newPasswordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    passwordUpdateMessage.classList.remove(
+      "text-danger",
+      "text-success",
+      "d-none"
+    );
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      passwordUpdateMessage.textContent = "Please fill in all fields!";
+      passwordUpdateMessage.classList.add("text-danger");
+      //   alert("Please fill in all fields!");
+      return;
     }
 
-    loadUserData();
+    if (currentPassword !== user.password) {
+      passwordUpdateMessage.textContent = "Current password is incorrect!";
+      passwordUpdateMessage.classList.add("text-danger");
+      //   alert("Current password is incorrect!");
+      return;
+    }
 
-    // Buttons Handling:
-    // 1- Edit (Account Details)
-    editBtn.addEventListener("click", function () {
-        [firstNameInput, emailInput, phoneInput].forEach((input) => {
-            input.removeAttribute("disabled");
-            input.style.backgroundColor = "#fff";
-        });
+    if (newPassword !== confirmPassword) {
+        passwordUpdateMessage.textContent = "New passwords do not match!";
+    passwordUpdateMessage.classList.add("text-danger");
+    //   alert("New passwords do not match!");
+      return;
+    }
 
-        editBtn.classList.add("d-none");
-        saveBtn.classList.remove("d-none");
-    });
+    if (newPassword === user.password) {
+        passwordUpdateMessage.textContent = "This is already your current password.";
+        passwordUpdateMessage.classList.add("text-danger");
+    //   alert("Already your password");
+      return;
+    }
 
-    // 2- Save (Account Details)
-    // Save New account details Tab //
-    saveBtn.addEventListener("click", function () {
-        const updatedFirstName = firstNameInput.value.trim();
-        const updatedEmail = emailInput.value.trim();
-        const updatedPhone = phoneInput.value.trim();
+    // const strongPasswordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // if (!strongPasswordRegex.test(newPassword)) {
+  //   passwordUpdateMessage.textContent = "Password must be at least 8 characters long and include letters, numbers, and symbols.";
+  //   passwordUpdateMessage.classList.add("text-danger");
+  //   return;
+  // }
 
-        const hasChanged =
-            updatedFirstName !== user.firstName ||
-            updatedEmail !== user.email ||
-            updatedPhone !== user.phone;
+  $.ajax({
+    url: "profile",
+    method: "POST",
+    data: {
+      action: "updatePassword",
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    },
+    success: function () {
+      user.password = newPassword;
 
-        [firstNameInput, emailInput, phoneInput].forEach((input) => {
-            input.setAttribute("disabled", "true");
-            input.style.backgroundColor = "transparent";
-        });
-
-        saveBtn.classList.add("d-none");
-        editBtn.classList.remove("d-none");
-
-        if (hasChanged) {
-            user.firstName = updatedFirstName;
-            user.email = updatedEmail;
-            user.phone = updatedPhone;
-
-            updateMessage.classList.remove("d-none");
-
-            setTimeout(() => {
-                updateMessage.classList.add("d-none");
-            }, 3000);
+      [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(
+        (input) => {
+          input.value = "";
         }
-    });
+      );
 
-    // 3- Save (Password)
-    // Save new Password Tab //
-    savePasswordBtn.addEventListener("click", function () {
-        const currentPassword = currentPasswordInput.value.trim();
-        const newPassword = newPasswordInput.value.trim();
-        const confirmPassword = confirmPasswordInput.value.trim();
+      passwordUpdateMessage.textContent = "Password updated successfully!";
+      passwordUpdateMessage.classList.remove("text-danger");
+      passwordUpdateMessage.classList.add("text-success");
 
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            alert("Please fill in all fields!");
-            return;
-        }
+      setTimeout(() => {
+        passwordUpdateMessage.classList.add("d-none");
+      }, 3000);
+    },
+    error: function () {
+      passwordUpdateMessage.textContent = "Error updating password.";
+      passwordUpdateMessage.classList.remove("text-success");
+      passwordUpdateMessage.classList.add("text-danger");
 
-        if (currentPassword !== user.password) {
-            alert("Current password is incorrect!");
-            return;
-        }
+      setTimeout(() => {
+        passwordUpdateMessage.classList.add("d-none");
+      }, 3000);
+    },
+  });
 
-        if (newPassword !== confirmPassword) {
-            alert("New passwords do not match!");
-            return;
-        }
+    // user.password = newPassword;
 
-        if (newPassword === user.password) {
-            alert("Already your password");
-            return;
-        }
+    // [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(
+    //   (input) => {
+    //     input.value = "";
+    //   }
+    // );
 
-        // const strongPasswordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        // if (!strongPasswordRegex.test(newPassword)) {
-        //     alert("Password must be at least 8 characters long and include letters, numbers, and symbols.");
-        //     return;
-        // }
+    // passwordUpdateMessage.classList.remove("d-none");
 
-        user.password = newPassword;
+    // setTimeout(() => {
+    //   passwordUpdateMessage.classList.add("d-none");
+    // }, 3000);
+  });
 
-        [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(input => {
-            input.value = "";
-        });
+  // 4- Credit limit
 
-        passwordUpdateMessage.classList.remove("d-none");
+  function showCreditMessage(text, isSuccess) {
+    creditUpdateMessage.textContent = text;
+    creditUpdateMessage.classList.remove("d-none", "text-success", "text-danger");
+    creditUpdateMessage.classList.add(isSuccess ? "text-success" : "text-danger");
+  
+    setTimeout(() => {
+      creditUpdateMessage.classList.add("d-none");
+    }, 5000); 
+  }
+  creditLimitInput.addEventListener("input", function () {
+    let value = parseInt(creditLimitInput.value, 10);
 
-        setTimeout(() => {
-            passwordUpdateMessage.classList.add("d-none");
-        }, 3000);
-    });
+    if (isNaN(value) || value < 1 || value > 10000) {
+      creditError.classList.remove("d-none");
+      saveCreditBtn.classList.add("d-none");
+    } else {
+      creditError.classList.add("d-none");
+      saveCreditBtn.classList.remove("d-none");
+    }
+  });
 
+  saveCreditBtn.addEventListener("click", function () {
+    let newLimit = parseInt(creditLimitInput.value, 10);
 
-    // 4- Credit limit
-    creditLimitInput.addEventListener("input", function () {
-        let value = parseInt(creditLimitInput.value, 10);
+    if (isNaN(newLimit) || newLimit < 1 || newLimit > 9999) {
+        showCreditMessage("Invalid credit limit! Must be between 1 and 10000.", false);
+    //   alert("Invalid credit limit! Must be between 1 and 10000.");
+      return;
+    }
 
-        if (isNaN(value) || value < 1 || value > 10000) {
-            creditError.classList.remove("d-none");
-            saveCreditBtn.classList.add("d-none");
-        } else {
-            creditError.classList.add("d-none");
-            saveCreditBtn.classList.remove("d-none");
-        }
-    });
+    $.ajax({
+        url: "profile",
+        method: "POST",
+        data: {
+          action: "updateCredit",
+          creditLimit: newLimit,
+        },
+        success: function () {
+          user.creditLimit = newLimit;
+          saveCreditBtn.classList.add("d-none");
+          showCreditMessage("Credit limit updated successfully!", true);
+          console.log("Credit limit now = " + user.creditLimit);
+        },
+        error: function () {
+          showCreditMessage("Error updating credit limit. Please try again later.", false);
+        },
+      });
 
-    saveCreditBtn.addEventListener("click", function () {
-        let newLimit = parseInt(creditLimitInput.value, 10);
+    // user.creditLimit = newLimit;
+    // saveCreditBtn.classList.add("d-none");
+    // creditUpdateMessage.classList.remove("d-none");
 
-        if (isNaN(newLimit) || newLimit < 1 || newLimit > 9999) {
-            alert("Invalid credit limit! Must be between 1 and 10000.");
-            return;
-        }
+    // console.log("Credit limit now = " + user.creditLimit);
+    // setTimeout(() => {
+    //   creditUpdateMessage.classList.add("d-none");
+    // }, 3000);
+  });
 
-        user.creditLimit = newLimit;
-        saveCreditBtn.classList.add("d-none");
-        creditUpdateMessage.classList.remove("d-none");
+  // Address :
+  function renderAddresses() {
+    addressList.innerHTML = "";
 
-        console.log("Credit limit now = "+ user.creditLimit);
-        setTimeout(() => {
-            creditUpdateMessage.classList.add("d-none");
-        }, 3000);
-    });
+    user.addresses.forEach((address) => {
+      const addressDiv = document.createElement("div");
+      addressDiv.className = `col-md-6 mb-3`;
 
-
-    // Address :
-    function renderAddresses() {
-        addressList.innerHTML = "";
-
-        user.addresses.forEach((address) => {
-            const addressDiv = document.createElement("div");
-            addressDiv.className = `col-md-6 mb-3`;
-
-            addressDiv.innerHTML = `
+      addressDiv.innerHTML = `
                 <div class="address-item card p-3">
                     <p><strong>${address.state}, ${address.city}</strong></p>
-                    <p>${address.street}, Dept: ${address.department || "N/A"}</p>
+                    <p>${address.street}, Dept: ${
+        address.department || "N/A"
+      }</p>
                     <div class="address-actions mt-2">
-                        <button class="btn btn-sm btn-danger delete-address" data-id="${address.id}">Delete</button>
+                        <button class="btn btn-sm btn-danger delete-address" data-id="${
+                          address.id
+                        }">Delete</button>
                     </div>
                 </div>
             `;
 
-            addressList.appendChild(addressDiv);
-        });
-    }
-
-    renderAddresses();
-
-
-    // Popup Add address
-    addAddressBtn.addEventListener("click", function () {
-        addressFormOverlay.classList.remove("d-none");
+      addressList.appendChild(addressDiv);
     });
+  }
 
-    // Remove popup
-    cancelAddressBtn.addEventListener("click", function () {
-        addressFormOverlay.classList.add("d-none");
-        clearForm();
-    });
+  renderAddresses();
 
-    // Save New Address
-    saveAddressBtn.addEventListener("click", function () {
-        const requiredFields = [
-            { input: stateInput, message: "State is required" },
-            { input: cityInput, message: "City is required" },
-            { input: streetInput, message: "Street is required" }
-        ];
-    
-        let isValid = true;
-    
-        requiredFields.forEach(({ input, message }) => {
-            let parent = input.parentNode;
-            let errorMessage = parent.querySelector(".error-message");
-    
-            if (!input.value.trim()) {
-                input.classList.add("border-danger");
-    
-                if (!errorMessage) {
-                    let small = document.createElement("small");
-                    small.classList.add("text-danger", "error-message", "d-block", "mt-1");
-                    small.textContent = message;
-                    parent.appendChild(small);
-                }
-                isValid = false;
-            } else {
-                input.classList.remove("border-danger");
-                if (errorMessage) {
-                    errorMessage.remove();
-                }
-            }
-        });
-    
-        if (!isValid) return;
-    
-        // إنشاء العنوان الجديد
-        const newAddress = {
-            id: ++lastId,
-            state: stateInput.value.trim(),
-            city: cityInput.value.trim(),
-            street: streetInput.value.trim(),
-            department: departmentInput.value.trim() || null,
-        };
-    
-        // إضافة العنوان وحفظه
-        user.addresses.push(newAddress);
-        renderAddresses();
-        addressFormOverlay.classList.add("d-none");
-        clearForm();
-    });
-    
-    
-    
+  // Popup Add address
+  addAddressBtn.addEventListener("click", function () {
+    addressFormOverlay.classList.remove("d-none");
+  });
 
-    // Delete Selected Address
-    addressList.addEventListener("click", function (e) {
-        if (e.target.classList.contains("delete-address")) {
-            const addressId = parseInt(e.target.getAttribute("data-id"));
-            user.addresses = user.addresses.filter((address) => address.id !== addressId);
-            renderAddresses();
+  // Remove popup
+  cancelAddressBtn.addEventListener("click", function () {
+    addressFormOverlay.classList.add("d-none");
+    clearForm();
+  });
+
+  // Save New Address
+  saveAddressBtn.addEventListener("click", function () {
+    const requiredFields = [
+      { input: stateInput, message: "State is required" },
+      { input: cityInput, message: "City is required" },
+      { input: streetInput, message: "Street is required" },
+    ];
+
+    let isValid = true;
+
+    requiredFields.forEach(({ input, message }) => {
+      let parent = input.parentNode;
+      let errorMessage = parent.querySelector(".error-message");
+
+      if (!input.value.trim()) {
+        input.classList.add("border-danger");
+
+        if (!errorMessage) {
+          let small = document.createElement("small");
+          small.classList.add(
+            "text-danger",
+            "error-message",
+            "d-block",
+            "mt-1"
+          );
+          small.textContent = message;
+          parent.appendChild(small);
         }
+        isValid = false;
+      } else {
+        input.classList.remove("border-danger");
+        if (errorMessage) {
+          errorMessage.remove();
+        }
+      }
     });
 
-        const stateSelect = document.getElementById("address-state");
-        
-        new Choices(stateSelect, {
-            removeItemButton: true,
-            searchEnabled: true, 
-            shouldSort: false 
-        });
-    
+    if (!isValid) return;
 
-    function clearForm() {
-        stateInput.value = "";
-        cityInput.value = "";
-        streetInput.value = "";
-        departmentInput.value = "";
+    // إنشاء العنوان الجديد
+    const newAddress = {
+      id: ++lastId,
+      state: stateInput.value.trim(),
+      city: cityInput.value.trim(),
+      street: streetInput.value.trim(),
+      department: departmentInput.value.trim() || null,
+    };
+
+    // إضافة العنوان وحفظه
+    user.addresses.push(newAddress);
+    renderAddresses();
+    addressFormOverlay.classList.add("d-none");
+    clearForm();
+  });
+
+  // Delete Selected Address
+  addressList.addEventListener("click", function (e) {
+    if (e.target.classList.contains("delete-address")) {
+      const addressId = parseInt(e.target.getAttribute("data-id"));
+      user.addresses = user.addresses.filter(
+        (address) => address.id !== addressId
+      );
+      renderAddresses();
     }
+  });
+
+  const stateSelect = document.getElementById("address-state");
+
+  new Choices(stateSelect, {
+    removeItemButton: true,
+    searchEnabled: true,
+    shouldSort: false,
+  });
+
+  function clearForm() {
+    stateInput.value = "";
+    cityInput.value = "";
+    streetInput.value = "";
+    departmentInput.value = "";
+  }
 });
