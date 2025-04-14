@@ -76,12 +76,30 @@ Boolean isAdmin = userDto.isIsAdmin();
         session.setAttribute("isAdmin",userDto.isIsAdmin());
 
         session.setAttribute("userId",userDto.getUserId());
+
+    // em= EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+    //         ShoppingCartRepoImpl shoppingCartRepo = new ShoppingCartRepoImpl();
+    //         List<Integer> l=shoppingCartRepo.getUserShoppingCart((int)event.getValue(),em).stream().map(
+    //                 shoppingCart -> shoppingCart.getProduct().getProductId()
+
+    //         ).collect(Collectors.toList());
+
+    //         if (l==null){
+    //             event.getSession().setAttribute("productIds",new HashSet<Integer>() );
+    //             em.close();
+    //             return;
+    //         }
+
+    //         em.close();
+    //         HashSet<Integer> IDs = new HashSet<>(l);
+    //         event.getSession().setAttribute("productIds",IDs);
         
 
 
        
 
         JsonObject jsonObject = new JsonObject();
+
 
         jsonObject.addProperty("redirect", true);
 
@@ -109,9 +127,7 @@ Boolean isAdmin = userDto.isIsAdmin();
     }
     }
 
-    private boolean isAdmin(String email, EntityManager em) {
-            return true ;
-    }
+   
 
     private void checkIfEmailIsTrue(HttpServletRequest req, HttpServletResponse resp, EntityManager em, UserService service) {
 
