@@ -92,7 +92,7 @@ Boolean isAdmin = userDto.isIsAdmin();
         redirectUrl = "Users.jsp";
 
         else
-        redirectUrl = "index.jsp";
+        redirectUrl = "home";
 
         jsonObject.addProperty("redirectUrl", redirectUrl);
 

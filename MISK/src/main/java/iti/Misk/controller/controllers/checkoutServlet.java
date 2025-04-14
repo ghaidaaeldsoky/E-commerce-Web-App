@@ -1,6 +1,5 @@
 package iti.Misk.controller.controllers;
 
-
 import iti.Misk.controller.repositories.impls.AddressRepoEmployee;
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.model.dtos.Address;
@@ -28,18 +27,19 @@ public class checkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-//        //some DB work
-//        ArrayList<Address> addresses=new ArrayList<>();
-//        Address address1 =new Address(1,"ksa","gada","125",20l);
-//        Address address2 =new Address(2,"oman","gada","125",10l);
-//        Address address3 =new Address(300,"qatar","gada","125",10l);
-//        addresses.add(address1);
-//        addresses.add(address2);
-////        addresses.add(address3);
+        // //some DB work
+        // ArrayList<Address> addresses=new ArrayList<>();
+        // Address address1 =new Address(1,"ksa","gada","125",20l);
+        // Address address2 =new Address(2,"oman","gada","125",10l);
+        // Address address3 =new Address(300,"qatar","gada","125",10l);
+        // addresses.add(address1);
+        // addresses.add(address2);
+        //// addresses.add(address3);
 
+        int UserId = (int) req.getSession(false).getAttribute("userId");
 
-       EntityManager em = (EntityManager)req.getAttribute("em");
-        Set<Useraddress> userAddress = new UserRepoImpl().getUseraddress(1, em);
+        EntityManager em = (EntityManager) req.getAttribute("em");
+        Set<Useraddress> userAddress = new UserRepoImpl().getUseraddress(UserId, em);
         List<Address> addresses = new ArrayList<>();
         if (userAddress != null) {
             for (Useraddress useraddress : userAddress) {
@@ -47,26 +47,22 @@ public class checkoutServlet extends HttpServlet {
             }
         }
 
+        //
+        // List<ProductsDto> l=(List<ProductsDto>)
+        // req.getSession(false).getAttribute("cartItems");
+        // FileWriter fw=new FileWriter("wheeee.txt");
+        // for(ProductsDto p:l){
+        // fw.write(p.getName()+"\n");
+        // }
+        // fw.write("session "+session);
+        // fw.flush();
+        // fw.close();
 
-
-
-//
-//        List<ProductsDto> l=(List<ProductsDto>) req.getSession(false).getAttribute("cartItems");
-//        FileWriter fw=new FileWriter("wheeee.txt");
-//        for(ProductsDto p:l){
-//            fw.write(p.getName()+"\n");
-//        }
-//        fw.write("session "+session);
-//        fw.flush();
-//        fw.close();
-
-
-        HttpSession session=req.getSession(false);
-        session.setAttribute("adr",addresses);
+        HttpSession session = req.getSession(false);
+        session.setAttribute("adr", addresses);
         req.setCharacterEncoding("UTF-8");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/checkingOut.jsp");
-       dispatcher.forward(req, resp);
-
+        dispatcher.forward(req, resp);
 
     }
 

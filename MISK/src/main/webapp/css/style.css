@@ -3294,6 +3294,7 @@ a {
 }
 .cart_inner .table tbody tr td .media .d-flex img {
   border-radius: 3px;
+  width: 90px;
 }
 @media (max-width: 600px) {
   .cart_inner .table tbody tr td .media .d-flex img {

@@ -22,8 +22,8 @@ public class ConfirmOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         EntityManager em = (EntityManager)req.getAttribute("em");
-        //int UserId = (int) req.getSession(false).getAttribute("userId");
-        int UserId = 1; // For testing purposes, replace with actual user ID retrieval logic
+        int UserId = (int) req.getSession(false).getAttribute("userId");
+        // int UserId = 1; // For testing purposes, replace with actual user ID retrieval logic
         User currentUser = new UserRepoImpl().findUserById(1,em);
         Useraddress useraddress = (Useraddress) req.getAttribute("add");
         List<Shoppingcart> shoppingcartList = (List<Shoppingcart>) req.getAttribute("orderItems");
@@ -51,9 +51,9 @@ public class ConfirmOrderServlet extends HttpServlet {
         new ShoppingCartRepoImpl().clearUserShoppingCart(UserId, em);
 
                         //counter related part
-//        Set<Integer> ids = (Set<Integer>) req.getSession().getAttribute("productIds");
-//        ids.clear();
-//        req.getSession().setAttribute("productIds", ids);
+       Set<Integer> ids = (Set<Integer>) req.getSession().getAttribute("productIds");
+       ids.clear();
+       req.getSession().setAttribute("productIds", ids);
 
                         //reduce credit limit
         BigDecimal newLimit = (currentUser.getCreditLimit().subtract(totalOrderPrice));
