@@ -220,13 +220,13 @@ public class UserRepoImpl implements UserRepo{
     public BigDecimal getUserCreditCardLimit(int id, EntityManager em) {
 
 
-        em.getTransaction().begin();
+      
         
         
       BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
 
 
-        em.getTransaction().commit();
+    
 
 
         return CreditLimit;
@@ -235,15 +235,13 @@ public class UserRepoImpl implements UserRepo{
 
     @Override
     public Set<Order> getAllUserOrders(int id, EntityManager em) {
-      
 
-        em.getTransaction().begin();
         
         
      Set<Order>orders =   findUserById(id, em).getOrders();
 
 
-        em.getTransaction().commit();
+
 
         return orders;
         
@@ -252,14 +250,14 @@ public class UserRepoImpl implements UserRepo{
     @Override
     public Set<Shoppingcart> getUserShoppinCard(int id, EntityManager em) {
 
-        em.getTransaction().begin();
+     
         
 
 
         Set<Shoppingcart> shoppingcarts=   findUserById(id, em).getShoppingcarts();
 
 
-        em.getTransaction().begin();
+
 
         return shoppingcarts;
         
@@ -271,14 +269,14 @@ public class UserRepoImpl implements UserRepo{
 
         
        
-        em.getTransaction().begin();
+        
         
 
 
         Set<Useraddress> useraddress=   findUserById(id, em).getUseraddresses();
 
 
-        em.getTransaction().begin();
+        
 
         return useraddress;
         
