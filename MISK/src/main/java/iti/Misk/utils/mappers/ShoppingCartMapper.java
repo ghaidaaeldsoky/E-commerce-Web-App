@@ -18,7 +18,8 @@ public class ShoppingCartMapper {
             entity.getAddedAt(),
             entity.getProduct() != null ? entity.getProduct().getName() : null,
             entity.getProduct() != null ? entity.getProduct().getPhoto() : null,
-            entity.getProduct() != null ? entity.getProduct().getPrice().doubleValue() : 0.0
+            entity.getProduct() != null ? entity.getProduct().getPrice().doubleValue() : 0.0,
+            entity.getProduct() != null ? entity.getProduct().getQuantity() : 0
         );
     }
 

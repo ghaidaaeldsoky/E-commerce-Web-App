@@ -11,6 +11,7 @@ public class ProductsDto {
     private String brand;
     private int size;
     private String gender;
+    private double dprice ;
 
    
     public ProductsDto() {
@@ -27,6 +28,7 @@ public class ProductsDto {
         this.brand = brand;
         this.size = size;
         this.gender = gender;
+        this.dprice = price;
     }
 
     
@@ -40,6 +42,7 @@ public class ProductsDto {
         this.brand = brand;
         this.size = size;
         this.gender = gender;
+        this.dprice = price;
     }
 
 
@@ -112,6 +115,15 @@ public class ProductsDto {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public double getDprice() {
+        return dprice;
+    }
+
+    public void setDprice(double dprice) {
+        this.dprice = dprice;
+    }
+
     @Override
 public String toString() {
     return "Product{" +

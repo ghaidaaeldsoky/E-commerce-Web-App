@@ -36,4 +36,5 @@ public interface UserRepo {
 
     public boolean addListOfAddresses(int id, List<Useraddress> address, EntityManager em);
 
+    void updateCreditLimit(int userId, BigDecimal newLimit, EntityManager em);
 }

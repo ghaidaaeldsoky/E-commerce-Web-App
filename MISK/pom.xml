@@ -12,6 +12,8 @@
   </properties>
 
   <dependencies>
+
+
     <!-- Jakarta EE API (provided scope) -->
     <dependency>
       <groupId>jakarta.platform</groupId>

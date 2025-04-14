@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ page contentType="text/html;
-charset=UTF-8" pageEncoding="UTF-8" %>
-<%--<%@ page session="false" %>--%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,6 +70,17 @@ charset=UTF-8" pageEncoding="UTF-8" %>
         });
       }
 
+      function setAddressValue() {
+        const selected = document.querySelector(
+                'input[name="shipping-address"]:checked'
+        );
+        if (selected) {
+          document.getElementById("addID").value = selected.value;
+          console.log(
+                  "addID set to: " + document.getElementById("addID").value
+          );
+        }
+      }
 
 
       function submitForm(servlet) {
@@ -88,23 +98,33 @@ charset=UTF-8" pageEncoding="UTF-8" %>
             return;
           } else {
 
-            // Get dynamic values (replace with actual logic)
-            var selectedAddressval = document.querySelector(
-              'input[name="shipping-address"]:checked'
-            ).value;
-            var totalordrmoney =
-              document.getElementById("overallPriceSpan").textContent;
+            // // Get dynamic values (replace with actual logic)
+            // var selectedAddressval = document.querySelector(
+            //   'input[name="shipping-address"]:checked'
+            // ).value;
+            //
+            // console.log("Selected Address: ", selectedAddressval);
+            // var totalordrmoney =
+            //   document.getElementById("overallPriceSpan").textContent;
+            //
+            // // Update hidden input fields before submission
+            // document.getElementById("addID").value = selectedAddressval;
+            // console.log(document.getElementById("addID").value);
+            // document.getElementById("totalvalue").value = totalordrmoney;
+              document.getElementById("orderForm").action =servlet;
+                document.getElementById("orderForm").method = "post";
+                document.getElementById("orderForm").submit();
 
-            // Update hidden input fields before submission
-            document.getElementById("addID").value = selectedAddressval;
-            document.getElementById("totalvalue").value = totalordrmoney;
+
           }
         } else {
           document.getElementById("orderForm").method = "get";
+          // Set form action and submit
+          document.getElementById("orderForm").action = servlet;
+            document.getElementById("orderForm").submit();
         }
 
-        // Set form action and submit
-        document.getElementById("orderForm").action = servlet;
+
       }
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -164,10 +184,11 @@ charset=UTF-8" pageEncoding="UTF-8" %>
           Select Shipping Address
         </h3>
 
+
         <c:forEach var="address" items="${sessionScope.adr}">
           <label style="display: block; margin-bottom: 8px; font-size: 18px">
-            <input type="radio" name="shipping-address" value="${address.id}" />
-            ${address.country} - ${address.city} - ${address.str} - ${address.b}
+            <input type="radio"  name="shipping-address" value="${address.addressId}"  onchange="setAddressValue()"/>
+            ${address.state} - ${address.city} - ${address.street} - ${address.departmentNumber}
           </label>
         </c:forEach>
       </div>
@@ -191,7 +212,7 @@ charset=UTF-8" pageEncoding="UTF-8" %>
                 <tr
                   style="border-bottom: 1px solid #ddd"
                   class="t-pro"
-                  data-price="${product.price}"
+                  data-price="${product.dprice}"
                   data-quantity="${product.quantity}"
                 >
                   <td style="padding: 10px">${product.name}</td>
@@ -249,11 +270,12 @@ charset=UTF-8" pageEncoding="UTF-8" %>
             style="text-align: center; margin-top: 20px"
           >
             <form method="post" id="orderForm">
-              <input type="hidden" name="addID" id="addID" />
-              <input type="hidden" name="totalvalue" id="totalvalue" />
+
+            <input type="hidden" name="addID" id="addID" />
+<%--              <input type="hidden" name="totalvalue" id="totalvalue" />--%>
 
               <button
-                type="submit"
+                type="button"
                 class="button button-confirm"
                 id="conf"
                 style="font-size: 22px; padding: 10px 20px"
@@ -262,7 +284,7 @@ charset=UTF-8" pageEncoding="UTF-8" %>
                 Confirm Order
               </button>
               <button
-                type="submit"
+                type="button"
                 onclick="submitForm('shoppingCartServlet')"
                 class="button button-confirm"
                 style="font-size: 22px; padding: 10px 20px"

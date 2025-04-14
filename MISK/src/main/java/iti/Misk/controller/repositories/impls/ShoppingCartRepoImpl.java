@@ -1,14 +1,16 @@
 package iti.Misk.controller.repositories.impls;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import iti.Misk.controller.repositories.interfaces.ShoppingCartRepo;
+import iti.Misk.model.dtos.ProductsDto;
 import iti.Misk.model.newentity.Product;
 import iti.Misk.model.newentity.Shoppingcart;
 import iti.Misk.model.newentity.ShoppingcartId;
 import iti.Misk.model.newentity.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class ShoppingCartRepoImpl implements ShoppingCartRepo {
@@ -19,12 +21,15 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
         if (item != null) { // already exist
             if (item.getQuantity() + quantity <= product.getQuantity()) { // less than boundry
                 item.setQuantity(item.getQuantity() + quantity);
+                item.setAddedAt(new Timestamp(System.currentTimeMillis()));
             } else { // more than boundry
                 item.setQuantity(product.getQuantity());
+                item.setAddedAt(new Timestamp(System.currentTimeMillis()));
             }
         } else {
             ShoppingcartId id = new ShoppingcartId(product.getProductId(), user.getUserId());
             item = new Shoppingcart(id, user, product, quantity);
+            item.setAddedAt(new Timestamp(System.currentTimeMillis()));
         }
         try {
             em.getTransaction().begin();
@@ -114,6 +119,33 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
         }
     }
 
+
+
+
+
+    @Override
+    public int addListToCart(int userId, List<ProductsDto> l, EntityManager em) {
+        try {
+            em.getTransaction().begin();
+            User u=em.find(User.class, userId);
+            for (ProductsDto item : l) {
+                ShoppingcartId id = new ShoppingcartId(item.getProductId(), userId);
+                Product p=em.find(Product.class, item.getProductId());
+                Shoppingcart shoppingCartItem = new Shoppingcart(id, u, p, item.getQuantity());
+                shoppingCartItem.setAddedAt(new Timestamp(System.currentTimeMillis()));
+
+                em.persist(shoppingCartItem);
+            }
+            em.getTransaction().commit();
+            return 1; // Success
+        } catch (Exception e) {
+            System.out.println("Error adding items to shopping cart: " + e.getMessage());
+            return -1; // Failure
+        }
+
+
+    }
+
     // @Override
     // public int addOrUpdateItem(Shoppingcart shoppingCartItem, EntityManager em) {
     // try {
@@ -186,3 +218,5 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
     // }
 
 }
+
+

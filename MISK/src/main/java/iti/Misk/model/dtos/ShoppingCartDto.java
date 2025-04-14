@@ -6,6 +6,7 @@ public class ShoppingCartDto {
     private int userId;
     private int productId;
     private int quantity;
+    private int storage;
     private Timestamp addedAt;
 
     // Optional product info (useful in frontend)
@@ -23,7 +24,7 @@ public class ShoppingCartDto {
     }    
 
     public ShoppingCartDto(int userId, int productId, int quantity, Timestamp addedAt,
-                           String productName, String productPhoto, double productPrice) {
+                           String productName, String productPhoto, double productPrice,int storage) {
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
@@ -31,6 +32,7 @@ public class ShoppingCartDto {
         this.productName = productName;
         this.productPhoto = productPhoto;
         this.productPrice = productPrice;
+        this.storage = storage;
     }
 
     // Getters and Setters
@@ -54,4 +56,26 @@ public class ShoppingCartDto {
 
     public double getProductPrice() { return productPrice; }
     public void setProductPrice(double productPrice) { this.productPrice = productPrice; }
+
+    public int getStorage() {
+        return storage;
+    }
+
+    public void setStorage(int storage) {
+        this.storage = storage;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCartDto{" +
+                "userId=" + userId +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", addedAt=" + addedAt +
+                ", productName='" + productName + '\'' +
+                ", productPhoto='" + productPhoto + '\'' +
+                ", productPrice=" + productPrice +
+                ", storage=" + storage +
+                '}';
+    }
 }

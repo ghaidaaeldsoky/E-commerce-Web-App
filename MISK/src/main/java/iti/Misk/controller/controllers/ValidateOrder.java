@@ -1,5 +1,12 @@
 package iti.Misk.controller.controllers;
 
+import iti.Misk.controller.repositories.impls.AddressRepoEmployee;
+import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
+import iti.Misk.model.newentity.Shoppingcart;
+import iti.Misk.model.newentity.User;
+import iti.Misk.model.newentity.Useraddress;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,55 +23,75 @@ public class ValidateOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        EntityManager em=(EntityManager) req.getAttribute("em");
+       // int userId=(int) req.getSession(false).getAttribute("userId");
+        String  addressIDstring= req.getParameter("addID");
+        int addressID= Integer.parseInt(addressIDstring);
+        int userID=1;
+        User current=new UserRepoImpl().findUserById(userID,em);
+        Useraddress useraddress=new AddressRepoEmployee().getAddressbyAddressID(addressID,em);
+        BigDecimal creditLimit=current.getCreditLimit();
+        List<Shoppingcart> shoppingcartList=new ShoppingCartRepoImpl().getUserShoppingCart(userID,em);
+        List<String> shortageProductNames=new ArrayList<>();
+        BigDecimal totalOrderPrice = new BigDecimal("0.00");
 
-            //get current user from session
-            //get products id & qtys from shopping cart table in DB
-            //check for the quantity availability using products table
-            //check for credit limit availability
-            //total order price is going to be calculated from db +shipping fees
+        for(Shoppingcart shoppingCartItem:shoppingcartList){
 
-        List<Integer>available_quantities=List.of(2, 5, 8);
-        List<Integer>ordered_quantities=List.of(2, 3, 1);
-        double available_limit=2000;
-        String numericPart = req.getParameter("totalvalue").replaceAll("[^0-9.]", "").trim();
-        double price = Double.parseDouble(numericPart);
-        double totalOrderPrice=price;
+            BigDecimal quantity = BigDecimal.valueOf(shoppingCartItem.getQuantity());
+            BigDecimal price= shoppingCartItem.getProduct().getPrice();
+            BigDecimal totalPrice = price.multiply(quantity);
+            totalOrderPrice = totalOrderPrice.add(totalPrice);
 
-        boolean quantityAvailable=true;
-        boolean orderPriceAvailable=true;
-        List<Integer> notAvailableproductIds=new ArrayList<>();
-        String message="";
-
-        for(int i=0;i<ordered_quantities.size();i++){
-            if(available_quantities.get(i)<ordered_quantities.get(i)) {
-               quantityAvailable=false;
-                notAvailableproductIds.add(i);
+            if(shoppingCartItem.getProduct().getQuantity() < shoppingCartItem.getQuantity()){
+                shortageProductNames.add(shoppingCartItem.getProduct().getName());
             }
-        }
-        if(totalOrderPrice>available_limit) {
-            orderPriceAvailable=false;
+
         }
 
-        if(quantityAvailable&&orderPriceAvailable) {
+       totalOrderPrice= totalOrderPrice.add(new BigDecimal("50.00")); //shipping cost
+
+        Boolean quantityAvailable= shortageProductNames.size()==0;
+        Boolean priceAvailable = totalOrderPrice.compareTo(creditLimit) <= 0;
+
+        if(quantityAvailable && priceAvailable) {
+
+            req.setAttribute("add", useraddress);
+            req.setAttribute("orderItems", shoppingcartList);
+            req.setAttribute("orderPrice", totalOrderPrice);
+            //forward to confirm order
             req.getRequestDispatcher("/ConfirmOrderServlet").forward(req, resp);
         }
         else {
-           if(orderPriceAvailable==true && quantityAvailable==false) {
+           if(priceAvailable==true && quantityAvailable==false) {
 
-               message="the following products are not available in the required quantities: ";
+               StringBuilder sb= new StringBuilder();
+               if(shortageProductNames.size()>0){
+                   for(String productName:shortageProductNames){
+                       sb.append(productName).append(", ");
+                   }
+               }
+
+              String message="the following products are not available in the required quantities:"+" "+sb.toString();
                req.setAttribute("errorMessage",message);
                req.getRequestDispatcher("/OrderIssueServlet").forward(req, resp);
 
 
-           } else if (orderPriceAvailable==false && quantityAvailable==true) {
+           } else if (priceAvailable==false && quantityAvailable==true) {
 
-               message="Your order price exceeds your credit limit";
+               String message="Your order price exceeds your credit limit";
                req.setAttribute("errorMessage",message);
                req.getRequestDispatcher("/OrderIssueServlet").forward(req, resp);
            }
-           else if (orderPriceAvailable==false && quantityAvailable==false) {
+           else if (priceAvailable==false && quantityAvailable==false) {
 
-                message="Your order price exceeds your credit limit and the following products are not available in the required quantities: ";
+               StringBuilder sb= new StringBuilder();
+               if(shortageProductNames.size()>0){
+                   for(String productName:shortageProductNames){
+                       sb.append(productName).append(", ");
+                   }
+               }
+
+               String message="Your order price exceeds your credit limit and the following products are not available in the required quantities:"+" "+sb.toString();
                req.setAttribute("errorMessage",message);
                req.getRequestDispatcher("/OrderIssueServlet").forward(req, resp);
 

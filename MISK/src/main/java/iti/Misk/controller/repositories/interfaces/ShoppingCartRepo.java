@@ -2,6 +2,7 @@ package iti.Misk.controller.repositories.interfaces;
 
 import java.util.List;
 
+import iti.Misk.model.dtos.ProductsDto;
 import iti.Misk.model.newentity.Product;
 import iti.Misk.model.newentity.Shoppingcart;
 import iti.Misk.model.newentity.User;
@@ -20,6 +21,8 @@ public interface ShoppingCartRepo {
     // Each user process:
     public List<Shoppingcart> getUserShoppingCart(int userId,EntityManager em);
     public boolean clearUserShoppingCart(int userId, EntityManager em);
+
+    int addListToCart(int userId, List<ProductsDto> l, EntityManager em);
 
 
     // public int addOrUpdateItem(Shoppingcart shoppingCartItem, EntityManager em);

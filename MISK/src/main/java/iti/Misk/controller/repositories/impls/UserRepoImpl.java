@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import iti.Misk.controller.repositories.interfaces.UserRepo;
-import iti.Misk.model.dtos.Address;
 import iti.Misk.model.newentity.Order;
 import iti.Misk.model.newentity.Shoppingcart;
 import iti.Misk.model.newentity.User;
 import iti.Misk.model.newentity.Useraddress;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Id;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -219,17 +217,7 @@ public class UserRepoImpl implements UserRepo{
 
     @Override
     public BigDecimal getUserCreditCardLimit(int id, EntityManager em) {
-
-
-        em.getTransaction().begin();
-        
-        
-      BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
-
-
-        em.getTransaction().commit();
-
-
+        BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
         return CreditLimit;
         
     }
@@ -253,15 +241,8 @@ public class UserRepoImpl implements UserRepo{
     @Override
     public Set<Shoppingcart> getUserShoppinCard(int id, EntityManager em) {
 
-        em.getTransaction().begin();
-        
-
 
         Set<Shoppingcart> shoppingcarts=   findUserById(id, em).getShoppingcarts();
-
-
-        em.getTransaction().begin();
-
         return shoppingcarts;
         
        
@@ -271,15 +252,15 @@ public class UserRepoImpl implements UserRepo{
     public Set<Useraddress> getUseraddress(int id, EntityManager em) {
 
         
-       
+        User user = em.find(User.class, id);
         em.getTransaction().begin();
         
 
 
-        Set<Useraddress> useraddress=   findUserById(id, em).getUseraddresses();
+        Set<Useraddress> useraddress= user.getUseraddresses();
 
 
-        em.getTransaction().begin();
+        em.getTransaction().commit();
 
         return useraddress;
         
@@ -308,14 +289,19 @@ public class UserRepoImpl implements UserRepo{
         em.getTransaction().commit();
 
 
-
-
-
-
-
         return true;
     }
 
 
-    
+    @Override
+    public void updateCreditLimit(int userId, BigDecimal newLimit, EntityManager em) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.createQuery("UPDATE User u SET u.creditLimit = :lim WHERE u.id = :id")
+                .setParameter("lim", newLimit)
+                .setParameter("id", userId)
+                .executeUpdate();
+        tx.commit();
+    }
+
 }
