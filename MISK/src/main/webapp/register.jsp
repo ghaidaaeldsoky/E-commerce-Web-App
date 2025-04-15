@@ -160,7 +160,7 @@
 									onblur="this.placeholder = 'interests'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password"
+								<input type="password" class="form-control" id="password" name="password"
 									placeholder="password" onfocus="this.placeholder = ''"
 									onblur="this.placeholder = 'Password'">
 							</div>
