@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
 import iti.Misk.controller.services.interfaces.UserService;
 import iti.Misk.model.dtos.Address;
@@ -20,38 +21,39 @@ import jakarta.persistence.EntityManager;
 
 public class UserServiceImpl implements UserService {
 
-    UserRepo userRepo ;
+    UserRepo userRepo;
 
-    public UserServiceImpl(UserRepo userReoo)
-    {
+    public UserServiceImpl(UserRepo userReoo) {
         this.userRepo = userReoo;
+    }
+
+    public UserServiceImpl() {
+        userRepo = new UserRepoImpl();
     }
 
     @Override
     public Boolean addNewUserDto(UserDto UserDto, Address address, EntityManager em) {
-        
+
         User user = UserMapper.toEntity(UserDto);
 
         Useraddress useraddress = AddressMapper.toEntity(address);
 
-      return  userRepo.addNewUser(user, useraddress, em);
+        return userRepo.addNewUser(user, useraddress, em);
 
-        
     }
 
     @Override
     public void updateUser(int id, UserDto newUserDto, EntityManager em) {
-        
+
         User user = UserMapper.toEntity(newUserDto);
 
         userRepo.updateUser(id, user, em);
-
 
     }
 
     @Override
     public UserDto findUserById(Integer UserDtoId, EntityManager em) {
-        
+
         User user = userRepo.findUserById(UserDtoId, em);
 
         return UserMapper.toDto(user);
@@ -64,30 +66,28 @@ public class UserServiceImpl implements UserService {
         User user = userRepo.findUserByEmail(email, em);
 
         return UserMapper.toDto(user);
-      
+
     }
 
     @Override
     public Boolean checkEmailAvailability(String email, EntityManager em) {
-       
+
         return userRepo.checkEmailAvailability(email, em);
     }
 
     @Override
     public Boolean checkPasswordValidation(String email, String password, EntityManager em) {
-        
+
         return userRepo.checkEmailAvailability(email, em);
     }
 
     @Override
     public List<UserDto> getAllUserDtos(EntityManager em) {
-        
-        List<User> users = userRepo.getAllUsers( em);
+
+        List<User> users = userRepo.getAllUsers(em);
 
         List<UserDto> usersDto = new ArrayList<>();
-        for(User user :users)
-        {
-
+        for (User user : users) {
 
             usersDto.add(UserMapper.toDto(user));
         }
@@ -97,14 +97,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getUserDtoIdByEmail(String email, EntityManager em) {
-       
+
         return userRepo.getUserIdByEmail(email, em);
     }
 
     @Override
     public BigDecimal getUserDtoCreditCardLimit(int id, EntityManager em) {
-       
-        return  userRepo.getUserCreditCardLimit(id, em);
+
+        return userRepo.getUserCreditCardLimit(id, em);
     }
 
     @Override
@@ -120,28 +120,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-public Set<Address> getAddress(int id, EntityManager em) {
+    public Set<Address> getAddress(int id, EntityManager em) {
 
-    Set<Useraddress> userAddresses = userRepo.getUseraddress(id, em);
-    
-    Set<Address> addresses = new HashSet<>();
-    for (Useraddress ua : userAddresses) {
-        addresses.add(AddressMapper.toDto(ua));
+        Set<Useraddress> userAddresses = userRepo.getUseraddress(id, em);
+
+        Set<Address> addresses = new HashSet<>();
+        for (Useraddress ua : userAddresses) {
+            addresses.add(AddressMapper.toDto(ua));
+        }
+
+        return addresses;
     }
 
-    return addresses;
-}
+    @Override
+    public boolean addListOfAddresses(int id, List<Address> addresses, EntityManager em) {
 
-@Override
-public boolean addListOfAddresses(int id, List<Address> addresses, EntityManager em) {
+        List<Useraddress> userAddresses = new ArrayList<>();
+        for (Address address : addresses) {
+            userAddresses.add(AddressMapper.toEntity(address));
+        }
 
-    List<Useraddress> userAddresses = new ArrayList<>();
-    for (Address address : addresses) {
-        userAddresses.add(AddressMapper.toEntity(address));
+        return userRepo.addListOfAddresses(id, userAddresses, em);
     }
 
-    return userRepo.addListOfAddresses(id, userAddresses, em);
-}
+    public void updateCreditLimit(int id, String creditLimit, EntityManager em) {
 
+    }
 
 }

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/AddProductsToCart", "/addSingleToCart", "/checkoutServlet", "/ConfirmOrderServlet", "/profile","/shoppingCartServlet"})
+@WebFilter(urlPatterns = {"/AddProductsToCart", "/addSingleToCart", "/checkoutServlet", "/ConfirmOrderServlet", "/profile","/profile.jsp","/shoppingCartServlet","/updatePassword"})
 public class UserFilter extends HttpFilter {
 
     @Override

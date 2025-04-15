@@ -1,7 +1,7 @@
 package iti.Misk.model.dtos;
 
 import java.util.List;
-
+import java.util.Set;
 import java.util.List;
 
 public class UserDto {
@@ -17,6 +17,10 @@ public class UserDto {
     private String intersets;
     private String password ;
     private boolean isAdmin;
+
+    private Set<Address> addresses;
+
+
 
 
 
@@ -134,6 +138,14 @@ public class UserDto {
     public void setIntersets(String intersets) {
         this.intersets = intersets;
     }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+    
     @Override
 public String toString() {
     return "UserDto{" +

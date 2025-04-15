@@ -9,4 +9,6 @@ public interface AddressRepo {
     public void DeleteAddress(int id,  EntityManager em);
 
     Useraddress getAddressbyAddressID(int addressID, EntityManager em);
+
+    public int addAddressForUser(int userId, Useraddress addressEntity, EntityManager em);
 }

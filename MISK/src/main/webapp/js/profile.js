@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
       user = data;
       console.log("User Data:", data);
       loadUserData(data);
+      renderAddresses(data);
     },
     error: function (xhr, status, error) {
       console.error("Error:", error);
@@ -96,6 +97,15 @@ document.addEventListener("DOMContentLoaded", function () {
       updatedEmail !== user.email ||
       updatedPhone !== user.phoneNumber;
 
+      const phoneRegex = /^01[0125][0-9]{8}$/;
+  if (!phoneRegex.test(updatedPhone)) {
+    updateMessage.textContent = "Please enter a valid phone number.";
+    updateMessage.classList.remove("d-none", "text-success");
+    updateMessage.classList.add("text-danger");
+    return;
+  }
+
+
     [firstNameInput, emailInput, phoneInput].forEach((input) => {
       input.setAttribute("disabled", "true");
       input.style.backgroundColor = "transparent";
@@ -114,8 +124,13 @@ document.addEventListener("DOMContentLoaded", function () {
           email: updatedEmail,
           phone: updatedPhone,
         },
-        success: function () {
-          user.userName = updatedFirstName;
+        success: function (response) {
+          if(response.emailExists){
+            updateMessage.textContent = "This email is already taken!";
+          updateMessage.classList.remove("d-none", "text-success");
+          updateMessage.classList.add("text-danger");
+          }else {
+            user.userName = updatedFirstName;
           user.email = updatedEmail;
           user.phoneNumber = updatedPhone;
 
@@ -126,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => {
             updateMessage.classList.add("d-none");
           }, 3000);
+          }
+          
         },
         error: function () {
           updateMessage.textContent = "Error updating account information.";
@@ -167,69 +184,53 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (currentPassword !== user.password) {
-      passwordUpdateMessage.textContent = "Current password is incorrect!";
-      passwordUpdateMessage.classList.add("text-danger");
-      //   alert("Current password is incorrect!");
-      return;
-    }
-
     if (newPassword !== confirmPassword) {
-        passwordUpdateMessage.textContent = "New passwords do not match!";
-    passwordUpdateMessage.classList.add("text-danger");
-    //   alert("New passwords do not match!");
-      return;
-    }
-
-    if (newPassword === user.password) {
-        passwordUpdateMessage.textContent = "This is already your current password.";
-        passwordUpdateMessage.classList.add("text-danger");
-    //   alert("Already your password");
-      return;
-    }
-
-    // const strongPasswordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  // if (!strongPasswordRegex.test(newPassword)) {
-  //   passwordUpdateMessage.textContent = "Password must be at least 8 characters long and include letters, numbers, and symbols.";
-  //   passwordUpdateMessage.classList.add("text-danger");
-  //   return;
-  // }
-
-  $.ajax({
-    url: "profile",
-    method: "POST",
-    data: {
-      action: "updatePassword",
-      currentPassword: currentPassword,
-      newPassword: newPassword,
-    },
-    success: function () {
-      user.password = newPassword;
-
-      [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(
-        (input) => {
-          input.value = "";
-        }
-      );
-
-      passwordUpdateMessage.textContent = "Password updated successfully!";
-      passwordUpdateMessage.classList.remove("text-danger");
-      passwordUpdateMessage.classList.add("text-success");
-
-      setTimeout(() => {
-        passwordUpdateMessage.classList.add("d-none");
-      }, 3000);
-    },
-    error: function () {
-      passwordUpdateMessage.textContent = "Error updating password.";
-      passwordUpdateMessage.classList.remove("text-success");
+      passwordUpdateMessage.textContent = "New passwords do not match!";
       passwordUpdateMessage.classList.add("text-danger");
+      //   alert("New passwords do not match!");
+      return;
+    }
 
-      setTimeout(() => {
-        passwordUpdateMessage.classList.add("d-none");
-      }, 3000);
-    },
-  });
+    const strongPasswordRegex = /^\w{8,12}$/;
+    if (!strongPasswordRegex.test(newPassword)) {
+      passwordUpdateMessage.textContent = "Password must be at least 8 characters long and include letters, numbers, and symbols.";
+      passwordUpdateMessage.classList.add("text-danger");
+      return;
+    }
+
+    $.ajax({
+      url: "updatePassword",
+      method: "POST",
+      data: {
+        // action: "updatePassword",
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      },
+      success: function (response) {
+        passwordUpdateMessage.textContent = response;
+        passwordUpdateMessage.classList.remove("text-danger");
+        passwordUpdateMessage.classList.add("text-success");
+
+        [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(
+          (input) => (input.value = "")
+        );
+
+        setTimeout(() => {
+          passwordUpdateMessage.classList.add("d-none");
+        }, 3000);
+
+        //
+      },
+      error: function (xhr) {
+        passwordUpdateMessage.textContent = xhr.responseText;
+        passwordUpdateMessage.classList.remove("text-success");
+        passwordUpdateMessage.classList.add("text-danger");
+
+        setTimeout(() => {
+          passwordUpdateMessage.classList.add("d-none");
+        }, 3000);
+      },
+    });
 
     // user.password = newPassword;
 
@@ -250,12 +251,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showCreditMessage(text, isSuccess) {
     creditUpdateMessage.textContent = text;
-    creditUpdateMessage.classList.remove("d-none", "text-success", "text-danger");
-    creditUpdateMessage.classList.add(isSuccess ? "text-success" : "text-danger");
-  
+    creditUpdateMessage.classList.remove(
+      "d-none",
+      "text-success",
+      "text-danger"
+    );
+    creditUpdateMessage.classList.add(
+      isSuccess ? "text-success" : "text-danger"
+    );
+
     setTimeout(() => {
       creditUpdateMessage.classList.add("d-none");
-    }, 5000); 
+    }, 5000);
   }
   creditLimitInput.addEventListener("input", function () {
     let value = parseInt(creditLimitInput.value, 10);
@@ -273,28 +280,34 @@ document.addEventListener("DOMContentLoaded", function () {
     let newLimit = parseInt(creditLimitInput.value, 10);
 
     if (isNaN(newLimit) || newLimit < 1 || newLimit > 9999) {
-        showCreditMessage("Invalid credit limit! Must be between 1 and 10000.", false);
-    //   alert("Invalid credit limit! Must be between 1 and 10000.");
+      showCreditMessage(
+        "Invalid credit limit! Must be between 1 and 10000.",
+        false
+      );
+      //   alert("Invalid credit limit! Must be between 1 and 10000.");
       return;
     }
 
     $.ajax({
-        url: "profile",
-        method: "POST",
-        data: {
-          action: "updateCredit",
-          creditLimit: newLimit,
-        },
-        success: function () {
-          user.creditLimit = newLimit;
-          saveCreditBtn.classList.add("d-none");
-          showCreditMessage("Credit limit updated successfully!", true);
-          console.log("Credit limit now = " + user.creditLimit);
-        },
-        error: function () {
-          showCreditMessage("Error updating credit limit. Please try again later.", false);
-        },
-      });
+      url: "profile",
+      method: "POST",
+      data: {
+        action: "updateCredit",
+        creditLimit: newLimit,
+      },
+      success: function () {
+        user.creditLimit = newLimit;
+        saveCreditBtn.classList.add("d-none");
+        showCreditMessage("Credit limit updated successfully!", true);
+        console.log("Credit limit now = " + user.creditLimit);
+      },
+      error: function () {
+        showCreditMessage(
+          "Error updating credit limit. Please try again later.",
+          false
+        );
+      },
+    });
 
     // user.creditLimit = newLimit;
     // saveCreditBtn.classList.add("d-none");
@@ -307,10 +320,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Address :
-  function renderAddresses() {
+  function renderAddresses(data) {
     addressList.innerHTML = "";
 
-    user.addresses.forEach((address) => {
+    data.addresses.forEach((address) => {
       const addressDiv = document.createElement("div");
       addressDiv.className = `col-md-6 mb-3`;
 
@@ -318,11 +331,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="address-item card p-3">
                     <p><strong>${address.state}, ${address.city}</strong></p>
                     <p>${address.street}, Dept: ${
-        address.department || "N/A"
+        address.departmentNumber || "N/A"
       }</p>
                     <div class="address-actions mt-2">
                         <button class="btn btn-sm btn-danger delete-address" data-id="${
-                          address.id
+                          address.addressId
                         }">Delete</button>
                     </div>
                 </div>
@@ -332,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  renderAddresses();
+  // renderAddresses();
 
   // Popup Add address
   addAddressBtn.addEventListener("click", function () {
@@ -384,30 +397,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!isValid) return;
 
-    // إنشاء العنوان الجديد
     const newAddress = {
-      id: ++lastId,
       state: stateInput.value.trim(),
       city: cityInput.value.trim(),
       street: streetInput.value.trim(),
-      department: departmentInput.value.trim() || null,
+      departmentNumber: departmentInput.value.trim() || null,
     };
 
-    // إضافة العنوان وحفظه
-    user.addresses.push(newAddress);
-    renderAddresses();
-    addressFormOverlay.classList.add("d-none");
-    clearForm();
+    $.ajax({
+      url: "profile",
+      method: "POST",
+      data: {
+        action: "addAddress",
+        ...newAddress,
+      },
+      success: function (response) {
+        user.addresses.push({
+          ...newAddress,
+          addressId: response.newId,
+        });
+
+        renderAddresses(user);
+        addressFormOverlay.classList.add("d-none");
+        clearForm();
+      },
+      error: function () {
+        alert("Error while adding address");
+      },
+    });
+
+    // user.addresses.push(newAddress);
+    // renderAddresses();
+    // addressFormOverlay.classList.add("d-none");
+    // clearForm();
   });
 
   // Delete Selected Address
   addressList.addEventListener("click", function (e) {
     if (e.target.classList.contains("delete-address")) {
       const addressId = parseInt(e.target.getAttribute("data-id"));
-      user.addresses = user.addresses.filter(
-        (address) => address.id !== addressId
-      );
-      renderAddresses();
+
+      $.ajax({
+        url: "profile",
+        method: "POST",
+        data: {
+          action: "deleteAddress",
+          addressId: addressId,
+        },
+        success: function () {
+          user.addresses = user.addresses.filter(
+            (address) => address.addressId !== addressId
+          );
+          renderAddresses(user);
+        },
+        error: function () {
+          alert("Error while deleting address");
+        },
+      });
+
+      // user.addresses = user.addresses.filter(
+      //   (address) => address.id !== addressId
+      // );
+      // renderAddresses();
     }
   });
 

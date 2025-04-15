@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
+import iti.Misk.controller.repositories.impls.AddressRepoEmployee;
 import iti.Misk.controller.repositories.impls.OrderItemsRepoImpl;
 import iti.Misk.controller.repositories.impls.OrderRepoImpl;
 import iti.Misk.controller.repositories.impls.ProductRepoImpl;
 import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
+import iti.Misk.controller.services.impls.AddressServiceImp;
 import iti.Misk.controller.services.impls.PerfumeServicesImpl;
 import iti.Misk.model.dtos.Address;
 import iti.Misk.model.dtos.PerfumeDto;
@@ -45,7 +47,18 @@ public class Main {
     //    "./img/product/tom_ford_oud_wood.jpg", "Tom Ford", "100ml", Gender.Unisex);
     //     Product product = ProductMapper.toEntity(dto);
 
-        ProductRepoImpl productRepoImpl = new ProductRepoImpl();
+        // ProductRepoImpl productRepoImpl = new ProductRepoImpl();
+
+        AddressRepoEmployee addressRepoEmployee = new AddressRepoEmployee();
+        Useraddress testAddress = new Useraddress();
+        testAddress.setCity("Cairo");
+        testAddress.setState("New Cairo");
+        testAddress.setStreet("90 Street");
+        testAddress.setDepartmentNumber(101L);
+
+
+        int newAddressId = addressRepoEmployee.addAddressForUser(3, testAddress, em);
+        System.out.println("New Address ID: " + newAddressId);
 
         // From Dto to Entity (ok)
         // System.out.println(productRepoImpl.addNewProduct(product, em));
