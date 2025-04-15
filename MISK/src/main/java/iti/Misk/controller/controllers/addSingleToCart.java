@@ -37,7 +37,8 @@ public class addSingleToCart extends HttpServlet {
           String productid=req.getParameter("proId");
           String quantity=req.getParameter("quantity");
           EntityManager em = (EntityManager) req.getAttribute("em");
-          User user=em.find(User.class, 1);
+          int UserId = (int) req.getSession(false).getAttribute("userId");
+        User user=em.find(User.class, UserId);
           Product pro = new ProductRepoImpl().getProductById(Integer.parseInt(productid), em);
           new ShoppingCartRepoImpl().addCartItem(user ,pro, Integer.parseInt(quantity), em);
 
@@ -90,7 +91,8 @@ public class addSingleToCart extends HttpServlet {
 
         String productid = req.getParameter("productId");
         EntityManager em = (EntityManager) req.getAttribute("em");
-        User user=em.find(User.class, 1);
+        int UserId = (int) req.getSession(false).getAttribute("userId");
+        User user=em.find(User.class, UserId);
         Product pro = new ProductRepoImpl().getProductById(Integer.parseInt(productid), em);
         new ShoppingCartRepoImpl().addCartItem(user ,pro, 1, em);
 

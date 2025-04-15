@@ -40,12 +40,12 @@ try {
     List<ProductsDto> cartItems = gson.fromJson(jsonInput.toString(), productListType);
 
 
-    EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+    EntityManager em = (EntityManager)req.getAttribute("em");
 
-    //int id= ((Integer) req.getSession(false).getAttribute("id"));
-    new ShoppingCartRepoImpl().clearUserShoppingCart(1, em);
+    int UserId = (int) req.getSession(false).getAttribute("userId");
+    new ShoppingCartRepoImpl().clearUserShoppingCart(UserId, em);
     if(cartItems != null || !cartItems.isEmpty()) {
-        new ShoppingCartRepoImpl().addListToCart(1, cartItems, em);
+        new ShoppingCartRepoImpl().addListToCart(UserId, cartItems, em);
     }
 
 

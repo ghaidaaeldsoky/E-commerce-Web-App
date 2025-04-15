@@ -24,8 +24,9 @@ public class shoppingCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-                EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
-         List<Shoppingcart> shoppingCartList=new ShoppingCartRepoImpl().getUserShoppingCart(1,em);
+        EntityManager em =(EntityManager) req.getAttribute("em");
+        int UserId = (int) req.getSession(false).getAttribute("userId");
+         List<Shoppingcart> shoppingCartList=new ShoppingCartRepoImpl().getUserShoppingCart(UserId,em);
         List<ShoppingCartDto> l= shoppingCartList.stream().map(ShoppingCartMapper::toDto).collect(Collectors.toList());
         Iterator<ShoppingCartDto> iterator = l.iterator();
         while (iterator.hasNext()) {

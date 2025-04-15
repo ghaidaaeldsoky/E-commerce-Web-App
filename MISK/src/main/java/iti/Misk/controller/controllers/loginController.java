@@ -1,10 +1,15 @@
 package iti.Misk.controller.controllers;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.JsonObject;
 
+import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
 import iti.Misk.controller.services.impls.UserServiceImpl;
@@ -76,6 +81,42 @@ Boolean isAdmin = userDto.isIsAdmin();
         session.setAttribute("isAdmin",userDto.isIsAdmin());
 
         session.setAttribute("userId",userDto.getUserId());
+
+            int userId = userDto.getUserId();
+            ShoppingCartRepoImpl shoppingCartRepo = new ShoppingCartRepoImpl();
+            List<Integer> l=shoppingCartRepo.getUserShoppingCart(userId,em).stream().map(
+                    shoppingCart -> shoppingCart.getProduct().getProductId()
+
+            ).collect(Collectors.toList());
+
+            if (l==null){
+               req.getSession().setAttribute("productIds",new HashSet<Integer>() );
+
+            }
+            else{
+
+                HashSet<Integer> IDs = new HashSet<>(l);
+                FileWriter fw = null ;
+                try {
+                    fw = new FileWriter("sds.txt");
+                    for(int i : IDs)
+                    {
+                        fw.write(i + "\n");
+                        fw.write(userId+"iddd");
+
+                    }
+                    fw.flush();
+                    fw.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                req.getSession().setAttribute("productIds",IDs );
+
+
+            }
+
+
         
 
 

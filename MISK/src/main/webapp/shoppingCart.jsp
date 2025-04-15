@@ -82,6 +82,45 @@
           },
         });
       }
+      function updateCart2() {
+        console.log("Checkout button clicked!");
+
+        var cart_items = [];
+        document.querySelectorAll(".product-row").forEach((row) => {
+
+          // Extract product details from each row
+          const productId = row.querySelector("#hidden")?.value; // Get product ID
+          const name = row.querySelector(".media-body p")?.innerText.trim(); // Get product name
+          const price = row.querySelector(".price")?.innerText.trim(); // Get product price
+          const quantity = row.querySelector(".qty")?.value; // Get product quantity
+          const photopath = row.querySelector("img")?.src; // Get product image URL
+
+          // Create a product object
+          const item = {
+            productId: productId,
+            name: name,
+            dprice: parseFloat(price.replace("EGP", "").trim()),
+            quantity: quantity,
+            photo: photopath,
+          };
+
+          // Add the product object to the array
+          cart_items.push(item);
+        });
+
+        $.ajax({
+          url: "/MISK/AddProductsToCart",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(cart_items),
+          success: function (response) {
+            console.log("cart updated successfully");
+          },
+          error: function (xhr, status, error) {
+            console.error("Error:", error);
+          },
+        });
+      }
 
       document.addEventListener("DOMContentLoaded", function () {
         function updateOrderTotal() {
@@ -146,6 +185,7 @@
             if (quantityInput.value < maxQuantity) {
               quantityInput.value = parseInt(quantityInput.value) + 1;
               updateTotal();
+              updateCart2();
             }
           });
 
@@ -154,6 +194,8 @@
             if (quantityInput.value > 1) {
               quantityInput.value = parseInt(quantityInput.value) - 1;
               updateTotal();
+              updateCart2();
+
             }
           });
 
@@ -213,6 +255,8 @@
 
 
             updateOrderTotal();
+            updateCart2();
+
           });
 
           // Initialize total price on page load

@@ -24,14 +24,14 @@ public class ValidateOrder extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         EntityManager em=(EntityManager) req.getAttribute("em");
-       // int userId=(int) req.getSession(false).getAttribute("userId");
+        int userId=(int) req.getSession(false).getAttribute("userId");
         String  addressIDstring= req.getParameter("addID");
         int addressID= Integer.parseInt(addressIDstring);
-        int userID=1;
-        User current=new UserRepoImpl().findUserById(userID,em);
+       // int userID=1;
+        User current=new UserRepoImpl().findUserById(userId,em);
         Useraddress useraddress=new AddressRepoEmployee().getAddressbyAddressID(addressID,em);
         BigDecimal creditLimit=current.getCreditLimit();
-        List<Shoppingcart> shoppingcartList=new ShoppingCartRepoImpl().getUserShoppingCart(userID,em);
+        List<Shoppingcart> shoppingcartList=new ShoppingCartRepoImpl().getUserShoppingCart(userId,em);
         List<String> shortageProductNames=new ArrayList<>();
         BigDecimal totalOrderPrice = new BigDecimal("0.00");
 
