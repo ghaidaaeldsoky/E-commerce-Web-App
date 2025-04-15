@@ -12,6 +12,8 @@ public interface ProductRepo {
 
     public boolean updateProduct(Product product, EntityManager em);
 
+    boolean updateProduct2(Product product, EntityManager em);
+
     public List<Product> getAllProducts(EntityManager em);
     public Product getProductById(Integer id, EntityManager em);
     // public List<Product> getFilteredProducts(Filer,int pageNum EntityManager em);

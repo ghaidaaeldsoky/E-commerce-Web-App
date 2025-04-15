@@ -21,10 +21,13 @@ public class ConfirmOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
+
+
         EntityManager em = (EntityManager)req.getAttribute("em");
         int UserId = (int) req.getSession(false).getAttribute("userId");
         // int UserId = 1; // For testing purposes, replace with actual user ID retrieval logic
-        User currentUser = new UserRepoImpl().findUserById(1,em);
+        User currentUser = new UserRepoImpl().findUserById(UserId,em);
         Useraddress useraddress = (Useraddress) req.getAttribute("add");
         List<Shoppingcart> shoppingcartList = (List<Shoppingcart>) req.getAttribute("orderItems");
         BigDecimal totalOrderPrice = (BigDecimal) req.getAttribute("orderPrice");
@@ -32,43 +35,59 @@ public class ConfirmOrderServlet extends HttpServlet {
 
                     //placing a row in orders table and order items table
 
-        Order order = new Order();
-        order.setUser(currentUser);
-        order.setUseraddress(useraddress);
-        order.setTotalAmount(totalOrderPrice);
-        order.setOrderDate(Timestamp.valueOf(java.time.LocalDateTime.now()));
-        int orderID= new OrderRepoImpl().addNewOrder(order, em);
+        try {
 
-        if(orderID!=-1){
-            Order order1=new OrderRepoImpl().getOrder(em, orderID);
-            new OrderItemsRepoImpl().addListOrderItem(order1, shoppingcartList, em);
-            Set<Orderitems> set=new OrderItemsRepoImpl().getOrderItemsByOrderId(orderID, em);
-            new OrderRepoImpl().setOrderItemsList(orderID, set, em);
+            em.getTransaction().begin();
+
+
+            Order order = new Order();
+            order.setUser(currentUser);
+            order.setUseraddress(useraddress);
+            order.setTotalAmount(totalOrderPrice);
+            order.setOrderDate(Timestamp.valueOf(java.time.LocalDateTime.now()));
+            int orderID = new OrderRepoImpl().addNewOrder2(order, em);
+
+            if (orderID != -1) {
+                Order order1 = new OrderRepoImpl().getOrder2(em, orderID);
+                new OrderItemsRepoImpl().addListOrderItem2(order1, shoppingcartList, em);
+                Set<Orderitems> set = new OrderItemsRepoImpl().getOrderItemsByOrderId2(orderID, em);
+                new OrderRepoImpl().setOrderItemsList2(orderID, set, em);
+            }
+
+            //clear shopping cart
+
+            new ShoppingCartRepoImpl().clearUserShoppingCart2(UserId, em);
+
+            //counter related part
+            Set<Integer> ids = (Set<Integer>) req.getSession().getAttribute("productIds");
+            ids.clear();
+            req.getSession().setAttribute("productIds", ids);
+
+            //reduce credit limit
+            BigDecimal newLimit = (currentUser.getCreditLimit().subtract(totalOrderPrice));
+            new UserRepoImpl().updateCreditLimit2(UserId, newLimit, em);
+
+
+            //reduce inventory
+            for (Shoppingcart item : shoppingcartList) {
+                Product product = item.getProduct();
+                int newQuantity = product.getQuantity() - item.getQuantity();
+                product.setQuantity(newQuantity);
+                new ProductRepoImpl().updateProduct2(product, em);
+            }
+            em.getTransaction().commit();
+
+            req.getRequestDispatcher("confirmation.jsp").forward(req, resp);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            resp.sendRedirect("accessDenied.html");
+
         }
 
-                        //clear shopping cart
-
-        new ShoppingCartRepoImpl().clearUserShoppingCart(UserId, em);
-
-                        //counter related part
-       Set<Integer> ids = (Set<Integer>) req.getSession().getAttribute("productIds");
-       ids.clear();
-       req.getSession().setAttribute("productIds", ids);
-
-                        //reduce credit limit
-        BigDecimal newLimit = (currentUser.getCreditLimit().subtract(totalOrderPrice));
-        new UserRepoImpl().updateCreditLimit(UserId,newLimit , em);
-
-
-                        //reduce inventory
-        for (Shoppingcart item : shoppingcartList) {
-            Product product = item.getProduct();
-            int newQuantity = product.getQuantity()-item.getQuantity();
-            product.setQuantity(newQuantity);
-            new ProductRepoImpl().updateProduct(product, em);
-        }
-
-        req.getRequestDispatcher("confirmation.jsp").forward(req,resp);
     }
 
 
@@ -77,37 +96,6 @@ public class ConfirmOrderServlet extends HttpServlet {
 
 
 
-
-
-
-
-
-
-
-
-
-//        String selectedAddressId = req.getParameter("addID");
-//
-//        //must be calculated here from DB
-//        String totalOrderPrice=req.getParameter("totalvalue");
-//
-//        try(FileWriter fw=new FileWriter("order.txt",true)) {
-//            fw.write("selectedAddressId: " + selectedAddressId + "\n");
-//            fw.write("totalOrderPrice: " + totalOrderPrice + "\n");
-//        }
-
-
-
-        //first we will insert a row in the (order)table:
-        //order id autoincrement
-        //user id from session
-       // totalOrderPrice
-        //current time
-        //selectedAddressId
-
-        //second we will insert a row in the (orderitems)table:
-        //get the order id from (order)table using the ordertime &user id
-        //from user id we can get product ids & quantities from shopping cart table from DB
 
 
 

@@ -11,6 +11,8 @@ import java.util.Set;
 public interface OrderRepo {
     public int addNewOrder(Order order, EntityManager em);
 
+    int addNewOrder2(Order order, EntityManager em);
+
     public void setOrderPrice(int OrderID, BigDecimal totalAmount, EntityManager em);
     public void setOrderItemsList(int OrderID, Set<Orderitems> orderitemsList, EntityManager em);
 
@@ -18,8 +20,12 @@ public interface OrderRepo {
 
     public List<Order> getOrdersByUserID(int userID, EntityManager em);
 
+    void setOrderItemsList2(int OrderID, Set<Orderitems> orderitemsSet, EntityManager em);
+
     public Order getOrder(EntityManager em, int orderId);
 
+
+    Order getOrder2(EntityManager em, int orderId);
 
     public void updateOrder(Order newOrder, EntityManager em);
 }

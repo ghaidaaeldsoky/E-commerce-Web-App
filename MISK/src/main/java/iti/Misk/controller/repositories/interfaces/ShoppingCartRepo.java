@@ -22,6 +22,8 @@ public interface ShoppingCartRepo {
     public List<Shoppingcart> getUserShoppingCart(int userId,EntityManager em);
     public boolean clearUserShoppingCart(int userId, EntityManager em);
 
+    boolean clearUserShoppingCart2(int userId, EntityManager em);
+
     int addListToCart(int userId, List<ProductsDto> l, EntityManager em);
 
 

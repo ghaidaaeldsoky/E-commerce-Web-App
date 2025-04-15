@@ -13,6 +13,10 @@ public interface OrderItemsRepo {
 
     public void addNewOrderItem(Order order, Product product, int quantity, EntityManager em);
     public void addListOrderItem(Order order, List<Shoppingcart> cartList, EntityManager em);
+
+    void addListOrderItem2(Order order, List<Shoppingcart> cartList, EntityManager em);
+
     public Set<Orderitems> getOrderItemsByOrderId(int orderId, EntityManager em);
 
+    Set<Orderitems> getOrderItemsByOrderId2(int orderId, EntityManager em);
 }

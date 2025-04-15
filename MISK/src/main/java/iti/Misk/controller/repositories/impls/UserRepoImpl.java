@@ -318,4 +318,15 @@ public class UserRepoImpl implements UserRepo{
         tx.commit();
     }
 
+
+    @Override
+    public void updateCreditLimit2(int userId, BigDecimal newLimit, EntityManager em) {
+
+        em.createQuery("UPDATE User u SET u.creditLimit = :lim WHERE u.id = :id")
+                .setParameter("lim", newLimit)
+                .setParameter("id", userId)
+                .executeUpdate();
+
+    }
+
 }

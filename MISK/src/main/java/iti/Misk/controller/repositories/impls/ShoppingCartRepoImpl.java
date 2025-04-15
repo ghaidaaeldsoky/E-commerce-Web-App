@@ -1,7 +1,6 @@
 package iti.Misk.controller.repositories.impls;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import iti.Misk.controller.repositories.interfaces.ShoppingCartRepo;
@@ -111,6 +110,24 @@ public class ShoppingCartRepoImpl implements ShoppingCartRepo {
                     em.remove(item);
                 }
                 em.getTransaction().commit();
+            }
+            return true;
+        }catch(Exception e) {
+            System.out.println("Error in clearing shopping cart for user: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean clearUserShoppingCart2(int userId, EntityManager em) {
+        try{
+            List<Shoppingcart> cartItems = getUserShoppingCart(userId, em);
+            if( cartItems != null && !cartItems.isEmpty()){
+
+                for (Shoppingcart item : cartItems) {
+                    em.remove(item);
+                }
+
             }
             return true;
         }catch(Exception e) {

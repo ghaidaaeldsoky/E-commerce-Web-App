@@ -26,6 +26,14 @@ public class OrderRepoImpl implements OrderRepo {
     }
 
     @Override
+    public int addNewOrder2(Order order, EntityManager em) {
+        int orderId = -1;
+        em.persist(order);
+        orderId = order.getOrderId();
+        return orderId;
+    }
+
+    @Override
     public void setOrderPrice(int OrderID, BigDecimal totalAmount, EntityManager em) {
         em.getTransaction().begin();
         Order order = em.find(Order.class, OrderID);
@@ -45,11 +53,29 @@ public class OrderRepoImpl implements OrderRepo {
         em.clear();
     }
 
+
+    @Override
+    public void setOrderItemsList2(int OrderID, Set<Orderitems> orderitemsSet, EntityManager em) {
+
+        Order order = em.find(Order.class, OrderID);
+        order.setOrderitemses(orderitemsSet);
+        em.merge(order);
+
+    }
+
     @Override
     public Order getOrder(EntityManager em, int orderId) {
         Order order = em.find(Order.class, orderId);
         order.getOrderitemses();
         em.clear();
+        return order;
+    }
+
+
+    @Override
+    public Order getOrder2(EntityManager em, int orderId) {
+        Order order = em.find(Order.class, orderId);
+        order.getOrderitemses();
         return order;
     }
 

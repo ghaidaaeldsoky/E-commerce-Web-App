@@ -42,6 +42,23 @@ public class ProductRepoImpl implements ProductRepo {
         }
     }
 
+
+    @Override
+    public boolean updateProduct2(Product product, EntityManager em) {
+        try {
+
+            em.merge(product);
+
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updating product: " + e.getMessage());
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            return false;
+        }
+    }
+
     @Override
     public List<Product> getAllProducts(EntityManager em) {
         try {
