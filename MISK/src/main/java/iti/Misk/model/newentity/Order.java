@@ -101,7 +101,7 @@ public class Order implements java.io.Serializable {
         this.orderDate = orderDate;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
     public Set<Orderitems> getOrderitemses() {
         return this.orderitemses;
     }

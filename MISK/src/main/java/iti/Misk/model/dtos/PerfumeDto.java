@@ -26,6 +26,18 @@ public class PerfumeDto {
         this.gender = gender;
     }
 
+    public PerfumeDto( String name, String description, double price, int quantity, String photo, String brand,
+            String size, Gender gender) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.photo = photo;
+        this.brand = brand;
+        this.size = size;
+        this.gender = gender;
+    }
+
     public int getId() {
         return id;
     }

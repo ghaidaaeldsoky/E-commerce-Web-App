@@ -5,10 +5,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.controller.repositories.interfaces.UserRepo;
 import iti.Misk.controller.services.impls.UserServiceImpl;
 import iti.Misk.controller.services.interfaces.UserService;
+import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.dtos.UserDto;
 import iti.Misk.utils.EntityManagerFactorySingleton;
 import jakarta.json.Json;
@@ -44,30 +48,35 @@ public class UsersAdminController extends HttpServlet{
 
     }
 
-    private String convertToJson(List<UserDto> users) {
+    // private String convertToJson(List<UserDto> users) {
         
-        JsonArrayBuilder userArray = Json.createArrayBuilder();
+    //     JsonArrayBuilder userArray = Json.createArrayBuilder();
 
-        for (UserDto userDto : users) {
+    //     for (UserDto userDto : users) {
 
-            userArray.add(Json.createObjectBuilder()
-            .add("userName",userDto.getUserName())
-            .add("PhoneNumber",userDto.getPhoneNumber())
-            .add("Email",userDto.getEmail())
-            .add("birthday",userDto.getBirthDay())
-            .add("job",userDto.getJob())
-            .add("creditLimit",userDto.getCreditLimit())
-            .add("interests",userDto.getIntersets()));
+    //         userArray.add(Json.createObjectBuilder()
+    //         .add("userName",userDto.getUserName())
+    //         .add("PhoneNumber",userDto.getPhoneNumber())
+    //         .add("Email",userDto.getEmail())
+    //         .add("birthday",userDto.getBirthDay())
+    //         .add("job",userDto.getJob())
+    //         .add("creditLimit",userDto.getCreditLimit())
+    //         .add("interests",userDto.getIntersets()));
          
             
-        }
+    //     }
 
-        JsonArray  jsonArray = userArray.build();
+    //     JsonArray  jsonArray = userArray.build();
 
-        return jsonArray.toString();
+    //     return jsonArray.toString();
 
 
-    }
+    // }
+
+    private String convertToJson(List<UserDto> users) {
+    Gson gson = new GsonBuilder().create();
+    return gson.toJson(users);
+}
 
     private List<UserDto> fetchAllUser() {
     

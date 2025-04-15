@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import iti.Misk.controller.repositories.impls.OrderRepoImpl;
 import iti.Misk.model.dtos.OrderDto;
+import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.newentity.Order;
 import iti.Misk.utils.EntityManagerFactorySingleton;
 import iti.Misk.utils.mappers.OrderMapper;
@@ -28,9 +32,25 @@ public class OrderAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        List<OrderDto> orders = fetchAllOrders();
+        OrderRepoImpl orderRepoImpl = new OrderRepoImpl();
+        EntityManager em = (EntityManager) req.getAttribute("em");
 
-        String jsonResponse = convertToJson(orders);
+        List<Order> orders =  orderRepoImpl.getAllOrders(em);
+
+
+        // List<OrderDto> dtos= new ArrayList<>();
+        List<OrderDto> ordersDto = new ArrayList<>();
+
+        for(Order  order: orders)
+        {
+            ordersDto.add(OrderMapper.mapToOrderDto(order));
+
+        }
+
+
+        
+
+        String jsonResponse = convertToJson(ordersDto);
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -40,49 +60,42 @@ public class OrderAdminController extends HttpServlet {
         out.flush();
     }
 
-    private List<OrderDto> fetchAllOrders() {
+    // private List<OrderDto> fetchAllOrders() {
 
-     EntityManager em=   EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+    //  EntityManager em=   EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
 
-     OrderRepoImpl orderRepoImpl = new OrderRepoImpl();
-
-        List<Order> orders =  orderRepoImpl.getAllOrders(em);
-
-
-        List<OrderDto> dtos= new ArrayList<>();
-
-        for(Order  order: orders)
-        {
-            dtos.add(OrderMapper.mapToOrderDto(order));
-
-        }
-
+     
         
       
 
-        return dtos;
-    }
+    //     return dtos;
+    // }
 
-    private String convertToJson(List<OrderDto> orders) {
-        JsonArrayBuilder ordersArray = Json.createArrayBuilder();
+    // private String convertToJson(List<OrderDto> orders) {
+    //     JsonArrayBuilder ordersArray = Json.createArrayBuilder();
 
-        for (OrderDto order : orders) {
-            JsonArrayBuilder productsArray = Json.createArrayBuilder();
-            for (String product : order.getProducts()) {
-                productsArray.add(product);
-            }
+    //     for (OrderDto order : orders) {
+    //         JsonArrayBuilder productsArray = Json.createArrayBuilder();
+    //         for (String product : order.getProducts()) {
+    //             productsArray.add(product);
+    //         }
 
-            JsonObjectBuilder orderObject = Json.createObjectBuilder()
-                    .add("user", order.getUser())
-                    .add("totalAmount", order.getTotalAmount())
-                    .add("address", order.getAddress())
-                    .add("orderDate", order.getOrderDate())
-                    .add("products", productsArray);
+    //         JsonObjectBuilder orderObject = Json.createObjectBuilder()
+    //                 .add("user", order.getUser())
+    //                 .add("totalAmount", order.getTotalAmount())
+    //                 .add("address", order.getAddress())
+    //                 .add("orderDate", order.getOrderDate())
+    //                 .add("products", productsArray);
 
-            ordersArray.add(orderObject);
-        }
+    //         ordersArray.add(orderObject);
+    //     }
 
-        JsonArray jsonArray = ordersArray.build();
-        return jsonArray.toString();
+    //     JsonArray jsonArray = ordersArray.build();
+    //     return jsonArray.toString();
+    // }
+
+    private String convertToJson(List<OrderDto> products) {
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(products);
     }
 }

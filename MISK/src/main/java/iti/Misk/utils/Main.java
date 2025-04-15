@@ -14,10 +14,12 @@ import iti.Misk.controller.repositories.interfaces.UserRepo;
 import iti.Misk.controller.services.impls.AddressServiceImp;
 import iti.Misk.controller.services.impls.PerfumeServicesImpl;
 import iti.Misk.model.dtos.Address;
+import iti.Misk.model.dtos.OrderDto;
 import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.enums.Gender;
 import iti.Misk.model.newentity.*;
 import iti.Misk.utils.mappers.AddressMapper;
+import iti.Misk.utils.mappers.OrderMapper;
 import iti.Misk.utils.mappers.ProductMapper;
 import jakarta.persistence.EntityManager;
 import iti.Misk.controller.repositories.impls.ShoppingCartRepoImpl;
@@ -43,22 +45,33 @@ public class Main {
 
        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
 
+        OrderRepoImpl orderRepoImpl = new OrderRepoImpl();
+        List<Order> orders = orderRepoImpl.getAllOrders(em);
+        for(Order o : orders) {
+            OrderDto orderDto = OrderMapper.mapToOrderDto(o);
+            System.out.println("-- Order address: " + orderDto.getAddress());
+            System.out.println(" user : " + orderDto.getUser());
+            System.out.println(" Amount : " + orderDto.getTotalAmount());
+        }
+        
+
+
     //    PerfumeDto dto = new PerfumeDto(0, "Tom Ford Oud Wood", "Elegant woody scent", 200.0, 12,
     //    "./img/product/tom_ford_oud_wood.jpg", "Tom Ford", "100ml", Gender.Unisex);
     //     Product product = ProductMapper.toEntity(dto);
 
         // ProductRepoImpl productRepoImpl = new ProductRepoImpl();
 
-        AddressRepoEmployee addressRepoEmployee = new AddressRepoEmployee();
-        Useraddress testAddress = new Useraddress();
-        testAddress.setCity("Cairo");
-        testAddress.setState("New Cairo");
-        testAddress.setStreet("90 Street");
-        testAddress.setDepartmentNumber(101L);
+        // AddressRepoEmployee addressRepoEmployee = new AddressRepoEmployee();
+        // Useraddress testAddress = new Useraddress();
+        // testAddress.setCity("Cairo");
+        // testAddress.setState("New Cairo");
+        // testAddress.setStreet("90 Street");
+        // testAddress.setDepartmentNumber(101L);
 
 
-        int newAddressId = addressRepoEmployee.addAddressForUser(3, testAddress, em);
-        System.out.println("New Address ID: " + newAddressId);
+        // int newAddressId = addressRepoEmployee.addAddressForUser(3, testAddress, em);
+        // System.out.println("New Address ID: " + newAddressId);
 
         // From Dto to Entity (ok)
         // System.out.println(productRepoImpl.addNewProduct(product, em));

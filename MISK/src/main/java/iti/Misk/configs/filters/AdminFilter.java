@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/Orders.jsp","/Users.jsp"})
+@WebFilter(urlPatterns = {"/Orders.jsp","/Users.jsp", "/Products.html"})
 public class AdminFilter extends HttpFilter {
 
     @Override

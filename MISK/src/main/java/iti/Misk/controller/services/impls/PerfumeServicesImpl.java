@@ -14,7 +14,7 @@ import iti.Misk.model.newentity.Product;
 import iti.Misk.utils.mappers.ProductMapper;
 import jakarta.persistence.EntityManager;
 
-public class PerfumeServicesImpl {
+public class PerfumeServicesImpl implements PerfumeServices{
 
     // My Perfumes in the arrayList
     private List<PerfumeDto> perfumes = new ArrayList<>();
@@ -143,6 +143,32 @@ public class PerfumeServicesImpl {
         Product p = productRepo.getProductById(id, em);
         if(p==null) return null;
         return ProductMapper.toDto(p);
+    }
+
+    @Override
+    public List<PerfumeDto> getAllPerfumes(EntityManager em) {
+        return ProductMapper.toDtoList(productRepo.getAllProducts(em));
+    }
+
+    @Override
+    public int addPerfume(PerfumeDto perfume,EntityManager em) {
+        return productRepo.addNewProduct(ProductMapper.toEntity(perfume), em);
+    }
+
+    @Override
+    public boolean deletePerfume(int id,EntityManager em) {
+        Product p = productRepo.getProductById(id, em);
+        return productRepo.deleteProduct(p, em);
+    }
+
+    @Override
+    public PerfumeDto findPerfume(int perfumeID,EntityManager em) {
+        return ProductMapper.toDto(productRepo.getProductById(perfumeID, em));
+    }
+
+    @Override
+    public boolean updatePerfume(PerfumeDto perfume,EntityManager em) {
+        return productRepo.updateProduct(ProductMapper.toEntity(perfume), em);
     }
 
 

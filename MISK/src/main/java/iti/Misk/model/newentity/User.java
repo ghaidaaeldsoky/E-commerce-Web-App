@@ -56,7 +56,7 @@ public class User implements java.io.Serializable {
     private String interests;
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
    private Set<Order> orders = new HashSet<Order>(0);
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user",cascade = CascadeType.ALL)

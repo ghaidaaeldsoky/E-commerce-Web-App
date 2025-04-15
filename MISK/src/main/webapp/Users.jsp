@@ -293,12 +293,12 @@ function displayUser(user) {
     let cell7 = row.insertCell(6);
 
     cell1.textContent = user.userName;
-    cell2.textContent = user.PhoneNumber;
-    cell3.textContent = user.Email;
-    cell4.textContent = user.birthday;
+    cell2.textContent = user.phoneNumber;
+    cell3.textContent = user.email;
+    cell4.textContent = user.birthDay;
     cell5.textContent = user.job;
     cell6.textContent = user.creditLimit;
-    cell7.textContent = user.interests;
+    cell7.textContent = user.intersets;
 }
 
 function loadUsers() {

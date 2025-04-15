@@ -14,6 +14,7 @@ import iti.Misk.model.enums.Gender;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -68,14 +69,16 @@ public class ProductSettingsController extends HttpServlet{
                 int productSize = parseInteger(size, 0);
                 int id = parseInteger(productId, 0); 
     
-                    Gender genderEnum = Gender.valueOf(gender.toUpperCase());
+                    Gender genderEnum = Gender.valueOf(gender);
 
                     PerfumeDto productDto = new PerfumeDto(
                         id, productName, description, price, quantity, imgPath, brand, size, genderEnum
                     );
+
+                    EntityManager em = (EntityManager) req.getAttribute("em");
         
-                    PerfumeServices perfume = PerfumeServicesImpl.getPerfumeServices();
-                perfume.addPerfume(productDto);
+                    PerfumeServices perfume = (PerfumeServices) PerfumeServicesImpl.getPerfumeServices();
+                perfume.updatePerfume(productDto, em);
     
             } catch (IOException | ServletException e) {
                 // Log or print the error
@@ -114,7 +117,18 @@ public class ProductSettingsController extends HttpServlet{
                      String gender = req.getParameter("gender");
                      String description = req.getParameter("description");
 
-                     ProductsDto productDto = new ProductsDto(imgPath, productName, description,Integer.parseInt(productPrice), Integer.parseInt(productQuantity),  brand,  Integer.parseInt(size),  gender);
+                     Gender genderEnum = Gender.valueOf(gender);
+
+                     PerfumeDto productDto = new PerfumeDto(
+                         productName, description, Double.parseDouble(productPrice), Integer.parseInt(productQuantity), imgPath, brand, size, genderEnum
+                     );
+ 
+                     EntityManager em = (EntityManager) req.getAttribute("em");
+         
+                     PerfumeServices perfume = (PerfumeServices) PerfumeServicesImpl.getPerfumeServices();
+                    perfume.addPerfume(productDto,em);
+
+                    //  ProductsDto productDto = new ProductsDto(imgPath, productName, description,Integer.parseInt(productPrice), Integer.parseInt(productQuantity),  brand,  Integer.parseInt(size),  gender);
 
                      System.out.println(productDto);
                     
@@ -124,35 +138,60 @@ public class ProductSettingsController extends HttpServlet{
                     }}
 
     }
-        private String savePhotoOnTheServer( Part imgPart) {
+        // private String savePhotoOnTheServer( Part imgPart) {
             
+        //     String imgName = imgPart.getSubmittedFileName();
+
+        //     System.out.println("hello we are here");
+        //     String pathdir = getServletContext().getRealPath("/")+"productsPhotos";
+
+        //     File uploadDir = new File(pathdir);
+            
+        //     if(!uploadDir.exists())
+        //     {
+        //         uploadDir.mkdirs();
+        //     }
+
+        //     String  uploadImgPath = pathdir +File.separator + imgName;
+
+        //     try {
+        //         imgPart.write(uploadImgPath);
+        //     } catch (IOException e) {
+        //         // TODO Auto-generated catch block
+        //         e.printStackTrace();
+        //     }
+        //     return uploadImgPath;
+
+        // }
+
+        private String savePhotoOnTheServer(Part imgPart) {
+
             String imgName = imgPart.getSubmittedFileName();
-
             System.out.println("hello we are here");
-            String pathdir = getServletContext().getRealPath("/")+"productsPhotos";
-
+        
+            String pathdir = getServletContext().getRealPath("/img/product");
+        
             File uploadDir = new File(pathdir);
-            
-            if(!uploadDir.exists())
-            {
+            if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
-
-            String  uploadImgPath = pathdir +File.separator + imgName;
-
+        
+            String uploadImgPath = pathdir + File.separator + imgName;
+        
             try {
                 imgPart.write(uploadImgPath);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return uploadImgPath;
-
+        
+            return "img/product/" + imgName;
         }
+        
         @Override
         protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             
             String productId =req.getParameter("productId");
+            EntityManager em = (EntityManager) req.getAttribute("em");
 
             if(productId  != null)
             {
@@ -160,7 +199,7 @@ public class ProductSettingsController extends HttpServlet{
 
             int prodId= Integer.parseInt(productId);
 
-            boolean deleted = deleteProductFromDataBase(prodId);
+            boolean deleted = PerfumeServicesImpl.getPerfumeServices().deletePerfume(prodId,em);
 
             if(deleted)
             {
@@ -178,8 +217,8 @@ public class ProductSettingsController extends HttpServlet{
 
             
         }
-        private boolean deleteProductFromDataBase(int prodId) {
+    //     private boolean deleteProductFromDataBase(int prodId) {
            
-     return PerfumeServicesImpl.getPerfumeServices().deletePerfume(prodId);
-        }
+    //  return PerfumeServicesImpl.getPerfumeServices().deletePerfume(prodId,em);
+    //     }
 }
