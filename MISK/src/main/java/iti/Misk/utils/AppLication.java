@@ -1,9 +1,11 @@
 package iti.Misk.utils;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import iti.Misk.controller.repositories.impls.UserRepoImpl;
 import iti.Misk.model.dtos.Address;
 import iti.Misk.model.dtos.UserDto;
 import iti.Misk.model.newentity.User;
@@ -15,123 +17,54 @@ import iti.Misk.utils.EntityManagerFactorySingleton;
 
 public class AppLication {
     public static void main(String[] args) {
-        System.out.println("hi");
-        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
 
-        Address addressDto = new Address();
-        addressDto.setState("Cairo");
-        addressDto.setCity("Nasr City");
-        addressDto.setStreet("Makram Ebeid");
-        addressDto.setDepartmentNumber(305L);
+     User user1 = new User();
+user1.setName("Sama");
+user1.setPhoneNumber("01012345678");
+user1.setEmail("sama@example.com");
+user1.setPassword("password123");
+user1.setBirthday(java.sql.Date.valueOf("2000-05-20"));
+user1.setJob("Developer");
+user1.setCreditLimit(new BigDecimal("10000.00"));
+user1.setInterests("Programming, Reading");
+user1.setIsAdmin(false);
 
-        Address addressDto2 = new Address();
-        addressDto2.setState("Alex");
-        addressDto2.setCity("Nasr City");
-        addressDto2.setStreet("Makram");
-        addressDto2.setDepartmentNumber(3052L);
+User user2 = new User();
+user2.setName("Ahmed");
+user2.setPhoneNumber("01198765432");
+user2.setEmail("ahmed@example.com");
+user2.setPassword("securePass");
+user2.setBirthday(java.sql.Date.valueOf("1998-03-15"));
+user2.setJob("Designer");
+user2.setCreditLimit(new BigDecimal("7500.50"));
+user2.setInterests("Design, Music");
+user2.setIsAdmin(true);
 
-        UserDto userDto = new UserDto();
-        userDto.setUserName("Sama");
-        userDto.setPhoneNumber("0123456789");
-        userDto.setEmail("sama@example.com");
-        userDto.setBirthDay("1998-05-10");
-        userDto.setJob("Software Engineer");
-        userDto.setCreditLimit("5000.00");
-        userDto.setIntersets("Reading, Coding");
-        userDto.setPassword("securePassword123");
+Useraddress address1 = new Useraddress();
+address1.setState("Cairo");
+address1.setCity("Nasr City");
+address1.setStreet("Al Tayaran Street");
+address1.setDepartmentNumber(12L);
 
-        User user = UserMapper.toEntity(userDto);
-
-        Useraddress address = AddressMapper.toEntity(addressDto);
-        Useraddress address2 = AddressMapper.toEntity(addressDto2);
-
-        user.getUseraddresses().add(address);
-        user.getUseraddresses().add(address2);
-        address.setUser(user);
-        address2.setUser(user);
-
-        em.getTransaction().begin();
-
-        em.merge(user);
-
-        em.getTransaction().commit();
-
-        em.getTransaction().begin();
-
-        User userelzeft = em.find(User.class, 1);
-
-        Set<Useraddress> set = userelzeft.getUseraddresses();
-
-        em.getTransaction().commit();
-
-        Address addressDto4 = new Address();
-        addressDto4.setState("Cairo");
-        addressDto4.setCity("Nasr City");
-        addressDto4.setStreet("Makram Ebeid");
-        addressDto4.setDepartmentNumber(305L);
-
-        Address addressDto3 = new Address();
-        addressDto3.setState("Alex");
-        addressDto3.setCity("Nasr City");
-        addressDto3.setStreet("Makram");
-        addressDto3.setDepartmentNumber(3052L);
-
-        Useraddress address3 = AddressMapper.toEntity(addressDto3);
-        Useraddress address4 = AddressMapper.toEntity(addressDto4);
-
-        System.out.println(address3.getState());
-
-        em.getTransaction().begin();
+Useraddress address2 = new Useraddress();
+address2.setState("Giza");
+address2.setCity("Dokki");
+address2.setStreet("Tahrir Street");
+address2.setDepartmentNumber(5L);
 
 
-        User user2 = em.find(User.class, 1);
+EntityManager entityManager=  EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
 
-        System.out.println("heeeeeeeeeeeee" + user2.getUserId());
+ 
+        UserRepoImpl repoImpl = new UserRepoImpl();
 
-        user2.getUseraddresses().add(address3);
+        repoImpl.addNewUser(user2, address2, entityManager);
 
-        user2.getUseraddresses().add(address4);
+        repoImpl.addNewUser(user1, address1, entityManager);
 
-        address3.setUser(user2);
+      System.out.println(repoImpl.checkPasswordValidation("sama@example.com","test122224" ,entityManager));  
 
-        address4.setUser(user2);
-
-        em.merge(user2);
-
-        em.getTransaction().commit();
-
-        // Iterator<Useraddress> iterator = set.iterator
-        // while (iterator.hasNext()) {
-        // Useraddress address3 = iterator.next(); 
-        // System.out.println(address.getStreet()); =
-        // }
-
-        em.getTransaction().begin();
-
-        Useraddress addressToRemove = em.find(Useraddress.class, 1);
-    
-        if (addressToRemove != null) {
-          
-            User user0 = addressToRemove.getUser();
-    
-            if (user0 != null) {
-             
-                user0.getUseraddresses().remove(addressToRemove);
-    
-             
-                addressToRemove.setUser(null);
-    
-              
-                em.merge(user0); 
-            }
-    
-            em.remove(addressToRemove); 
-        } else {
-            System.out.println("Address not found.");
-        }
-    
-   
-        em.getTransaction().commit();
+      System.out.println(repoImpl.getUserCreditCardLimit(1, entityManager));
     }
     
 }

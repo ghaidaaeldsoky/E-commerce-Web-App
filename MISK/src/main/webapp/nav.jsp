@@ -1,5 +1,5 @@
-<%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
 
 <%
     HttpSession sessionUser = request.getSession(false);
@@ -64,6 +64,12 @@
                         <ul class="nav-shop">
                             <li class="nav-item">
                                 <button class="cart-button" onclick="window.location.href='shoppingCartServlet'"><i class="ti-shopping-cart"></i>
+<<<<<<< HEAD
+=======
+
+                                    <span class="nav-shop__circle">3</span>
+
+>>>>>>> origin/Sama
                                     <c:if test="${not empty sessionScope.productIds}">
                                         <span class="nav-shop__circle">${sessionScope.productIds.size()}</span>
                                     </c:if>

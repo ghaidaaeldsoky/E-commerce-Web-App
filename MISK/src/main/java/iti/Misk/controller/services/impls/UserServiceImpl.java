@@ -77,8 +77,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean checkPasswordValidation(String email, String password, EntityManager em) {
-
-        return userRepo.checkEmailAvailability(email, em);
+        
+        return userRepo.checkPasswordValidation(email, password,em);
     }
 
     @Override
