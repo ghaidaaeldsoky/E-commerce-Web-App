@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
+import iti.Misk.controller.services.impls.PerfumeServicesImpl;
+import iti.Misk.controller.services.interfaces.PerfumeServices;
+import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.dtos.ProductsDto;
+import iti.Misk.model.enums.Gender;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -59,16 +63,19 @@ public class ProductSettingsController extends HttpServlet{
                 String gender = req.getParameter("gender");
                 String description = req.getParameter("description");
     
-                // Default values for price, quantity, and size
-                int price = parseInteger(productPrice, 0);
+                double price = parseInteger(productPrice, 0);
                 int quantity = parseInteger(productQuantity, 0);
                 int productSize = parseInteger(size, 0);
-                int id = parseInteger(productId, 0); // assuming productId should always be present, else handle accordingly
+                int id = parseInteger(productId, 0); 
     
-                // Creating the Product DTO
-                ProductsDto productDto = new ProductsDto(id, imgPath, productName, description, price, quantity, brand, productSize, gender);
-    
-                System.out.println(productDto);
+                    Gender genderEnum = Gender.valueOf(gender.toUpperCase());
+
+                    PerfumeDto productDto = new PerfumeDto(
+                        id, productName, description, price, quantity, imgPath, brand, size, genderEnum
+                    );
+        
+                    PerfumeServices perfume = PerfumeServicesImpl.getPerfumeServices();
+                perfume.addPerfume(productDto);
     
             } catch (IOException | ServletException e) {
                 // Log or print the error
@@ -173,6 +180,6 @@ public class ProductSettingsController extends HttpServlet{
         }
         private boolean deleteProductFromDataBase(int prodId) {
            
-            return true;
+     return PerfumeServicesImpl.getPerfumeServices().deletePerfume(prodId);
         }
 }

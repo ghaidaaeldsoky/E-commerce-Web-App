@@ -1,5 +1,5 @@
 package iti.Misk.model.enums;
 
 public enum Gender {
-    Men, Women, Unisex
+    MALE, FEMALE, UNISEX
 }

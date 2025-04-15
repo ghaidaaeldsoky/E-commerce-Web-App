@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import iti.Misk.controller.repositories.impls.OrderRepoImpl;
 import iti.Misk.model.dtos.OrderDto;
+import iti.Misk.model.newentity.Order;
+import iti.Misk.utils.EntityManagerFactorySingleton;
+import iti.Misk.utils.mappers.OrderMapper;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,19 +41,26 @@ public class OrderAdminController extends HttpServlet {
     }
 
     private List<OrderDto> fetchAllOrders() {
-        List<OrderDto> orders = new ArrayList<>();
+
+     EntityManager em=   EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+
+     OrderRepoImpl orderRepoImpl = new OrderRepoImpl();
+
+        List<Order> orders =  orderRepoImpl.getAllOrders(em);
+
+
+        List<OrderDto> dtos= new ArrayList<>();
+
+        for(Order  order: orders)
+        {
+            dtos.add(OrderMapper.mapToOrderDto(order));
+
+        }
 
         
-        orders.add(new OrderDto("Sama Mohamed", 120, "Cairo, Egypt", "2025-03-29",
-                Arrays.asList("Protein Bar", "Omega-3 Capsules")));
+      
 
-        orders.add(new OrderDto("Ali Mohamed", 80, "Giza, Egypt", "2025-03-28",
-                Arrays.asList("Vitamin D", "Multivitamin")));
-
-        orders.add(new OrderDto("Laila Hussein", 150, "Alexandria, Egypt", "2025-03-27",
-                Arrays.asList("Protein Shake", "Fish Oil")));
-
-        return orders;
+        return dtos;
     }
 
     private String convertToJson(List<OrderDto> orders) {

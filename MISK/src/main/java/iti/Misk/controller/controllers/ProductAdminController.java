@@ -5,7 +5,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import iti.Misk.controller.services.impls.PerfumeServicesImpl;
+import iti.Misk.controller.services.interfaces.PerfumeServices;
+import iti.Misk.model.dtos.PerfumeDto;
 import iti.Misk.model.dtos.ProductsDto;
+import iti.Misk.model.enums.Gender;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
@@ -22,7 +26,7 @@ public class ProductAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        List<ProductsDto> products = fetchAllProducts();
+        List<PerfumeDto> products = fetchAllProducts();
 
         
         String jsonResponse = convertToJson(products);
@@ -37,12 +41,12 @@ public class ProductAdminController extends HttpServlet {
         out.flush();
     }
 
-    private String convertToJson(List<ProductsDto> products) {
+    private String convertToJson(List<PerfumeDto> products) {
         JsonArrayBuilder productArray = Json.createArrayBuilder();
 
-        for (ProductsDto productDto : products) {
+        for (PerfumeDto productDto : products) {
             productArray.add(Json.createObjectBuilder()
-                    .add("productId", productDto.getProductId())
+                    .add("productId", productDto.getId())
                     .add("photo", productDto.getPhoto())
                     .add("name", productDto.getName())
                     .add("description", productDto.getDescription())
@@ -50,7 +54,12 @@ public class ProductAdminController extends HttpServlet {
                     .add("quantity", productDto.getQuantity())
                     .add("brand", productDto.getBrand())
                     .add("size", productDto.getSize())
-                    .add("gender", productDto.getGender()));
+                    .add("gender", productDto.getGender().name()));
+
+                  
+   
+
+ 
         }
 
         JsonArray jsonArray = productArray.build();
@@ -58,15 +67,14 @@ public class ProductAdminController extends HttpServlet {
         return jsonArray.toString();
     }
 
-    private List<ProductsDto> fetchAllProducts() {
+    private List<PerfumeDto> fetchAllProducts() {
+
+        PerfumeServices perfume = PerfumeServicesImpl.getPerfumeServices();
         
-        List<ProductsDto> products = new ArrayList<>();
+       perfume.getAllPerfumes();
 
-        // Sample product data
-        products.add(new ProductsDto(1, "OIP.jpg", "Miss Dior", "Perfume Christian ",120, 100, "BrandA", 50, "Female"));
-        products.add(new ProductsDto(2, "OIP.jpg", "Miss Dior", "Perfume Christian ",80, 200, "BrandB", 30, "Male"));
-        products.add(new ProductsDto(3, "OIP.jpg", "Miss Dior","Perfume Christian ", 150, 150, "BrandC", 30, "Female"));
+      
 
-        return products;
+        return  perfume.getAllPerfumes();
     }
 }

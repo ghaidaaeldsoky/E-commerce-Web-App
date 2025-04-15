@@ -14,6 +14,7 @@ public class Product {
    private String gender;
     private int max;
 
+    
 
     public void setPricee(Double pricee) {
         this.pricee = pricee;

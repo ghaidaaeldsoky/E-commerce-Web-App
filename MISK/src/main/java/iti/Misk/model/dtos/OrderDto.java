@@ -5,7 +5,7 @@ import java.util.List;
 public class OrderDto {
 
     private String user;
-    private String totalAmount;
+    private int totalAmount;
 
     private String address;
     private String orderDate;
@@ -17,7 +17,7 @@ public class OrderDto {
 
     // Parameterized constructor
  
-    public OrderDto(String user, String totalAmount, String address, String orderDate, List<String> products) {
+    public OrderDto(String user, int totalAmount, String address, String orderDate, List<String> products) {
 
         this.user = user;
         this.totalAmount = totalAmount;
@@ -35,13 +35,13 @@ public class OrderDto {
     }
 
 
-    public String getTotalAmount() {
+    public int getTotalAmount() {
 
   
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
     }
 

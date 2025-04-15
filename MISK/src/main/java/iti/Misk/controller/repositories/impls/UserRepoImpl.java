@@ -111,15 +111,13 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public User findUserById(Integer userId, EntityManager em) {
-
         em.getTransaction().begin();
-
         User user = em.find(User.class, userId);
-
+        System.out.println("Fetched user: " + user);
         em.getTransaction().commit();
-
         return user;
     }
+    
 
     @Override
     public User findUserByEmail(String email, EntityManager em) {
@@ -156,21 +154,25 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public Boolean checkPasswordValidation(String email, String password, EntityManager em) {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
-
+    
         CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
-
         Root<User> userRoot = criteriaQuery.from(User.class);
-
+    
         Predicate emailPredicate = cb.equal(userRoot.get("email"), email);
         criteriaQuery.where(emailPredicate);
-
-        User user = em.createQuery(criteriaQuery).getSingleResult();
-
-        return user.getPassword() == password;
-
+    
+        List<User> users = em.createQuery(criteriaQuery).getResultList();
+    
+        if (users.isEmpty()) {
+            return false;
+        }
+     
+        User user = users.get(0);
+        System.out.println("emaill"+ user.getEmail());
+        return user.getPassword().equals(password);
     }
+    
 
     @Override
     public int getUserIdByEmail(String email, EntityManager em) {
@@ -192,11 +194,17 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public BigDecimal getUserCreditCardLimit(int id, EntityManager em) {
-        BigDecimal  CreditLimit= findUserById(id, em).getCreditLimit();
-
-        return CreditLimit;
-
+        User user = findUserById(id, em);
+    
+        if (user == null) {
+            System.out.println("User not found with ID: " + id);
+            return BigDecimal.ZERO; 
+        }
+    
+        BigDecimal creditLimit = user.getCreditLimit();
+        return creditLimit != null ? creditLimit : BigDecimal.ZERO;
     }
+    
 
     @Override
     public Set<Order> getAllUserOrders(int id, EntityManager em) {

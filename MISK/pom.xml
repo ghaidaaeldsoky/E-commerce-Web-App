@@ -158,7 +158,7 @@
         </execution>
         </executions>
         <configuration>
-        <mainClass>iti.Misk.utils.Main</mainClass>
+        <mainClass>iti.Misk.utils.AppLication</mainClass>
         <cleanupDaemonThreads>false</cleanupDaemonThreads>
    </configuration>
         </plugin>

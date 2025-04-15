@@ -155,9 +155,9 @@ Boolean isAdmin = userDto.isIsAdmin();
       
     }
 
-    private boolean isValidPassword(String email, EntityManager em, UserService service, String email2, String password) {
+    private boolean isValidPassword(String email, EntityManager em, UserService service,String password) {
         
-        return service.checkPasswordValidation(email2, password, em);
+        return service.checkPasswordValidation(email, password, em);
     }
     private void checkIfPasswordIsTrue(HttpServletRequest req, HttpServletResponse resp, EntityManager em, UserService service) {
 
@@ -167,7 +167,7 @@ Boolean isAdmin = userDto.isIsAdmin();
 
         String password = req.getParameter("password");
 
-        boolean validPassword = isValidPassword(password,em,service,email,password);
+        boolean validPassword = isValidPassword(email,em,service,password);
 
         resp.setContentType("application/json");
 
