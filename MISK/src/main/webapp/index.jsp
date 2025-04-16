@@ -54,30 +54,26 @@
                 <div class="head">Browse Categories</div>
                 <ul class="main-categories">
                   <li class="common-filter">
-                    <form action="home" method="GET" id="filterForm">
+                    <form id="filterForm" onsubmit="return false;">
                       <ul>
                         <li class="filter-list">
                           <input class="pixel-radio" type="radio" id="all" name="gender" value="all"
-                            ${param.gender=='all' || empty param.gender ? 'checked' : '' }
-                            onchange="document.getElementById('filterForm').submit()" />
+                            ${param.gender=='all' || empty param.gender ? 'checked' : '' } />
                           <label for="all">All</label>
                         </li>
                         <li class="filter-list">
                           <input class="pixel-radio" type="radio" id="men" name="gender" value="Men"
-                            ${param.gender=='Men' ? 'checked' : '' }
-                            onchange="document.getElementById('filterForm').submit()" />
+                            ${param.gender=='Men' ? 'checked' : '' } />
                           <label for="men">Men</label>
                         </li>
                         <li class="filter-list">
                           <input class="pixel-radio" type="radio" id="women" name="gender" value="Women"
-                            ${param.gender=='Women' ? 'checked' : '' }
-                            onchange="document.getElementById('filterForm').submit()" />
+                            ${param.gender=='Women' ? 'checked' : '' } />
                           <label for="women">Women</label>
                         </li>
                         <li class="filter-list">
                           <input class="pixel-radio" type="radio" id="unisex" name="gender" value="Unisex"
-                            ${param.gender=='Unisex' ? 'checked' : '' }
-                            onchange="document.getElementById('filterForm').submit()" />
+                            ${param.gender=='Unisex' ? 'checked' : '' } />
                           <label for="unisex">Unisex</label>
                         </li>
                       </ul>
@@ -86,7 +82,10 @@
                       <div class="common-filter">
                         <!-- <div class="head">Price</div> -->
                         <div class="price-range-area">
-                          <div id="price-range"></div>
+                          <div id="price-range" data-min="${actualMinPrice}" data-max="${actualMaxPrice}"
+                            data-selected-min="${not empty selectedMinPrice ? selectedMinPrice : actualMinPrice}"
+                            data-selected-max="${not empty selectedMaxPrice ? selectedMaxPrice : actualMaxPrice}">
+                          </div>
                           <div class="value-wrapper d-flex">
                             <div class="price">Price:</div>
                             <div id="lower-value"></div>
@@ -348,11 +347,11 @@
       <script src="js/main.js"></script>
 
       <script>
-        document.querySelectorAll('.pixel-radio').forEach(radio => {
-          radio.addEventListener('change', function () {
-            document.getElementById('filterForm').submit();
-          });
-        });
+        // document.querySelectorAll('.pixel-radio').forEach(radio => {
+        //   radio.addEventListener('change', function () {
+        //     document.getElementById('filterForm').submit();
+        //   });
+        // });
 
         function addToCart(id) {
           event.preventDefault();
@@ -392,39 +391,11 @@
       </script>
 
       <!-- the price slider script -->
-      <script>
+      <!-- <script>
         document.addEventListener('DOMContentLoaded', function () {
-          var priceSlider = document.getElementById('price-range');
-          var minPriceInput = document.getElementById('minPrice');
-          var maxPriceInput = document.getElementById('maxPrice');
-          var lowerValue = document.getElementById('lower-value');
-          var upperValue = document.getElementById('upper-value');
-
-          noUiSlider.create(priceSlider, {
-            start: [${ not empty selectedMinPrice? selectedMinPrice: actualMinPrice },
-              ${ not empty selectedMaxPrice? selectedMaxPrice: actualMaxPrice }],
-            connect: true,
-            range: {
-              'min': ${ actualMinPrice },
-            'max': ${ actualMaxPrice }
-          },
-          step: 10
-      });
-
-        priceSlider.noUiSlider.on('update', function (values, handle) {
-          var minVal = Math.round(values[0]);
-          var maxVal = Math.round(values[1]);
-          lowerValue.textContent = minVal;
-          upperValue.textContent = maxVal;
-          minPriceInput.value = minVal;
-          maxPriceInput.value = maxVal;
-        });
-
-        priceSlider.noUiSlider.on('set', function () {
-          document.getElementById('filterForm').submit();
-        });
+          
   });
-      </script>
+      </script> -->
 
       <!-- Search -->
       <script>
@@ -432,14 +403,68 @@
           const searchField = $('#searchField');
           let timeoutId;
 
+          $('#filterForm').on('submit', function (e) {
+            e.preventDefault();
+          });
+
           searchField.on('input', function () {
             clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
-              performSearch();
+              performSearch();  // -> filterProducts()
             }, 300); // 300ms delay after typing stops
           });
 
-          function performSearch() {
+          document.querySelectorAll('.pixel-radio').forEach(radio => {
+            radio.addEventListener('change', function () {
+              performSearch();
+              // document.getElementById('filterForm').submit(); // -> filterProducts()
+            });
+          });
+
+          document.querySelectorAll('input[name="gender"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+              performSearch();
+            });
+          });
+
+          var priceSlider = document.getElementById('price-range');
+          var minPriceInput = document.getElementById('minPrice');
+          var maxPriceInput = document.getElementById('maxPrice');
+          var lowerValue = document.getElementById('lower-value');
+          var upperValue = document.getElementById('upper-value');
+
+          var actualMin = parseInt(priceSlider.dataset.min);
+          var actualMax = parseInt(priceSlider.dataset.max);
+          var selectedMin = parseInt(priceSlider.dataset.selectedMin);
+          var selectedMax = parseInt(priceSlider.dataset.selectedMax);
+
+          if (!priceSlider.noUiSlider) {
+          noUiSlider.create(priceSlider, {
+            start: [selectedMin, selectedMax],
+            connect: true,
+            range: {
+              'min': actualMin,
+              'max': actualMax
+            },
+            step: 10
+          });
+
+          priceSlider.noUiSlider.on('update', function (values, handle) {
+            var minVal = Math.round(values[0]);
+            var maxVal = Math.round(values[1]);
+            lowerValue.textContent = minVal;
+            upperValue.textContent = maxVal;
+            minPriceInput.value = minVal;
+            maxPriceInput.value = maxVal;
+          });
+
+          priceSlider.noUiSlider.on('set', function () {
+            performSearch();
+            // document.getElementById('filterForm').submit(); // filterProducts()
+          });
+        }
+
+          function performSearch(page = 1) {
             const searchQuery = searchField.val();
             const gender = $('input[name="gender"]:checked').val();
             const minPrice = $('#minPrice').val();
@@ -453,7 +478,7 @@
                 gender: gender,
                 minPrice: minPrice,
                 maxPrice: maxPrice,
-                page: 1 // Reset to first page when searching
+                page: page // Reset to first page when searching
               },
               success: function (response) {
                 const tempDiv = $('<div>').html(response);
@@ -469,9 +494,18 @@
                 } else {
                   $('#pagination').html(pagination.html()).show();
                 }
+              },
+              error: function (xhr, status, error) {
+                console.error("Error while filtering:", error);
               }
             });
           }
+
+          $(document).on('click', '#pagination a', function (e) {
+            e.preventDefault();
+            const page = $(this).text().trim();
+            performSearch(page);
+          });
         });
       </script>
 

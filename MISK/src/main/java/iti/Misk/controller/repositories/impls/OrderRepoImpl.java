@@ -12,8 +12,8 @@ import java.util.Set;
 
 public class OrderRepoImpl implements OrderRepo {
 
-
-    //this one will return the order id which will be used in the setOrderPrice &setOrderItems method
+    // this one will return the order id which will be used in the setOrderPrice
+    // &setOrderItems method
     @Override
     public int addNewOrder(Order order, EntityManager em) {
         int orderId = -1;
@@ -53,7 +53,6 @@ public class OrderRepoImpl implements OrderRepo {
         em.clear();
     }
 
-
     @Override
     public void setOrderItemsList2(int OrderID, Set<Orderitems> orderitemsSet, EntityManager em) {
 
@@ -71,7 +70,6 @@ public class OrderRepoImpl implements OrderRepo {
         return order;
     }
 
-
     @Override
     public Order getOrder2(EntityManager em, int orderId) {
         Order order = em.find(Order.class, orderId);
@@ -79,8 +77,9 @@ public class OrderRepoImpl implements OrderRepo {
         return order;
     }
 
-    //I have the id of the order when inserted which is the return of this addNewOrder
-    //so i can use it to update the order
+    // I have the id of the order when inserted which is the return of this
+    // addNewOrder
+    // so i can use it to update the order
     @Override
     public void updateOrder(Order newOrder, EntityManager em) {
         em.getTransaction().begin();
@@ -89,11 +88,17 @@ public class OrderRepoImpl implements OrderRepo {
         em.clear();
     }
 
-
     @Override
     public List<Order> getAllOrders(EntityManager em) {
-        Query query = em.createQuery("select o from Order o");
-        List<Order> orders = query.getResultList();
+        List<Order> orders = em.createQuery(
+                "SELECT DISTINCT o FROM Order o " +
+                        "LEFT JOIN FETCH o.user " +
+                        "LEFT JOIN FETCH o.useraddress " +
+                        "LEFT JOIN FETCH o.orderitemses oi " +
+                        "LEFT JOIN FETCH oi.product",
+                Order.class)
+                .getResultList();
+
         em.clear();
         return orders;
     }
