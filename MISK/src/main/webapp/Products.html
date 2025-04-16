@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Spica Admin</title>
+  <title>MISK Admin</title>
   <!-- base:css -->
   <link rel="stylesheet" href="css/materialdesignicons.min.css">
   <link rel="stylesheet" href="css/vendor.bundle.base.css">
@@ -13,7 +13,8 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="css/styleAdmin.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="img/favicon.png" />
+  <link rel="shortcut icon" href="img/Fevicon.png" />
+  <link rel="icon" href="img/Fevicon.png" type="image/png" />
   <style>
     body {
         display: flex;
@@ -68,9 +69,15 @@
 
 <body>
   <div class="container-scroller d-flex">
+    <h1 style="
+    text-align: left;
+    position: absolute;
+    left: 262px;
+    top: 30px;
+">Products Management</h1>
     <!-- partial:../../partials/_sidebar.html -->
-    <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar" style="top:0px; height:100%; position: fixed; left:0px;">
+        <ul class="nav" >
      
           <li class="nav-item sidebar-category">
             <p>Components</p>
@@ -112,9 +119,9 @@
         </ul>
       </nav>
     <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper d-flex justify-content-center" >
       <!-- partial:../../partials/_navbar.html -->
-      <nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4 d-flex flex-row">
+      <!-- <nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4 d-flex flex-row">
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
@@ -268,37 +275,45 @@
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> -->
 
-      <button type="button" class="btn btn-outline-primary btn-fw d-block" style="margin: 15px; width:150px ; height: 40px;" id="addProduct">Add Product</button>
+      <button type="button" class="btn btn-outline-primary btn-fw d-block" style="width:150px ; height: 40px;     position: absolute;
+      right: 50px;
+      top: 30px;" id="addProduct">Add Product</button>
 
       <br>
 
-      <button class="button btn-green " id="editBtn" style="display: none;" >Edit</button>
+      <button class="button btn-blue " id="editBtn" style="display: none; width: 60%; background-color: #384AEB;" >Edit</button>
    
-      <button class="button btn-orange" id="deleteSelectedBtn" style="display: none;">Delete</button>
+      <button class="button btn-red" id="deleteSelectedBtn" style="display: none; width: 60%;
+    margin-top: 5px;">Delete</button>
 
 
       
       
       <!---table-->
-      <div class="table-responsive d-flex justify-content-center">
+      <div class="table-responsive d-flex justify-content-center" style="text-align: center;">
 
      
         
-        <table class="table table-hover" id="prodctsTable">
+        <table class="table table-hover" id="prodctsTable" style="
+          width: 80%;
+    position: absolute;
+    top: 100px;
+    left: 250px;
+      ">
           <thead>
-            <tr>
-              <th>product id</th>
-              <th>photo</th>
-              <th>name</th>
-              <th>description</th>
-              <th>price</th>
-              <th>quantity</th>
-              <th>brand</th>
-              <th>size</th>
-              <th>gender</th>
-              <th>actions</th>
+            <tr style="text-align: center;">
+              <th>Id</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Brand</th>
+              <th>Size</th>
+              <th>Gender</th>
+              <th>Actions</th>
               
              
             </tr>
@@ -373,8 +388,8 @@
 
               </div>
             <td>
-    <button class="button btn-green " onclick="editProduct(this)">Edit</button>
-    <button class="button btn-orange " onclick="deleteProduct(this)">Delete</button>
+    <button class="button btn " style="width: 60%; background-color: #384AEB; color:white;" onclick="editProduct(this)">Edit</button>
+    <button class="button btn "  style="width: 60%; margin-top:10px; background-color: red; color:white; " onclick="deleteProduct(this)">Delete</button>
 </td>
 
             </td>

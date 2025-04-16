@@ -91,10 +91,10 @@
           );
 
           if (!selectedAddress) {
-            alert("Please select a shipping address!");
+            showLoginToast("Select address first to shipping..");
             return;
           } else if (!terms) {
-            alert("You must agree to the terms first!");
+            showLoginToast("Confirm terms first")
             return;
           } else {
 
@@ -298,79 +298,21 @@
     </section>
     <!--================End Checkout Area =================-->
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+      <div id="loginToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            You must log in to add items to the cart.
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
     <!--================ Start footer Area  =================-->
-    <footer>
-      <div class="footer-area footer-only">
-        <div class="container">
-          <div class="row section_gap">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="single-footer-widget tp_widgets">
-                <h4 class="footer_title large_title">Our Mission</h4>
-                <p>
-                  So seed seed green that winged cattle in. Gathering thing made
-                  fly you're no divided deep moved us lan Gathering thing us
-                  land years living.
-                </p>
-                <p>
-                  So seed seed green that winged cattle in. Gathering thing made
-                  fly you're no divided deep moved
-                </p>
-              </div>
-            </div>
-            <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6"></div>
-            <div class="col-lg-2 col-md-6 col-sm-6"></div>
-            <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-              <div class="single-footer-widget tp_widgets">
-                <h4 class="footer_title">Contact Us</h4>
-                <div class="ml-40">
-                  <p class="sm-head">
-                    <span class="fa fa-location-arrow"></span>
-                    Head Office
-                  </p>
-                  <p>123, Main Street, Your City</p>
+    <jsp:include page="footer.jsp" />
 
-                  <p class="sm-head">
-                    <span class="fa fa-phone"></span>
-                    Phone Number
-                  </p>
-                  <p>
-                    +123 456 7890 <br />
-                    +123 456 7890
-                  </p>
-
-                  <p class="sm-head">
-                    <span class="fa fa-envelope"></span>
-                    Email
-                  </p>
-                  <p>
-                    free@infoexample.com <br />
-                    www.infoexample.com
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div class="container">
-          <div class="row d-flex">
-            <p class="col-lg-12 footer-text text-center">
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              All rights reserved | This template is made with
-              <i class="fa fa-heart" aria-hidden="true"></i> by
-              <a href="https://colorlib.com" target="_blank">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
     <!--================ End footer Area  =================-->
     <!--================ Terms&conditions moder  =================-->
     <div
@@ -497,5 +439,23 @@
     <script src="vendors/mail-script.js"></script>
     <script src="js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script>
+        function showLoginToast(msg) {
+          const toastElement = document.getElementById('loginToast');
+          const toast = new bootstrap.Toast(toastElement);
+
+          const toastBody = toastElement.querySelector('.toast-body');
+          const toastCloseButton = toastElement.querySelector('.btn-close');
+
+            toastBody.textContent = msg;
+            toastElement.classList.remove('text-bg-success');
+            toastElement.classList.add('text-bg-danger');
+
+          toast.show();
+        }
+      </script>
   </body>
 </html>

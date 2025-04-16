@@ -113,9 +113,10 @@
               <!-- Start Filter Bar -->
               <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div>
-                  <div class="input-group filter-bar-search">
+                  <div class="input-group filter-bar-search" style="min-width: 335px;">
                     <input type="text" placeholder="Search" id="searchField"
-                      value="${not empty searchQuery ? searchQuery : ''}" />
+                      value="${not empty searchQuery ? searchQuery : ''}" 
+                       style="width: 88%;"/>
                     <div class="input-group-append">
                       <button type="button" id="startSearch">
                         <i class="ti-search"></i>
@@ -198,15 +199,31 @@
 
                 </div>
 
-                <div id="pagination" class="pagination">
-                  <c:forEach begin="1" end="${noOfPages}" var="i">
-                    <c:url value="/home" var="pageUrl">
-                      <c:param name="page" value="${i}" />
+                <c:set var="startPage" value="${currentPage - 2}" />
+                <c:set var="endPage" value="${currentPage + 2}" />
 
+                <c:if test="${startPage < 1}">
+                  <c:set var="endPage" value="${endPage + (1 - startPage)}" />
+                  <c:set var="startPage" value="1" />
+                </c:if>
+
+                <c:if test="${endPage > noOfPages}">
+                  <c:set var="startPage" value="${startPage - (endPage - noOfPages)}" />
+                  <c:set var="endPage" value="${noOfPages}" />
+                </c:if>
+
+
+                <c:if test="${startPage < 1}">
+                  <c:set var="startPage" value="1" />
+                </c:if>
+
+                <div id="pagination" class="pagination">
+                  <c:if test="${currentPage > 1}">
+                    <c:url value="/home" var="prevUrl">
+                      <c:param name="page" value="${currentPage - 1}" />
                       <c:if test="${not empty param.gender}">
                         <c:param name="gender" value="${param.gender}" />
                       </c:if>
-
                       <c:if test="${not empty param.minPrice}">
                         <c:param name="minPrice" value="${param.minPrice}" />
                       </c:if>
@@ -214,127 +231,67 @@
                         <c:param name="maxPrice" value="${param.maxPrice}" />
                       </c:if>
                     </c:url>
+                    <a href="${prevUrl}" class="btn btn-sm btn-outline-dark mx-1">Previous</a>
+                  </c:if>
 
+                  <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                    <c:url value="/home" var="pageUrl">
+                      <c:param name="page" value="${i}" />
+                      <c:if test="${not empty param.gender}">
+                        <c:param name="gender" value="${param.gender}" />
+                      </c:if>
+                      <c:if test="${not empty param.minPrice}">
+                        <c:param name="minPrice" value="${param.minPrice}" />
+                      </c:if>
+                      <c:if test="${not empty param.maxPrice}">
+                        <c:param name="maxPrice" value="${param.maxPrice}" />
+                      </c:if>
+                    </c:url>
                     <a href="${pageUrl}"
-                      class="btn btn-sm mx-1 ${i == currentPage ? 'btn-dark active' : 'btn-outline-dark'}">
-                      ${i}
-                    </a>
+                      class="btn btn-sm mx-1 ${i == currentPage ? 'btn-dark active' : 'btn-outline-dark'}">${i}</a>
                   </c:forEach>
+
+                  <c:if test="${currentPage < noOfPages}">
+                    <c:url value="/home" var="nextUrl">
+                      <c:param name="page" value="${currentPage + 1}" />
+                      <c:if test="${not empty param.gender}">
+                        <c:param name="gender" value="${param.gender}" />
+                      </c:if>
+                      <c:if test="${not empty param.minPrice}">
+                        <c:param name="minPrice" value="${param.minPrice}" />
+                      </c:if>
+                      <c:if test="${not empty param.maxPrice}">
+                        <c:param name="maxPrice" value="${param.maxPrice}" />
+                      </c:if>
+                    </c:url>
+                    <a href="${nextUrl}" class="btn btn-sm btn-outline-dark mx-1">Next</a>
+                  </c:if>
                 </div>
+
               </section>
               <!-- End Best Seller -->
             </div>
           </div>
         </div>
       </section>
-      <!-- ================ category section end ================= -->
 
-      <!-- ================ top product area start ================= -->
-
-      <!-- ================ top product area end ================= -->
-
-      <!-- ================ Subscribe section start ================= -->
-
-      <!-- ================ Subscribe section end ================= -->
-
+      <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="loginToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive"
+          aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              You must log in to add items to the cart.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+              aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
       <!--================ Start footer Area  =================-->
-      <footer>
-        <div class="footer-area">
-          <div class="container">
-            <div class="row section_gap">
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget tp_widgets">
-                  <h4 class="footer_title large_title">Our Mission</h4>
-                  <p>
-                    So seed seed green that winged cattle in. Gathering thing made
-                    fly you're no divided deep moved us lan Gathering thing us
-                    land years living.
-                  </p>
-                  <p>
-                    So seed seed green that winged cattle in. Gathering thing made
-                    fly you're no divided deep moved
-                  </p>
-                </div>
-              </div>
-              <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                <div class="single-footer-widget tp_widgets">
-                  <h4 class="footer_title">Quick Links</h4>
-                  <ul class="list">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Product</a></li>
-                    <li><a href="#">Brand</a></li>
-                    <li><a href="#">Contact</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-2 col-md-6 col-sm-6">
-                <div class="single-footer-widget instafeed">
-                  <h4 class="footer_title">Gallery</h4>
-                  <ul class="list instafeed d-flex flex-wrap">
-                    <li><img src="img/gallery/r1.jpg" alt="" /></li>
-                    <li><img src="img/gallery/r2.jpg" alt="" /></li>
-                    <li><img src="img/gallery/r3.jpg" alt="" /></li>
-                    <li><img src="img/gallery/r5.jpg" alt="" /></li>
-                    <li><img src="img/gallery/r7.jpg" alt="" /></li>
-                    <li><img src="img/gallery/r8.jpg" alt="" /></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget tp_widgets">
-                  <h4 class="footer_title">Contact Us</h4>
-                  <div class="ml-40">
-                    <p class="sm-head">
-                      <span class="fa fa-location-arrow"></span>
-                      Head Office
-                    </p>
-                    <p>123, Main Street, Your City</p>
-
-                    <p class="sm-head">
-                      <span class="fa fa-phone"></span>
-                      Phone Number
-                    </p>
-                    <p>
-                      +123 456 7890 <br />
-                      +123 456 7890
-                    </p>
-
-                    <p class="sm-head">
-                      <span class="fa fa-envelope"></span>
-                      Email
-                    </p>
-                    <p>
-                      free@infoexample.com <br />
-                      www.infoexample.com
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <div class="container">
-            <div class="row d-flex">
-              <p class="col-lg-12 footer-text text-center">
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved | This template is made with
-                <i class="fa fa-heart" aria-hidden="true"></i> by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <jsp:include page="footer.jsp" />
       <!--================ End footer Area  =================-->
+
+      <!-- Bootstrap 5 CSS -->
 
       <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
       <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
@@ -345,6 +302,9 @@
       <script src="vendors/jquery.ajaxchimp.min.js"></script>
       <script src="vendors/mail-script.js"></script>
       <script src="js/main.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
       <script>
         // document.querySelectorAll('.pixel-radio').forEach(radio => {
@@ -352,6 +312,30 @@
         //     document.getElementById('filterForm').submit();
         //   });
         // });
+
+
+        function showLoginToast(isSuccess) {
+          const toastElement = document.getElementById('loginToast');
+          const toast = new bootstrap.Toast(toastElement);
+
+          const toastBody = toastElement.querySelector('.toast-body');
+          const toastCloseButton = toastElement.querySelector('.btn-close');
+
+          if (isSuccess) {
+            toastBody.textContent = "Item successfully added to your cart.";
+            toastElement.classList.remove('text-bg-danger');
+            toastElement.classList.add('text-bg-success');
+          }
+
+          else {
+            toastBody.textContent = "You must log in to add items to the cart.";
+            toastElement.classList.remove('text-bg-success');
+            toastElement.classList.add('text-bg-danger');
+          }
+
+          toast.show();
+        }
+
 
         function addToCart(id) {
           event.preventDefault();
@@ -362,9 +346,12 @@
             success: function (response) {
 
               document.querySelector(".nav-shop__circle").textContent = response;
+              showLoginToast(true);
 
             },
             error: function (xhr, status, error) {
+              showLoginToast(false);
+              // showLoginToast();
               console.error("Error:", error);
             },
           });
@@ -376,9 +363,9 @@
             data: { productId: id },
             success: function (response) {
               console.log("cart updated successfully");
-
             },
             error: function (xhr, status, error) {
+
               console.error("Error:", error);
             },
           });
@@ -439,30 +426,30 @@
           var selectedMax = parseInt(priceSlider.dataset.selectedMax);
 
           if (!priceSlider.noUiSlider) {
-          noUiSlider.create(priceSlider, {
-            start: [selectedMin, selectedMax],
-            connect: true,
-            range: {
-              'min': actualMin,
-              'max': actualMax
-            },
-            step: 10
-          });
+            noUiSlider.create(priceSlider, {
+              start: [selectedMin, selectedMax],
+              connect: true,
+              range: {
+                'min': actualMin,
+                'max': actualMax
+              },
+              step: 10
+            });
 
-          priceSlider.noUiSlider.on('update', function (values, handle) {
-            var minVal = Math.round(values[0]);
-            var maxVal = Math.round(values[1]);
-            lowerValue.textContent = minVal;
-            upperValue.textContent = maxVal;
-            minPriceInput.value = minVal;
-            maxPriceInput.value = maxVal;
-          });
+            priceSlider.noUiSlider.on('update', function (values, handle) {
+              var minVal = Math.round(values[0]);
+              var maxVal = Math.round(values[1]);
+              lowerValue.textContent = minVal;
+              upperValue.textContent = maxVal;
+              minPriceInput.value = minVal;
+              maxPriceInput.value = maxVal;
+            });
 
-          priceSlider.noUiSlider.on('set', function () {
-            performSearch();
-            // document.getElementById('filterForm').submit(); // filterProducts()
-          });
-        }
+            priceSlider.noUiSlider.on('set', function () {
+              performSearch();
+              // document.getElementById('filterForm').submit(); // filterProducts()
+            });
+          }
 
           function performSearch(page = 1) {
             const searchQuery = searchField.val();

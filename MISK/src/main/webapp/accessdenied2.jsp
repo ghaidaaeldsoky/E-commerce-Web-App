@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <%@ page session="false" %>
+<%@ page isErrorPage="true" %>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>MISK Perfumes - Confirm</title>
+    <title>MISK Perfumes - Error</title>
     <link rel="icon" href="img/Fevicon.png" type="image/png" />
     <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css" />
@@ -33,26 +35,23 @@
     <!--================Cart Area =================-->
     <section class="order_confirmation_area section_gap" style="margin: 50px">
       <div class="container text-center">
-        <h2 class="confirmation_title">Thank You for Your Purchase!</h2>
+        <h2 class="confirmation_title">Error!</h2>
         <p class="confirmation_message">
-          <!--    only to check that the parameters reaches here  <%
-           String selectedAddressId = request.getParameter("addID");
-           String totalOrderPrice = request.getParameter("totalvalue");
-           %>
-           <p>Selected Address ID: <%= selectedAddressId %></p>
-           <p>Total Order Price: <%= totalOrderPrice %></p> -->
-
-          Your order has been successfully placed. You should expect delivery
-          within <strong>3 days</strong>.
+          Can't find this page  
         </p>
         <img
-          src="img/order_confirmed.png"
-          alt="Order Confirmed"
+          src="img/error2.jpg"
+          alt="error"
           class="confirmation_image"
+          style="width: 50%;"
         />
         <div class="button_container mt-4">
           <form action="home" method="get">
-            <button type="submit" class="btn btn-primary">Back to Home</button>
+            <button
+            type="submit"
+            class="button btn-outline-primary btn-lg m-3"
+          >Back to Home</button>
+            <!-- <button type="submit" class="btn btn-primary">Back to Home</button> -->
           </form>
         </div>
       </div>
@@ -61,6 +60,7 @@
 
     <!--================ Start footer Area  =================-->
     <jsp:include page="footer.jsp" />
+
     <!--================ End footer Area  =================-->
 
     <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

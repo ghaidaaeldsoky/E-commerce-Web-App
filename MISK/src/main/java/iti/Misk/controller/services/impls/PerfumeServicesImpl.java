@@ -21,7 +21,7 @@ public class PerfumeServicesImpl implements PerfumeServices{
     private static PerfumeServicesImpl perfumeService;
     private static int idCounter = 1;
     private ProductRepo productRepo = new ProductRepoImpl();
-    private static final int PAGE_SIZE = 6;
+    private static final int PAGE_SIZE = 9;
 
     private PerfumeServicesImpl() {
         // testing

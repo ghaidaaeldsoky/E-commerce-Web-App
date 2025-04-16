@@ -24,8 +24,10 @@ public class UserFilter extends HttpFilter {
             }else{
                 // go to error because of not logging..
                 System.out.println("Unlogged user");
-                res.sendRedirect("accessDenied.html");
+                res.sendRedirect("login.jsp");
             }
+        }else {
+            res.sendRedirect("accessdenied2.jsp");
         }
 
     }

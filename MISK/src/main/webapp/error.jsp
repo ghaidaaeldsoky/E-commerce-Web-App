@@ -1,3 +1,4 @@
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <%@ page session="false" %>
 <html lang="en">
@@ -33,7 +34,7 @@
     <!--================Cart Area =================-->
     <section class="order_confirmation_area section_gap" style="margin: 50px">
       <div class="container text-center">
-        <h2 class="confirmation_title">Thank You for Your Purchase!</h2>
+        <h2 class="confirmation_title">Oops! Something went wrong!</h2>
         <p class="confirmation_message">
           <!--    only to check that the parameters reaches here  <%
            String selectedAddressId = request.getParameter("addID");
@@ -41,18 +42,35 @@
            %>
            <p>Selected Address ID: <%= selectedAddressId %></p>
            <p>Total Order Price: <%= totalOrderPrice %></p> -->
-
-          Your order has been successfully placed. You should expect delivery
-          within <strong>3 days</strong>.
+           We're sorry, but something went wrong on our end.
         </p>
+        <p class="confirmation_message">
+          <!--    only to check that the parameters reaches here  <%
+           String selectedAddressId = request.getParameter("addID");
+           String totalOrderPrice = request.getParameter("totalvalue");
+           %>
+           <p>Selected Address ID: <%= selectedAddressId %></p>
+           <p>Total Order Price: <%= totalOrderPrice %></p> -->
+           Status Code: <strong><%= response.getStatus() %>
+        </p>
+
         <img
           src="img/order_confirmed.png"
           alt="Order Confirmed"
           class="confirmation_image"
+          style="width: 70%;"
         />
         <div class="button_container mt-4">
           <form action="home" method="get">
-            <button type="submit" class="btn btn-primary">Back to Home</button>
+            <!-- <a class="button button-hero" href="#">Browse Now</a> -->
+            <button
+            type="submit"
+            class="button btn-outline-primary btn-lg m-3"
+          >
+          Back to Home
+          </button>
+
+            <!-- <button type="submit" class="button button-hero">Back to Home</button> -->
           </form>
         </div>
       </div>

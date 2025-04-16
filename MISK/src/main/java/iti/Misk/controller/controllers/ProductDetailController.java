@@ -33,6 +33,7 @@ public class ProductDetailController extends HttpServlet {
                 req.getRequestDispatcher("productDetails.jsp").forward(req, resp);
             } else {
                 System.out.println("Not found from Product details servlet...");
+                req.getRequestDispatcher("accessdenied2.jsp").forward(req,resp);
                 // Not found ...
             }
         } else {

@@ -33,7 +33,7 @@ public class AdminFilter extends HttpFilter {
 
                     if(!(isAdmin instanceof Boolean)||!(Boolean)isAdmin )
                     {
-                        res.sendRedirect("accessDenied.html");
+                        res.sendRedirect("accessdenied2.jsp");
                         return;
 
                     }
