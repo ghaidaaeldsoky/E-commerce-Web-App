@@ -1,13 +1,20 @@
-# Perfume Store - A Simple E-Commerce Web Application for Perfumes
+<p align="center">
+  <img src="./logo.png" alt="MISK Perfumes Logo" width="200"/>
+</p>
 
+# MISK Perfumes – E-Commerce Web Application
+
+**MISK Perfumes** is a full-stack e-commerce web application developed for perfume enthusiasts. It offers a smooth and elegant online shopping experience, allowing customers to browse, filter, and purchase perfumes, while admins manage products and orders through a secure dashboard.
+
+---
 ## Project Overview  
-Perfume Store is a web-based e-commerce application designed for selling perfumes online. The platform allows users to browse perfumes, add items to their shopping cart, and complete purchases within their credit limit. The system includes user authentication, profile management, and an admin interface for managing inventory and customer profiles.  
+**MISK Perfumes** is a web-based e-commerce application designed for selling perfumes online. The platform allows users to browse perfumes, add items to their shopping cart, and complete purchases within their credit limit. The system includes user authentication, profile management, and an admin interface for managing inventory and customer profiles.  
 
 ---
 
 ## Features  
 
-### User Features  
+### 👤 User Features  
 - User registration and authentication (sign up, login, logout)  
 - Profile management (update personal details, credit limit)  
 - Browse and search perfumes (filter by category and price)  
@@ -16,13 +23,13 @@ Perfume Store is a web-based e-commerce application designed for selling perfume
 - Order history tracking  
 - Responsive and mobile-friendly design  
 
-### Admin Features  
+### 🛠️ Admin Features  
 - Manage perfume inventory (add, edit, delete perfumes)  
 - Update perfume prices and stock quantities  
 - View and manage customer profiles  
 - Review customer order history  
 
-### Technical Features  
+### ⚙️ Technical Features  
 - Client-side validation for user inputs  
 - Asynchronous operations (AJAX) for:  
   - Checking username availability during registration  
@@ -33,19 +40,30 @@ Perfume Store is a web-based e-commerce application designed for selling perfume
 
 ---
 
-## Technologies Used  
+## 💻 Technologies Used  
 
 ### Frontend  
-- HTML5, CSS3, Bootstrap (responsive UI)  
-- JavaScript, jQuery (interactive elements)  
+- HTML5, CSS3, Bootstrap   
+- JavaScript, jQuery  
 
 ### Backend  
-- Java Servlets, JSP (business logic and rendering)  
-- Tomcat 10 (application server)  
+- Java Servlets, JSP (Jakarta EE)
+- Apache Tomcat 10 
 
 ### Database  
-- MySQL (data storage and retrieval)  
-- JDBC with ORM (efficient database interaction)
+- MySQL  
+- JDBC + Hibernate ORM
+
+### Build Tool  
+- Maven
+
+---
+## 🗃️ Database Schema
+<p align="center">
+  <img src="./schema.png" alt="MISK Perfumes Database Schema" width="600"/>
+</p>
+
+<sub>✓ Shows tables for Users, Products, Orders, and OrderItems with relationships.</sub>
 
 ---
 
