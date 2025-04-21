@@ -23,7 +23,7 @@ public class HomePageController extends HttpServlet{
         
         EntityManager em = (EntityManager) req.getAttribute("em");
         List<PerfumeDto> perfumesPage = PerfumeServicesImpl.getPerfumeServices().getFilteredPerfumes(
-                null, null, 0, 800.0, 1, em
+                null, null, 0, 10000.0, 1, em
         );
 
         for(PerfumeDto p : perfumesPage) {
